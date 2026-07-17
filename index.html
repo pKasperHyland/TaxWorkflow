@@ -186,6 +186,24 @@
   .kv{display:grid;grid-template-columns:130px 1fr;gap:7px 14px;font-size:13.5px}
   .kv .k{color:var(--muted);font-weight:600}
   .kv .v{white-space:pre-wrap}
+  /* Calendar */
+  .cal-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .cal-title{font-weight:700;font-size:16px;min-width:160px;text-align:center}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .cal-dow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);text-align:center;padding:4px 0}
+  .cal-cell{min-height:98px;border:1px solid var(--border);border-radius:8px;background:var(--surface);padding:5px}
+  .cal-cell.empty{background:transparent;border:none}
+  .cal-cell.today{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+  .cal-cell.wknd{background:var(--surface-2)}
+  .cal-day{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:3px}
+  .cal-cell.today .cal-day{color:var(--accent-ink)}
+  .cal-ev{font-size:11px;font-weight:600;padding:2px 5px;border-radius:4px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;background:var(--surface-2)}
+  .cal-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin:2px 0 12px}
+  .cal-legend span{display:inline-flex;align-items:center;gap:5px}
+  .cal-dot{width:11px;height:11px;border-radius:3px;flex:none}
+  .capbar{height:9px;border-radius:6px;background:var(--surface-2);border:1px solid var(--border);overflow:hidden;margin-top:4px}
+  .capbar-fill{height:100%;border-radius:6px}
+  @media(max-width:760px){.cal-cell{min-height:66px;padding:3px}.cal-ev{font-size:9.5px;padding:1px 3px}.cal-dow{font-size:9px}}
 
   .overlay{position:fixed;inset:0;background:rgba(16,24,40,.45);display:none;align-items:flex-start;justify-content:center;padding:40px 16px;z-index:50;overflow-y:auto}
   .overlay.open{display:flex}
@@ -301,9 +319,11 @@
     <div class="side-top"><div class="side-brand" id="sideBrand"></div><button id="sideToggle" class="side-toggle" onclick="sideToggle()" title="Collapse menu">☰</button></div>
     <div class="nav">
       <button id="nav-work" onclick="setView('work')"><span class="ic">▦</span><span class="label">Work Tracking</span></button>
+      <button id="nav-calendar" onclick="setView('calendar')"><span class="ic">📅</span><span class="label">Calendar</span></button>
       <button id="nav-projects" onclick="setView('projects')"><span class="ic">📁</span><span class="label">Projects</span></button>
       <button id="nav-clients" onclick="setView('clients')"><span class="ic">👥</span><span class="label">Clients</span></button>
       <button id="nav-team" onclick="setView('team')"><span class="ic">🧑‍💼</span><span class="label">Team</span></button>
+      <button id="nav-billing" onclick="setView('billing')"><span class="ic">💵</span><span class="label">Billing</span></button>
       <button id="nav-reports" onclick="setView('reports')"><span class="ic">📊</span><span class="label">Reports</span></button>
       <button id="nav-settings" onclick="setView('settings')"><span class="ic">⚙</span><span class="label">Settings</span></button>
     </div>
@@ -370,8 +390,14 @@
         <div id="clientsView"></div>
       </div>
 
+      <!-- CALENDAR -->
+      <div id="calendarView" style="display:none"></div>
+
       <!-- TEAM -->
       <div id="teamView" style="display:none"></div>
+
+      <!-- BILLING -->
+      <div id="billingView" style="display:none"></div>
 
       <!-- REPORTS -->
       <div id="reportsView" style="display:none"></div>
@@ -537,10 +563,10 @@ function sampleState(){
     {id:"c7",name:"Cedar Point Rentals LLC",contactName:"Dana Whitfield",email:"info@cedarpointrentals.com",phone:"(419) 555-0188",address:"7 Lakeshore Blvd\nSandusky, OH 44870",notes:"Real estate"},
     {id:"c8",name:"Meridian Health Partners",contactName:"Dr. Alan Meridian",email:"billing@meridianhp.com",phone:"(216) 555-0121",address:"33 Wellness Dr\nBeachwood, OH 44122",notes:"New client"}];
   const projects=[
-    {id:"pr1",clientId:"c1",name:"2025 S-Corp Return",description:"Form 1120-S annual engagement"},
-    {id:"pr2",clientId:"c2",name:"2025 Partnership Return",description:"Form 1065"},
-    {id:"pr3",clientId:"c3",name:"2025 Individual Return",description:"Form 1040 + Schedule C/E"},
-    {id:"pr4",clientId:"c4",name:"2025 C-Corp Return",description:"Form 1120, multi-state"},
+    {id:"pr1",clientId:"c1",name:"2025 S-Corp Return",dueDate:"2026-09-15",description:"Form 1120-S annual engagement"},
+    {id:"pr2",clientId:"c2",name:"2025 Partnership Return",dueDate:"2026-09-15",description:"Form 1065"},
+    {id:"pr3",clientId:"c3",name:"2025 Individual Return",dueDate:"2026-10-15",description:"Form 1040 + Schedule C/E"},
+    {id:"pr4",clientId:"c4",name:"2025 C-Corp Return",dueDate:"2026-04-15",description:"Form 1120, multi-state"},
     {id:"pr5",clientId:"c5",name:"2025 Form 990",description:"Non-profit information return"},
     {id:"pr6",clientId:"c6",name:"2025 Individual Return",description:"Form 1040"},
     {id:"pr7",clientId:"c7",name:"2025 Partnership Return",description:"Form 1065, real estate"},
@@ -556,14 +582,17 @@ function sampleState(){
     mk({clientId:"c3",projectId:"pr3",entityType:"1040",taxYear:"2025",statusId:"st_todo",ownerId:"p4",preparerId:"p5",workerId:"p5",dueDate:"2026-10-15",priority:"Low",tags:["Individual","Extension"],details:"Schedule C + rental."}),
     mk({clientId:"c4",projectId:"pr4",entityType:"1120",taxYear:"2025",statusId:"st_rev",ownerId:"p2",preparerId:"p4",workerId:"p4",dueDate:"2026-04-15",priority:"High",tags:["C-Corp"],details:"Multi-state apportionment.",checklist:[{text:"Federal drafted",done:true},{text:"State returns",done:true},{text:"Partner review",done:false}],timeEntries:[{id:uid(),personId:"p4",date:"2026-07-01",hours:5,note:"Fed + state prep"},{id:uid(),personId:"p2",date:"2026-07-11",hours:1.5,note:"Partner review"}]}),
     mk({clientId:"c5",projectId:"pr5",entityType:"990",taxYear:"2025",statusId:"st_prep",ownerId:"p3",preparerId:"p2",workerId:"p2",dueDate:"2026-11-15",priority:"Medium",tags:["Non-Profit"],details:"Schedule A support test."}),
-    mk({clientId:"c6",projectId:"pr6",entityType:"1040",taxYear:"2025",statusId:"st_sign",ownerId:"p5",preparerId:"p3",workerId:"p3",dueDate:"2026-04-15",priority:"Medium",tags:["Individual"],details:"RSU income.",timeEntries:[{id:uid(),personId:"p3",date:"2026-06-20",hours:2.5,note:"Return prep"}]}),
-    mk({clientId:"c7",projectId:"pr7",entityType:"1065",taxYear:"2025",statusId:"st_done",ownerId:"p1",preparerId:"p4",workerId:"p4",dueDate:"2026-03-15",priority:"Low",tags:["Partnership","Real Estate"],details:"Filed 3/10.",timeEntries:[{id:uid(),personId:"p4",date:"2026-03-05",hours:4,note:"Prep and filing"}]}),
+    mk({id:"j_jian",clientId:"c6",projectId:"pr6",entityType:"1040",taxYear:"2025",statusId:"st_sign",ownerId:"p5",preparerId:"p3",workerId:"p3",dueDate:"2026-04-15",priority:"Medium",tags:["Individual"],details:"RSU income.",timeEntries:[{id:uid(),personId:"p3",date:"2026-06-20",hours:2.5,note:"Return prep"}]}),
+    mk({id:"j_cedar",clientId:"c7",projectId:"pr7",entityType:"1065",taxYear:"2025",statusId:"st_done",ownerId:"p1",preparerId:"p4",workerId:"p4",dueDate:"2026-03-15",priority:"Low",tags:["Partnership","Real Estate"],details:"Filed 3/10.",timeEntries:[{id:uid(),personId:"p4",date:"2026-03-05",hours:4,note:"Prep and filing"}]}),
     mk({clientId:"c8",projectId:"pr8",entityType:"1120-S",taxYear:"2025",statusId:"st_todo",ownerId:"p2",preparerId:"p5",workerId:"p5",dueDate:"2026-09-15",priority:"High",tags:["S-Corp","New Client"],details:"First year with firm."}),
     mk({clientId:"c1",projectId:"pr1",entityType:"OH IT-4708",taxYear:"2025",statusId:"st_todo",ownerId:"p1",preparerId:"p3",workerId:"p3",dueDate:"2026-09-15",priority:"Medium",tags:["State"],details:"Ohio composite return for the S-corp."}),
     mk({clientId:"c2",projectId:"pr10",entityType:"Bookkeeping",taxYear:"2025",statusId:"st_prep",ownerId:"p1",preparerId:"p5",workerId:"p5",dueDate:"2026-07-31",priority:"Medium",tags:["Bookkeeping"],details:"June close.",timeEntries:[{id:uid(),personId:"p5",date:"2026-07-14",hours:3,note:"Bank reconciliations"}]})];
-  const firm={name:"Riverside Tax & Advisory, CPA",address:"400 Superior Ave, Suite 210\nCleveland, OH 44114",email:"billing@riversidetax.com",phone:"(216) 555-0100",invoicePrefix:"INV-",nextNo:1001,taxRate:0};
+  const firm={name:"Riverside Tax & Advisory, CPA",address:"400 Superior Ave, Suite 210\nCleveland, OH 44114",email:"billing@riversidetax.com",phone:"(216) 555-0100",invoicePrefix:"INV-",nextNo:1002,taxRate:0};
   const branding={appName:"TaxFlow",logo:""};
-  return {statuses,people,clients,projects,jobs,firm,branding,currentUserId:"p2"};
+  const invoices=[
+    {id:uid(),number:"INV-1000",date:"2026-03-11",clientId:"c7",projectId:"pr7",jobIds:["j_cedar"],lineItems:[{desc:"Tom Rivera — 1065 (TY 2025)",hours:4,rate:200}],taxRate:0,notes:"Thank you for your business.",total:800,status:"paid",paidDate:"2026-03-26",createdAt:"2026-03-11"},
+    {id:uid(),number:"INV-1001",date:"2026-04-16",clientId:"c6",projectId:"pr6",jobIds:["j_jian"],lineItems:[{desc:"Priya Anand — 1040 (TY 2025)",hours:2.5,rate:140}],taxRate:0,notes:"Payment due within 30 days.",total:350,status:"unpaid",paidDate:"",createdAt:"2026-04-16"}];
+  return {statuses,people,clients,projects,jobs,invoices,firm,branding,currentUserId:"p2"};
 }
 
 function migrate(s){
@@ -577,6 +606,9 @@ function migrate(s){
     if(!j.timeEntries)j.timeEntries=[]; if(!j.tags)j.tags=[]; if(!j.checklist)j.checklist=[]; if(!j.attachments)j.attachments=[]; if(!j.comments)j.comments=[]; if(!j.history)j.history=[]; delete j.clientName;
   });
   s.jobs=jobs; delete s.returns;
+  if(!s.invoices) s.invoices=[];
+  s.jobs.forEach(j=>{ if(j.invoice){ if(!s.invoices.find(inv=>(inv.jobIds||[]).includes(j.id))){ s.invoices.push({id:uid(),number:j.invoice.number,date:j.invoice.date,clientId:j.clientId,projectId:j.projectId||"",jobIds:[j.id],lineItems:j.invoice.lineItems||[],taxRate:j.invoice.taxRate||0,notes:j.invoice.notes||"",total:j.invoice.total||0,status:j.invoice.status||"unpaid",paidDate:j.invoice.paidDate||"",createdAt:j.invoice.createdAt||nowISO()}); } delete j.invoice; } });
+  s.invoices.forEach(inv=>{ if(!inv.status)inv.status="unpaid"; if(!inv.jobIds)inv.jobIds=[]; });
   if(!s.firm)s.firm={name:"Your Firm, CPA",address:"123 Main St\nCity, ST 00000",email:"",phone:"",invoicePrefix:"INV-",nextNo:1001,taxRate:0};
   if(s.firm.nextNo==null)s.firm.nextNo=1001; if(s.firm.invoicePrefix==null)s.firm.invoicePrefix="INV-"; if(s.firm.taxRate==null)s.firm.taxRate=0;
   if(!s.branding)s.branding={appName:"TaxFlow",logo:""};
@@ -620,6 +652,11 @@ function daysUntil(d){if(!d)return null;const ms=new Date(d)-new Date(new Date()
 function fmtDate(d){if(!d)return "";const dt=new Date(d+"T00:00:00");return isNaN(dt)?d:dt.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});}
 function jobHours(j){return (j.timeEntries||[]).reduce((s,t)=>s+(Number(t.hours)||0),0);}
 function jobCost(j){return (j.timeEntries||[]).reduce((s,t)=>s+(Number(t.hours)||0)*personRate(t.personId),0);}
+function jobById(id){return state.jobs.find(j=>j.id===id);}
+function jobInvoice(jobId){return (state.invoices||[]).find(inv=>(inv.jobIds||[]).includes(jobId));}
+function isJobBilled(j){return !!jobInvoice(j.id);}
+function clientInvoices(cid){return (state.invoices||[]).filter(inv=>inv.clientId===cid);}
+function projectInvoices(pid){return (state.invoices||[]).filter(inv=>inv.projectId===pid);}
 function isComplete(j){const s=statusById(j.statusId);if(!s)return false;const mx=Math.max(...state.statuses.map(x=>x.order));return s.order===mx;}
 function avatarMarkup(p,cls){if(!p)return "";const st=p.avatar?`background-image:url('${p.avatar}')`:"";return `<div class="avatar ${cls||''}" style="${st}" title="${esc(p.name)}">${p.avatar?"":initials(p.name)}</div>`;}
 function esc(s){return (s==null?"":String(s)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
@@ -686,14 +723,14 @@ function buildFilterOptions(){
 }
 
 /* ============================ VIEW SWITCHING ============================ */
-const VIEW_TITLES={work:"Work Tracking",projects:"Projects",clients:"Clients",team:"Team & Capacity",reports:"Reports",settings:"Settings"};
-const VIEW_CONTAINERS=["workView","projectsViewWrap","projectPageView","clientsViewWrap","teamView","reportsView","settingsView","clientPageView","workPageView"];
+const VIEW_TITLES={work:"Work Tracking",calendar:"Calendar",projects:"Projects",clients:"Clients",team:"Team & Capacity",billing:"Billing Center",reports:"Reports",settings:"Settings"};
+const VIEW_CONTAINERS=["workView","calendarView","projectsViewWrap","projectPageView","clientsViewWrap","teamView","billingView","reportsView","settingsView","clientPageView","workPageView"];
 function hideAllViews(){ VIEW_CONTAINERS.forEach(x=>{const e=$(x);if(e)e.style.display="none";}); }
-function setNav(active){ ["work","projects","clients","team","reports","settings"].forEach(k=>$("nav-"+k).classList.toggle("active",k===active)); }
+function setNav(active){ ["work","calendar","projects","clients","team","billing","reports","settings"].forEach(k=>$("nav-"+k).classList.toggle("active",k===active)); }
 function setView(v){
   if(v!=="workPage" && location.hash) history.replaceState(null,"",location.pathname+location.search);
   view=v; setNav(v); $("viewTitle").textContent=VIEW_TITLES[v]; hideAllViews();
-  const map={work:"workView",projects:"projectsViewWrap",clients:"clientsViewWrap",team:"teamView",reports:"reportsView",settings:"settingsView"};
+  const map={work:"workView",calendar:"calendarView",projects:"projectsViewWrap",clients:"clientsViewWrap",team:"teamView",billing:"billingView",reports:"reportsView",settings:"settingsView"};
   if(map[v]) $(map[v]).style.display="block";
   let act="";
   if(v==="work") act=`<button class="btn sm" onclick="openImport('jobs')"><span>⬆</span> Import</button><button class="btn primary sm" onclick="openDetail(null)">+ New Work</button>`;
@@ -713,7 +750,9 @@ function renderView(){
   if(view==="workPage"){renderWorkPage();return;}
   if(view==="projects"){renderProjects();return;}
   if(view==="clients"){renderClients();return;}
+  if(view==="calendar"){renderCalendar();return;}
   if(view==="team"){renderTeam();return;}
+  if(view==="billing"){renderBilling();return;}
   if(view==="reports"){renderReports();return;}
   if(view==="settings")return;
   const items=filtered();
@@ -738,7 +777,7 @@ function renderBoard(items){
 function cardHTML(r){
   const du=daysUntil(r.dueDate),overdue=du!==null&&du<0;
   const dueTxt=r.dueDate?`<span class="due ${overdue?'overdue':''}">📅 ${fmtDate(r.dueDate)}</span>`:"";
-  const tags=(r.tags||[]).slice(0,3).map(t=>`<span class="tag gray">${esc(t)}</span>`).join("")+(r.invoice?`<span class="tag billed">💵 Billed</span>`:"");
+  const tags=(r.tags||[]).slice(0,3).map(t=>`<span class="tag gray">${esc(t)}</span>`).join("")+(isJobBilled(r)?`<span class="tag billed">💵 Billed</span>`:"");
   const nAtt=(r.attachments||[]).length,nChk=(r.checklist||[]).length,done=(r.checklist||[]).filter(c=>c.done).length,hrs=jobHours(r);
   const icons=[]; if(hrs)icons.push(`<span title="Tracked time">⏱ ${hrs.toFixed(1)}h</span>`); if(nAtt)icons.push(`<span title="Attachments">📎 ${nAtt}</span>`); if(nChk)icons.push(`<span title="Checklist">✔ ${done}/${nChk}</span>`);
   return `<div class="card" draggable="true" ondragstart="cardDrag(event,'${r.id}')" onclick="openDetail('${r.id}')">
@@ -751,7 +790,7 @@ function renderList(items){
   const sorted=[...items].sort((a,b)=>{let x=sortVal(a,sortKey),y=sortVal(b,sortKey);return (x<y?-1:x>y?1:0)*sortDir;});
   const head=cols.map(([k,l])=>`<th onclick="sortBy('${k}')">${l}${sortKey===k?`<span class="arr">${sortDir>0?'▲':'▼'}</span>`:''}</th>`).join("");
   const rows=sorted.map(r=>{const st=statusById(r.statusId),du=daysUntil(r.dueDate),overdue=du!==null&&du<0;
-    return `<tr onclick="openDetail('${r.id}')"><td><div class="client">${esc(clientName(r.clientId))}${r.invoice?' <span class="tag billed">Billed</span>':''}</div><div class="sub">${r.projectId?esc(projectName(r.projectId))+" · ":""}TY ${esc(r.taxYear||"")}</div></td>
+    return `<tr onclick="openDetail('${r.id}')"><td><div class="client">${esc(clientName(r.clientId))}${isJobBilled(r)?' <span class="tag billed">Billed</span>':''}</div><div class="sub">${r.projectId?esc(projectName(r.projectId))+" · ":""}TY ${esc(r.taxYear||"")}</div></td>
       <td>${esc(r.entityType)}</td><td><span class="status-badge"><span class="d" style="background:${st?st.color:'#ccc'}"></span>${st?esc(st.name):'—'}</span></td>
       <td>${esc(personName(r.ownerId))}</td><td>${esc(personName(r.preparerId))}</td><td>${esc(personName(r.workerId))}</td>
       <td class="num">${jobHours(r).toFixed(1)}</td><td class="${overdue?'due overdue':''}">${r.dueDate?fmtDate(r.dueDate):'—'}</td><td><span class="prio ${r.priority}">${r.priority}</span></td></tr>`;}).join("");
@@ -798,8 +837,10 @@ function renderClientPage(){
   const open=jobs.filter(j=>!isComplete(j)).length;
   const hrs=jobs.reduce((s,j)=>s+jobHours(j),0);
   const val=jobs.reduce((s,j)=>s+jobCost(j),0);
-  const billed=jobs.filter(j=>j.invoice).reduce((s,j)=>s+(Number(j.invoice.total)||0),0);
-  const unbilled=jobs.filter(j=>!j.invoice).reduce((s,j)=>s+jobCost(j),0);
+  const cinv=clientInvoices(c.id);
+  const billed=cinv.reduce((s,inv)=>s+(Number(inv.total)||0),0);
+  const outstanding=cinv.filter(inv=>inv.status!=="paid").reduce((s,inv)=>s+(Number(inv.total)||0),0);
+  const unbilled=jobs.filter(j=>!isJobBilled(j)).reduce((s,j)=>s+jobCost(j),0);
   const stat=(v,l,acc)=>`<div class="stat ${acc?'accent':''}"><div class="v">${v}</div><div class="l">${l}</div></div>`;
 
   const subParts=[c.contactName,c.email,c.phone].filter(Boolean).map(esc).join(" · ");
@@ -812,7 +853,7 @@ function renderClientPage(){
         <button class="btn sm" onclick="viewClientJobs('${c.id}')">↗ Board view</button>
       </div></div>`;
 
-  const stats=`<div class="stat-grid">${stat(jobs.length,"Total jobs")}${stat(open,"Open jobs")}${stat(hrs.toFixed(1),"Tracked hours",1)}${stat(money(val),"Billable value",1)}${stat(money(billed),"Billed")}${stat(money(unbilled),"Unbilled")}</div>`;
+  const stats=`<div class="stat-grid">${stat(jobs.length,"Total jobs")}${stat(open,"Open jobs")}${stat(hrs.toFixed(1),"Tracked hours",1)}${stat(money(val),"Billable value",1)}${stat(money(billed),"Billed")}${stat(money(outstanding),"Outstanding")}${stat(money(unbilled),"Unbilled WIP")}</div>`;
 
   const details=`<div class="panel"><h3>Client details</h3><div class="kv">
     <div class="k">Primary contact</div><div class="v">${esc(c.contactName||"—")}</div>
@@ -829,12 +870,12 @@ function renderClientPage(){
     return `<tr onclick="openDetail('${j.id}')"><td><div class="client">${esc(j.entityType||"Work")}</div><div class="sub">${j.projectId?esc(projectName(j.projectId))+" · ":""}TY ${esc(j.taxYear||"")}</div></td>
       <td><span class="status-badge"><span class="d" style="background:${st?st.color:'#ccc'}"></span>${st?esc(st.name):'—'}</span></td>
       <td>${esc(personName(j.preparerId))}</td><td class="num">${jobHours(j).toFixed(1)}</td><td class="num">${money(jobCost(j))}</td>
-      <td class="${od?'due overdue':''}">${j.dueDate?fmtDate(j.dueDate):'—'}</td><td>${j.invoice?'<span class="tag billed">Billed</span>':'—'}</td></tr>`;}).join(""):`<tr class="nohover"><td colspan="7" class="muted">No work items yet. <a href="#" onclick="newJobForClient('${c.id}');return false">Create one</a>.</td></tr>`;
+      <td class="${od?'due overdue':''}">${j.dueDate?fmtDate(j.dueDate):'—'}</td><td>${isJobBilled(j)?'<span class="tag billed">Billed</span>':'—'}</td></tr>`;}).join(""):`<tr class="nohover"><td colspan="7" class="muted">No work items yet. <a href="#" onclick="newJobForClient('${c.id}');return false">Create one</a>.</td></tr>`;
   const jobsPanel=`<div class="panel"><h3>All work items (${jobs.length})</h3><div class="listwrap"><table><thead><tr><th class="nosort">Work</th><th class="nosort">Status</th><th class="nosort">Preparer</th><th class="nosort num">Hours</th><th class="nosort num">Value</th><th class="nosort">Due</th><th class="nosort">Billing</th></tr></thead><tbody>${jobRows}</tbody></table></div></div>`;
 
-  const invs=jobs.filter(j=>j.invoice).sort((a,b)=>(b.invoice.date||"").localeCompare(a.invoice.date||""));
-  const invRows=invs.map(j=>`<tr onclick="openDetail('${j.id}')"><td>${esc(j.invoice.number)}</td><td>${fmtDate(j.invoice.date)}</td><td>${esc(j.entityType||"")} TY ${esc(j.taxYear||"")}</td><td class="num">${money(j.invoice.total)}</td></tr>`).join("");
-  const invPanel=`<div class="panel"><h3>Invoices (${invs.length})</h3>${invs.length?`<div class="listwrap"><table><thead><tr><th class="nosort">Invoice #</th><th class="nosort">Date</th><th class="nosort">Job</th><th class="nosort num">Total</th></tr></thead><tbody>${invRows}</tbody></table></div>`:`<div class="muted">No invoices yet.</div>`}</div>`;
+  const invs=cinv.slice().sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+  const invRows=invs.map(inv=>`<tr onclick="openInvoice('${inv.id}')"><td>${esc(inv.number)}</td><td>${fmtDate(inv.date)}</td><td>${esc(projectName(inv.projectId)||"—")}</td><td class="num">${money(inv.total)}</td><td>${invStatusBadge(inv)}</td></tr>`).join("");
+  const invPanel=`<div class="panel"><h3>Invoices (${invs.length})</h3>${invs.length?`<div class="listwrap"><table><thead><tr><th class="nosort">Invoice #</th><th class="nosort">Date</th><th class="nosort">Project</th><th class="nosort num">Total</th><th class="nosort">Status</th></tr></thead><tbody>${invRows}</tbody></table></div>`:`<div class="muted">No invoices yet.</div>`}</div>`;
 
   const entries=[];
   jobs.forEach(j=>(j.timeEntries||[]).forEach(t=>entries.push({t,j})));
@@ -871,15 +912,16 @@ function renderProjectPage(){
   const c=clientById(p.clientId)||{name:"—"};
   const jobs=jobsOfProject(p.id);
   const open=jobs.filter(j=>!isComplete(j)).length, hrs=jobs.reduce((s,j)=>s+jobHours(j),0), val=jobs.reduce((s,j)=>s+jobCost(j),0);
-  const billed=jobs.filter(j=>j.invoice).reduce((s,j)=>s+(Number(j.invoice.total)||0),0), unbilled=jobs.filter(j=>!j.invoice).reduce((s,j)=>s+jobCost(j),0);
+  const billed=projectInvoices(p.id).reduce((s,inv)=>s+(Number(inv.total)||0),0), unbilled=jobs.filter(j=>!isJobBilled(j)).reduce((s,j)=>s+jobCost(j),0);
   const stat=(v,l,acc)=>`<div class="stat ${acc?'accent':''}"><div class="v">${v}</div><div class="l">${l}</div></div>`;
+  const canBill=jobs.some(j=>!isJobBilled(j)&&jobHours(j)>0);
   const header=`<button class="btn sm" onclick="setView('projects')">← All projects</button>
     <div class="cp-head"><div class="cp-avatar">📁</div>
       <div><h2>${esc(p.name)}</h2><div class="sub">Client: <a href="#" onclick="openClientPage('${p.clientId}');return false">${esc(c.name)}</a>${p.description?" · "+esc(p.description):""}</div></div>
-      <div class="cp-actions"><button class="btn sm" onclick="openProject('${p.id}')">✎ Edit project</button><button class="btn sm" onclick="newJobForProject('${p.id}')">+ New work item</button><button class="btn sm" onclick="viewProjectJobs('${p.id}')">↗ Board view</button></div></div>`;
+      <div class="cp-actions">${canBill?`<button class="btn sm primary" onclick="billProject('${p.id}')">💵 Bill project</button>`:""}<button class="btn sm" onclick="openProject('${p.id}')">✎ Edit project</button><button class="btn sm" onclick="newJobForProject('${p.id}')">+ New work item</button><button class="btn sm" onclick="viewProjectJobs('${p.id}')">↗ Board view</button></div></div>`;
   const stats=`<div class="stat-grid">${stat(jobs.length,"Work items")}${stat(open,"Open")}${stat(hrs.toFixed(1),"Hours",1)}${stat(money(val),"Billable value",1)}${stat(money(billed),"Billed")}${stat(money(unbilled),"Unbilled")}</div>`;
   const rows=jobs.length?jobs.slice().sort((a,b)=>(a.dueDate||"9999").localeCompare(b.dueDate||"9999")).map(j=>{const st=statusById(j.statusId),du=daysUntil(j.dueDate),od=du!==null&&du<0&&!isComplete(j);
-    return `<tr onclick="openDetail('${j.id}')"><td><div class="client">${esc(j.entityType||"Work item")}</div><div class="sub">TY ${esc(j.taxYear||"")}</div></td><td><span class="status-badge"><span class="d" style="background:${st?st.color:'#ccc'}"></span>${st?esc(st.name):'—'}</span></td><td>${esc(personName(j.preparerId))}</td><td class="num">${jobHours(j).toFixed(1)}</td><td class="num">${money(jobCost(j))}</td><td class="${od?'due overdue':''}">${j.dueDate?fmtDate(j.dueDate):'—'}</td><td>${j.invoice?'<span class="tag billed">Billed</span>':'—'}</td></tr>`;}).join(""):`<tr class="nohover"><td colspan="7" class="muted">No work items yet. <a href="#" onclick="newJobForProject('${p.id}');return false">Add one</a>.</td></tr>`;
+    return `<tr onclick="openDetail('${j.id}')"><td><div class="client">${esc(j.entityType||"Work item")}</div><div class="sub">TY ${esc(j.taxYear||"")}</div></td><td><span class="status-badge"><span class="d" style="background:${st?st.color:'#ccc'}"></span>${st?esc(st.name):'—'}</span></td><td>${esc(personName(j.preparerId))}</td><td class="num">${jobHours(j).toFixed(1)}</td><td class="num">${money(jobCost(j))}</td><td class="${od?'due overdue':''}">${j.dueDate?fmtDate(j.dueDate):'—'}</td><td>${isJobBilled(j)?'<span class="tag billed">Billed</span>':'—'}</td></tr>`;}).join(""):`<tr class="nohover"><td colspan="7" class="muted">No work items yet. <a href="#" onclick="newJobForProject('${p.id}');return false">Add one</a>.</td></tr>`;
   const jobsPanel=`<div class="panel"><h3>Work / tasks in this project (${jobs.length})</h3><div class="listwrap"><table><thead><tr><th class="nosort">Work</th><th class="nosort">Status</th><th class="nosort">Preparer</th><th class="nosort num">Hours</th><th class="nosort num">Value</th><th class="nosort">Due</th><th class="nosort">Billing</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
   $("projectPageView").innerHTML=header+stats+jobsPanel;
 }
@@ -894,12 +936,13 @@ function openProject(id,presetClientId){
   const g=pr||{};
   $("projectBody").innerHTML=`
     <div class="field"><label>Project name</label><input id="pr_name" type="text" value="${esc(g.name||"")}" placeholder="e.g. 2025 Tax Return"></div>
-    <div class="field"><label>Client</label><select id="pr_client">${projectClientOpts(g.clientId||presetClientId||"")}</select></div>
+    <div class="grid2"><div class="field"><label>Client</label><select id="pr_client">${projectClientOpts(g.clientId||presetClientId||"")}</select></div>
+    <div class="field"><label>Project due date</label><input id="pr_due" type="date" value="${esc(g.dueDate||"")}"></div></div>
     <div class="field"><label>Description</label><textarea id="pr_desc" placeholder="What this engagement covers…">${esc(g.description||"")}</textarea></div>`;
   $("projectOverlay").classList.add("open");
 }
 function closeProject(){$("projectOverlay").classList.remove("open");currentProjectId=null;}
-function saveProject(){const name=$("pr_name").value.trim();if(!name){toast("Project name is required");return;}const clientId=$("pr_client").value;if(!clientId){toast("Pick a client");return;}const data={name,clientId,description:$("pr_desc").value};if(currentProjectId){Object.assign(projectById(currentProjectId),data);}else{state.projects.push({id:uid(),...data});}persist();buildFilterOptions();renderView();closeProject();toast("Project saved");}
+function saveProject(){const name=$("pr_name").value.trim();if(!name){toast("Project name is required");return;}const clientId=$("pr_client").value;if(!clientId){toast("Pick a client");return;}const data={name,clientId,dueDate:$("pr_due").value,description:$("pr_desc").value};if(currentProjectId){Object.assign(projectById(currentProjectId),data);}else{state.projects.push({id:uid(),...data});}persist();buildFilterOptions();renderView();closeProject();toast("Project saved");}
 function deleteProject(){if(!currentProjectId)return;const n=jobsOfProject(currentProjectId).length;if(n){toast(`This project has ${n} work item(s). Reassign or delete them first.`);return;}if(!confirm("Delete this project?"))return;state.projects=state.projects.filter(p=>p.id!==currentProjectId);persist();buildFilterOptions();renderView();closeProject();toast("Project deleted");}
 function newProjectForClient(cid){if(view==="clientPage"){/* stay */}openProject(null,cid);}
 
@@ -941,7 +984,8 @@ function renderWorkPage(){
     <div class="cp-head"><div class="cp-avatar" style="background:${st?st.color:'var(--accent)'}">${esc((j.entityType||'W')[0].toUpperCase())}</div>
       <div><h2>${esc(c.name)}</h2><div class="sub">${pr?`<a href="#" onclick="openProjectPage('${pr.id}');return false">${esc(pr.name)}</a> · `:""}${esc(j.entityType||"Work item")} · TY ${esc(j.taxYear||"")}</div></div>
       <div class="cp-actions"><button class="btn sm" onclick="copyWorkLink('${j.id}')">🔗 Copy link</button><button class="btn sm" onclick="openDetail('${j.id}')">✎ Edit</button></div></div>`;
-  const badges=`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px"><span class="status-badge"><span class="d" style="background:${st?st.color:'#ccc'}"></span>${st?esc(st.name):'—'}</span><span class="prio ${j.priority}">${j.priority}</span>${j.dueDate?`<span class="due ${od?'overdue':''}">📅 ${fmtDate(j.dueDate)}</span>`:""}${j.invoice?`<span class="tag billed">💵 ${esc(j.invoice.number)}</span>`:""}</div>`;
+  const jinv=jobInvoice(j.id);
+  const badges=`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px"><span class="status-badge"><span class="d" style="background:${st?st.color:'#ccc'}"></span>${st?esc(st.name):'—'}</span><span class="prio ${j.priority}">${j.priority}</span>${j.dueDate?`<span class="due ${od?'overdue':''}">📅 ${fmtDate(j.dueDate)}</span>`:""}${jinv?`<span class="tag billed">💵 ${esc(jinv.number)}</span>`:""}</div>`;
   const people=`<div class="panel"><h3>Assignment</h3><div class="kv"><div class="k">Client</div><div class="v"><a href="#" onclick="openClientPage('${j.clientId}');return false">${esc(c.name)}</a></div><div class="k">Project</div><div class="v">${pr?`<a href="#" onclick="openProjectPage('${pr.id}');return false">${esc(pr.name)}</a>`:"—"}</div><div class="k">Account owner</div><div class="v">${esc(personName(j.ownerId))}</div><div class="k">Preparer</div><div class="v">${esc(personName(j.preparerId))}</div><div class="k">Working on it</div><div class="v">${esc(personName(j.workerId))}</div><div class="k">Tags</div><div class="v">${(j.tags||[]).map(t=>`<span class="tag gray">${esc(t)}</span>`).join(" ")||"—"}</div></div></div>`;
   const details=`<div class="panel"><h3>Details</h3><div style="white-space:pre-wrap">${esc(j.details||"—")}</div>${j.notes?`<div class="section-label">Internal notes</div><div style="white-space:pre-wrap">${esc(j.notes)}</div>`:""}</div>`;
   const chk=(j.checklist||[]);
@@ -949,7 +993,7 @@ function renderWorkPage(){
   const chkPanel=`<div class="panel"><h3>Checklist (${chk.filter(x=>x.done).length}/${chk.length})</h3>${chkRows}</div>`;
   const teRows=(j.timeEntries||[]).slice().sort((a,b)=>(b.date||"").localeCompare(a.date||"")).map(t=>`<tr class="nohover"><td>${t.date?fmtDate(t.date):"—"}</td><td>${esc(personName(t.personId))}</td><td>${esc(t.note||"")}</td><td class="num">${(Number(t.hours)||0).toFixed(2)}</td></tr>`).join("");
   const timePanel=`<div class="panel"><h3>Time — ${jobHours(j).toFixed(2)} hrs · ${money(jobCost(j))}</h3><div class="listwrap" style="margin-bottom:10px"><table><thead><tr><th class="nosort">Date</th><th class="nosort">Person</th><th class="nosort">Notes</th><th class="nosort num">Hours</th></tr></thead><tbody>${teRows||`<tr class="nohover"><td colspan="4" class="muted">No time logged.</td></tr>`}</tbody></table></div><div class="tl-row"><select id="qt_person">${state.people.map(p=>`<option value="${p.id}" ${p.id===state.currentUserId?"selected":""}>${esc(p.name)}</option>`).join("")}</select><input id="qt_date" type="date" value="${todayISO()}"><input id="qt_hours" class="hrs" type="number" step="0.25" min="0" placeholder="hrs"><input id="qt_note" class="note" type="text" placeholder="What did you do?"><button class="btn sm primary" onclick="quickLogTime('${j.id}')">Log</button></div></div>`;
-  const billPanel=`<div class="panel"><h3>Billing</h3>${j.invoice?`Invoiced <b>${esc(j.invoice.number)}</b> · ${fmtDate(j.invoice.date)} · <b>${money(j.invoice.total)}</b>`:`Not billed yet.`}<div style="margin-top:8px"><button class="btn sm" onclick="openDetail('${j.id}')">Open editor to bill</button></div></div>`;
+  const billPanel=`<div class="panel"><h3>Billing</h3>${jinv?`Invoiced <b>${esc(jinv.number)}</b> · ${fmtDate(jinv.date)} · <b>${money(jinv.total)}</b> · ${invStatusBadge(jinv)}<div style="margin-top:8px"><button class="btn sm" onclick="openInvoice('${jinv.id}')">View invoice PDF</button></div>`:`Not billed yet.<div style="margin-top:8px"><button class="btn sm primary" onclick="billJob('${j.id}')">💵 Create bill (PDF)</button></div>`}</div>`;
   const comments=(j.comments||[]).slice().sort((a,b)=>(b.at||"").localeCompare(a.at||""));
   const cmRows=comments.map(cm=>`<div style="padding:9px 0;border-bottom:1px solid var(--surface-2)"><div style="font-size:12px;color:var(--muted)"><b style="color:var(--text)">${esc(personName(cm.by))}</b> · ${fmtDateTime(cm.at)}</div><div style="white-space:pre-wrap;margin-top:2px">${esc(cm.text)}</div></div>`).join("")||`<div class="muted">No comments yet.</div>`;
   const cmPanel=`<div class="panel"><h3>Comments</h3><div style="display:flex;gap:8px;margin-bottom:10px;align-items:flex-start"><textarea id="cm_text" placeholder="Add a comment…" style="flex:1;min-height:42px;border:1px solid var(--border);border-radius:8px;padding:8px;background:var(--surface);color:var(--text)"></textarea><button class="btn primary" onclick="addComment('${j.id}')">Post</button></div>${cmRows}</div>`;
@@ -961,14 +1005,92 @@ function renderWorkPage(){
   $("workPageView").innerHTML=header+badges+people+details+chkPanel+timePanel+billPanel+attPanel+cmPanel+hPanel;
 }
 
-/* ============================ TEAM & CAPACITY ============================ */
+/* ============================ CALENDAR CORE ============================ */
+const PAL=["#2563eb","#0e9488","#d97706","#7c3aed","#db2777","#16a34a","#dc2626","#0891b2","#ca8a04","#4f46e5"];
+function personColor(pid){const i=state.people.findIndex(p=>p.id===pid);return PAL[(i<0?0:i)%PAL.length];}
+function isoOf(y,m,d){return `${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;}
+function ymLabel(y,m){return new Date(y,m,1).toLocaleDateString(undefined,{month:"long",year:"numeric"});}
+function expandPtoDays(p,y,m){ const res=[]; const days=new Date(y,m+1,0).getDate(); (p.pto||[]).forEach(x=>{if(!x.start)return;const s=x.start,e=x.end||x.start;for(let d=1;d<=days;d++){const ds=isoOf(y,m,d);if(ds>=s&&ds<=e)res.push({date:ds,note:x.note});}}); return res; }
+function monthGrid(y,m,events){
+  const first=new Date(y,m,1),startDow=first.getDay(),days=new Date(y,m+1,0).getDate();
+  const cells=[]; for(let i=0;i<startDow;i++)cells.push(null); for(let d=1;d<=days;d++)cells.push(d); while(cells.length%7)cells.push(null);
+  const today=todayISO();
+  let html='<div class="cal-grid">'+["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(d=>`<div class="cal-dow">${d}</div>`).join("");
+  cells.forEach((d,idx)=>{
+    if(d===null){html+='<div class="cal-cell empty"></div>';return;}
+    const wknd=(idx%7===0||idx%7===6);
+    const ds=isoOf(y,m,d), evs=events.filter(e=>e.date===ds);
+    html+=`<div class="cal-cell${ds===today?' today':''}${wknd?' wknd':''}"><div class="cal-day">${d}</div>`+
+      evs.slice(0,4).map(e=>`<div class="cal-ev" style="background:${e.color}22;border-left:3px solid ${e.color}" title="${esc(e.title||e.label)}" ${e.onclick?`onclick="${e.onclick}"`:''}>${esc(e.label)}</div>`).join("")+
+      (evs.length>4?`<div class="muted" style="font-size:10px">+${evs.length-4} more</div>`:"")+`</div>`;
+  });
+  return html+'</div>';
+}
+
+/* ============================ MAIN CALENDAR ============================ */
+let calY=new Date().getFullYear(), calM=new Date().getMonth(), calShowPTO=false;
+function calPrev(){ if(--calM<0){calM=11;calY--;} renderCalendar(); }
+function calNext(){ if(++calM>11){calM=0;calY++;} renderCalendar(); }
+function calToday(){ calY=new Date().getFullYear(); calM=new Date().getMonth(); renderCalendar(); }
+function toggleCalPTO(){ calShowPTO=!calShowPTO; renderCalendar(); }
+function renderCalendar(){
+  const events=[];
+  state.projects.forEach(p=>{ if(p.dueDate)events.push({date:p.dueDate,label:"📁 "+p.name,color:'#7c3aed',title:"Project due: "+p.name+" — "+clientName(p.clientId),onclick:`openProjectPage('${p.id}')`}); });
+  state.jobs.forEach(j=>{ if(j.dueDate){const st=statusById(j.statusId);events.push({date:j.dueDate,label:clientName(j.clientId)+(j.entityType?" · "+j.entityType:""),color:(st?st.color:'#2563eb'),title:"Work due: "+clientName(j.clientId)+" "+(j.entityType||"")+(j.projectId?" ("+projectName(j.projectId)+")":""),onclick:`openWorkPage('${j.id}')`});} });
+  if(calShowPTO) state.people.forEach(p=>expandPtoDays(p,calY,calM).forEach(x=>events.push({date:x.date,label:"🌴 "+p.name.split(" ")[0],color:personColor(p.id),title:p.name+" PTO"+(x.note?" — "+x.note:"")})));
+  const legend=`<div class="cal-legend"><span><span class="cal-dot" style="background:#2563eb"></span>Work item due date</span><span><span class="cal-dot" style="background:#7c3aed"></span>Project due date</span>${calShowPTO?`<span><span class="cal-dot" style="background:#16a34a"></span>PTO</span>`:""}</div>`;
+  const head=`<div class="cal-head"><button class="btn sm" onclick="calPrev()">‹ Prev</button><div class="cal-title">${ymLabel(calY,calM)}</div><button class="btn sm" onclick="calNext()">Next ›</button><button class="btn sm" onclick="calToday()">Today</button><div class="spacer" style="flex:1"></div><button class="btn sm ${calShowPTO?'active':''}" onclick="toggleCalPTO()">🌴 ${calShowPTO?'Hide':'Show'} PTO</button></div>`;
+  $("calendarView").innerHTML=head+legend+monthGrid(calY,calM,events);
+}
+
+/* ============================ TEAM (sub-tabs) ============================ */
+let teamTab="dashboard", teamCalY=new Date().getFullYear(), teamCalM=new Date().getMonth();
+function setTeamTab(k){ teamTab=k; renderTeam(); }
 function renderTeam(){
-  const totCap=state.people.reduce((s,p)=>s+(Number(p.weeklyCapacity)||0),0);
-  const totOpen=state.jobs.filter(j=>!isComplete(j)).length;
-  const onPto=state.people.filter(onPtoNow).length;
+  const tabs=[["dashboard","Capacity dashboard"],["ptocal","PTO calendar"],["manage","PTO & members"]];
+  const bar=`<div class="subtabs">${tabs.map(([k,l])=>`<button class="${teamTab===k?'active':''}" onclick="setTeamTab('${k}')">${l}</button>`).join("")}</div>`;
+  let body="";
+  if(teamTab==="dashboard") body=teamDashboardHTML();
+  else if(teamTab==="ptocal") body=teamPtoCalHTML();
+  else body=teamManageHTML();
+  $("teamView").innerHTML=bar+body;
+}
+function weekRange(){ const now=new Date(new Date().toDateString()); const dow=now.getDay(); const start=new Date(now); start.setDate(now.getDate()-dow); const end=new Date(start); end.setDate(start.getDate()+6); const iso=d=>d.toISOString().slice(0,10); return {start:iso(start),end:iso(end)}; }
+function loggedInRange(pid,start,end){ let h=0; state.jobs.forEach(j=>(j.timeEntries||[]).forEach(t=>{if(t.personId===pid&&t.date&&t.date>=start&&t.date<=end)h+=Number(t.hours)||0;})); return h; }
+function ptoDaysInRange(p,start,end){ let n=0; (p.pto||[]).forEach(x=>{if(!x.start)return;const s=x.start,e=x.end||x.start;const a=s>start?s:start,b=e<end?e:end;if(a<=b)n+=Math.round((new Date(b)-new Date(a))/86400000)+1;}); return n; }
+function teamDashboardHTML(){
+  const {start,end}=weekRange();
+  const totCap=state.people.reduce((s,p)=>s+(+p.weeklyCapacity||0),0);
+  const totLogged=state.people.reduce((s,p)=>s+loggedInRange(p.id,start,end),0);
+  const util=totCap?Math.round(totLogged/totCap*100):0;
   const stat=(v,l,acc)=>`<div class="stat ${acc?'accent':''}"><div class="v">${v}</div><div class="l">${l}</div></div>`;
-  const head=`<div class="stat-grid">${stat(state.people.length,"Team members")}${stat(totCap+" h","Weekly capacity",1)}${stat(totOpen,"Open work items")}${stat(onPto,"Out today")}</div>`;
-  const cards=state.people.map(p=>{
+  const summary=`<div class="hint" style="margin-bottom:10px">Week of ${fmtDate(start)} – ${fmtDate(end)}</div><div class="stat-grid">${stat(state.people.length,"Members")}${stat(totCap+" h","Weekly capacity",1)}${stat(totLogged.toFixed(1)+" h","Logged this week")}${stat(util+"%","Team utilization",1)}${stat(state.people.filter(onPtoNow).length,"Out today")}</div>`;
+  const rows=state.people.map(p=>{
+    const cap=+p.weeklyCapacity||0, logged=loggedInRange(p.id,start,end), u=cap?Math.round(logged/cap*100):0, ptoWk=ptoDaysInRange(p,start,end);
+    const bc=u>100?'#dc2626':u>=80?'#16a34a':'var(--accent)';
+    return `<div class="panel" style="padding:12px 14px"><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <div class="person-av" style="${p.avatar?`background-image:url('${p.avatar}')`:''}">${p.avatar?'':initials(p.name)}</div>
+      <div style="min-width:150px"><div style="font-weight:700">${esc(p.name)} ${onPtoNow(p)?'<span class="tag" style="background:#fde8e8;color:#c02626">Out</span>':''}</div><div class="muted" style="font-size:12px">${esc(p.role||'—')}</div></div>
+      <div style="flex:1;min-width:200px"><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted)"><span>${logged.toFixed(1)}h logged</span><span>${cap}h capacity</span></div>
+        <div class="capbar"><div class="capbar-fill" style="width:${Math.min(100,u)}%;background:${bc}"></div></div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px">${u}% utilized${ptoWk?` · <b style="color:var(--text)">${ptoWk}d PTO this week</b>`:''}</div></div>
+      <div style="text-align:center;min-width:56px"><div class="muted" style="font-size:10.5px">OPEN</div><div style="font-weight:700;font-size:16px">${openAssignedCount(p.id)}</div></div>
+      <div style="text-align:center;min-width:64px"><div class="muted" style="font-size:10.5px">PTO AHEAD</div><div style="font-weight:700;font-size:16px">${ptoUpcomingDays(p)}d</div></div>
+    </div></div>`;
+  }).join("");
+  return summary+rows;
+}
+function teamPtoCalHTML(){
+  const events=[]; state.people.forEach(p=>expandPtoDays(p,teamCalY,teamCalM).forEach(x=>events.push({date:x.date,label:p.name.split(" ")[0]+(x.note?" · "+x.note:""),color:personColor(p.id),title:p.name+" PTO"+(x.note?" — "+x.note:"")})));
+  const legend=`<div class="cal-legend">${state.people.map(p=>`<span><span class="cal-dot" style="background:${personColor(p.id)}"></span>${esc(p.name)}</span>`).join("")}</div>`;
+  const head=`<div class="cal-head"><button class="btn sm" onclick="teamCalPrev()">‹ Prev</button><div class="cal-title">${ymLabel(teamCalY,teamCalM)}</div><button class="btn sm" onclick="teamCalNext()">Next ›</button><button class="btn sm" onclick="teamCalToday()">Today</button></div>`;
+  return head+legend+monthGrid(teamCalY,teamCalM,events);
+}
+function teamCalPrev(){ if(--teamCalM<0){teamCalM=11;teamCalY--;} renderTeam(); }
+function teamCalNext(){ if(++teamCalM>11){teamCalM=0;teamCalY++;} renderTeam(); }
+function teamCalToday(){ teamCalY=new Date().getFullYear(); teamCalM=new Date().getMonth(); renderTeam(); }
+function teamManageHTML(){
+  return state.people.map(p=>{
     const av=p.avatar?`background-image:url('${p.avatar}')`:"";
     const pto=(p.pto||[]).slice().sort((a,b)=>(a.start||"").localeCompare(b.start||""));
     const ptoRows=pto.map(x=>`<div style="display:flex;align-items:center;gap:10px;font-size:13px;padding:5px 0;border-bottom:1px solid var(--surface-2)"><span>${fmtDate(x.start)} – ${fmtDate(x.end||x.start)}</span><span class="muted">${esc(x.note||"")}</span><button class="btn sm danger" style="margin-left:auto;padding:2px 8px" onclick="removePTO('${p.id}','${x.id}')">Remove</button></div>`).join("")||`<div class="muted" style="font-size:12.5px">No PTO scheduled.</div>`;
@@ -980,29 +1102,26 @@ function renderTeam(){
         <div style="margin-left:auto;display:flex;gap:18px;text-align:right;flex-wrap:wrap">
           <div><div class="muted" style="font-size:10.5px">CAPACITY/WK</div><div><input type="number" min="0" step="1" value="${p.weeklyCapacity||0}" onchange="setTeamField('${p.id}','weeklyCapacity',parseFloat(this.value)||0)" style="width:58px;border:1px solid var(--border);border-radius:6px;padding:4px;background:var(--surface);color:var(--text);text-align:right"> h</div></div>
           <div><div class="muted" style="font-size:10.5px">RATE</div><div style="font-weight:700">${money(p.rate)}</div></div>
-          <div><div class="muted" style="font-size:10.5px">OPEN</div><div style="font-weight:700">${openAssignedCount(p.id)}</div></div>
-          <div><div class="muted" style="font-size:10.5px">TRACKED</div><div style="font-weight:700">${personTrackedHours(p.id).toFixed(1)}h</div></div>
-          <div><div class="muted" style="font-size:10.5px">PTO AHEAD</div><div style="font-weight:700">${ptoUpcomingDays(p)}d</div></div>
         </div>
       </div>
       <div class="section-label">Time off (PTO)</div>${ptoRows}
       <div class="tl-row" style="margin-top:10px"><input id="pto_s_${p.id}" type="date"><span class="muted">to</span><input id="pto_e_${p.id}" type="date"><input id="pto_n_${p.id}" class="note" type="text" placeholder="Note (e.g. Vacation)"><button class="btn sm primary" onclick="addPTO('${p.id}')">+ Add PTO</button></div>
     </div>`;
   }).join("");
-  $("teamView").innerHTML=head+cards;
 }
 function setTeamField(id,f,v){ personById(id)[f]=v; persist(); buildFilterOptions(); if(view==="team")renderTeam(); }
 function addPTO(id){ const s=$("pto_s_"+id).value,e=$("pto_e_"+id).value,n=$("pto_n_"+id).value; if(!s){toast("Pick a start date");return;} const p=personById(id); p.pto=p.pto||[]; p.pto.push({id:uid(),start:s,end:e||s,note:n}); persist(); renderTeam(); toast("PTO added"); }
 function removePTO(id,ptoId){ const p=personById(id); p.pto=(p.pto||[]).filter(x=>x.id!==ptoId); persist(); renderTeam(); }
-function addTeamMember(){ const n=prompt("Team member name:"); if(!n||!n.trim())return; state.people.push({id:uid(),name:n.trim(),role:"",rate:0,weeklyCapacity:40,pto:[]}); persist(); buildFilterOptions(); renderTeam(); toast("Member added"); }
+function addTeamMember(){ const n=prompt("Team member name:"); if(!n||!n.trim())return; state.people.push({id:uid(),name:n.trim(),role:"",rate:0,weeklyCapacity:40,pto:[]}); persist(); buildFilterOptions(); teamTab="manage"; renderTeam(); toast("Member added"); }
 
 /* ============================ REPORTS ============================ */
 function renderReports(){
   const jobs=state.jobs;
   const totalHours=jobs.reduce((s,j)=>s+jobHours(j),0);
   const totalValue=jobs.reduce((s,j)=>s+jobCost(j),0);
-  const billed=jobs.filter(j=>j.invoice).reduce((s,j)=>s+(Number(j.invoice.total)||0),0);
-  const unbilled=jobs.filter(j=>!j.invoice).reduce((s,j)=>s+jobCost(j),0);
+  const billed=(state.invoices||[]).reduce((s,inv)=>s+(Number(inv.total)||0),0);
+  const collected=(state.invoices||[]).filter(inv=>inv.status==="paid").reduce((s,inv)=>s+(Number(inv.total)||0),0);
+  const unbilled=jobs.filter(j=>!isJobBilled(j)).reduce((s,j)=>s+jobCost(j),0);
   const openCount=jobs.filter(j=>!isComplete(j)).length;
   const overdue=jobs.filter(j=>j.dueDate&&daysUntil(j.dueDate)<0&&!isComplete(j)).length;
   const stat=(v,l,acc)=>`<div class="stat ${acc?'accent':''}"><div class="v">${v}</div><div class="l">${l}</div></div>`;
@@ -1013,6 +1132,7 @@ function renderReports(){
     ${stat(totalHours.toFixed(1),"Billable hours",1)}
     ${stat(money(totalValue),"Billable value",1)}
     ${stat(money(billed),"Billed to date")}
+    ${stat(money(collected),"Collected")}
     ${stat(money(unbilled),"Unbilled value")}
   </div>`;
 
@@ -1028,7 +1148,7 @@ function renderReports(){
 
   // By client
   const byC=state.clients.map(c=>{const js=jobs.filter(j=>j.clientId===c.id);const hrs=js.reduce((s,j)=>s+jobHours(j),0);
-    return {c,jobs:js.length,hrs,val:js.reduce((s,j)=>s+jobCost(j),0),billed:js.filter(j=>j.invoice).reduce((s,j)=>s+(Number(j.invoice.total)||0),0)};})
+    return {c,jobs:js.length,hrs,val:js.reduce((s,j)=>s+jobCost(j),0),billed:clientInvoices(c.id).reduce((s,inv)=>s+(Number(inv.total)||0),0)};})
     .filter(x=>x.jobs>0).sort((a,b)=>b.val-a.val);
   const cRows=byC.map(x=>`<tr class="nohover"><td>${esc(x.c.name)}</td><td class="num">${x.jobs}</td><td class="num">${x.hrs.toFixed(1)}</td><td class="num">${money(x.val)}</td><td class="num">${money(x.billed)}</td><td class="num">${money(Math.max(0,x.val-x.billed))}</td></tr>`).join("");
   const byClient=`<div class="report-sec"><h3>Work &amp; billing by client</h3><div class="listwrap"><table>
@@ -1041,7 +1161,7 @@ function renderReports(){
   const byStatus=`<div class="report-sec"><h3>Jobs by status (pipeline)</h3><div class="listwrap"><table><thead><tr><th class="nosort">Status</th><th class="nosort num">Jobs</th><th class="nosort num">Hours</th></tr></thead><tbody>${sRows}</tbody></table></div></div>`;
 
   // Unbilled work
-  const unb=jobs.filter(j=>!j.invoice&&jobHours(j)>0).sort((a,b)=>jobCost(b)-jobCost(a));
+  const unb=jobs.filter(j=>!isJobBilled(j)&&jobHours(j)>0).sort((a,b)=>jobCost(b)-jobCost(a));
   const uRows=unb.map(j=>`<tr onclick="openDetail('${j.id}')"><td><div class="client">${esc(clientName(j.clientId))}</div><div class="sub">${esc(j.entityType)} · TY ${esc(j.taxYear||"")}</div></td><td class="num">${jobHours(j).toFixed(1)}</td><td class="num">${money(jobCost(j))}</td><td>${j.dueDate?fmtDate(j.dueDate):"—"}</td></tr>`).join("");
   const unbilledTbl=`<div class="report-sec"><h3>Unbilled work (ready to invoice)</h3><div class="listwrap"><table><thead><tr><th class="nosort">Job</th><th class="nosort num">Hours</th><th class="nosort num">Value</th><th class="nosort">Due</th></tr></thead><tbody>${uRows||`<tr class="nohover"><td colspan="4" class="muted">Nothing outstanding — all tracked time is billed.</td></tr>`}</tbody></table></div></div>`;
 
@@ -1117,8 +1237,8 @@ function rmTime(i){draftTime.splice(i,1);renderTime();}
 function renderBillInfo(){
   const el=$("billInfo");
   if(!currentId){el.innerHTML=`<div class="hint">Save the job first, then you can create a bill from tracked time.</div>`;return;}
-  const job=state.jobs.find(j=>j.id===currentId);
-  if(job&&job.invoice){el.innerHTML=`<div class="totbox">Invoiced: <b>${esc(job.invoice.number)}</b> · ${fmtDate(job.invoice.date)} · <b>${money(job.invoice.total)}</b><div style="margin-top:8px"><button class="btn sm" onclick="openBill()">Re-create / edit bill</button></div></div>`;}
+  const inv=jobInvoice(currentId);
+  if(inv){el.innerHTML=`<div class="totbox">Invoiced: <b>${esc(inv.number)}</b> · ${fmtDate(inv.date)} · <b>${money(inv.total)}</b> · ${invStatusBadge(inv)}<div style="margin-top:8px"><button class="btn sm" onclick="openInvoice('${inv.id}')">View PDF</button></div></div>`;}
   else{el.innerHTML=`<div class="totbox">Not billed yet.<div style="margin-top:8px"><button class="btn sm primary" onclick="openBill()">💵 Create bill (PDF)</button></div></div>`;}
 }
 function renderAttachments(){$("attList").innerHTML=draftAttachments.map((a,i)=>`<div class="attach"><div class="fi">${esc((a.name.split(".").pop()||"?").slice(0,4).toUpperCase())}</div><div><div class="nm">${esc(a.name)}</div><div class="sz">${fmtSize(a.size)}</div></div><div class="acts"><a class="btn sm" href="${a.dataUrl}" download="${esc(a.name)}">Download</a><button class="btn sm danger" onclick="rmAtt(${i})">Remove</button></div></div>`).join("");}
@@ -1144,7 +1264,7 @@ function openClient(id){
   currentClientId=id;const c=id?clientById(id):null;
   $("clientTitle").textContent=c?c.name:"New Client";$("clientDelete").style.display=c?"inline-flex":"none";
   const g=c||{};const jobs=c?state.jobs.filter(j=>j.clientId===c.id):[];
-  const jobList=jobs.length?jobs.map(j=>{const st=statusById(j.statusId);return `<div class="job-mini" onclick="openJobFromClient('${j.id}')"><span class="d" style="background:${st?st.color:'#ccc'}"></span><div><div class="jt">${esc(j.entityType||"Job")} · TY ${esc(j.taxYear||"")}</div><div class="sub">${st?esc(st.name):""}${j.invoice?" · Billed":""}</div></div><div class="mm">${jobHours(j).toFixed(1)}h · ${money(jobCost(j))}</div></div>`;}).join(""):`<div class="hint">No jobs yet.</div>`;
+  const jobList=jobs.length?jobs.map(j=>{const st=statusById(j.statusId);return `<div class="job-mini" onclick="openJobFromClient('${j.id}')"><span class="d" style="background:${st?st.color:'#ccc'}"></span><div><div class="jt">${esc(j.entityType||"Job")} · TY ${esc(j.taxYear||"")}</div><div class="sub">${st?esc(st.name):""}${isJobBilled(j)?" · Billed":""}</div></div><div class="mm">${jobHours(j).toFixed(1)}h · ${money(jobCost(j))}</div></div>`;}).join(""):`<div class="hint">No jobs yet.</div>`;
   $("clientBody").innerHTML=`
     <div class="grid2"><div class="field"><label>Client name</label><input id="cl_name" type="text" value="${esc(g.name||"")}" placeholder="Company or individual"></div><div class="field"><label>Primary contact</label><input id="cl_contact" type="text" value="${esc(g.contactName||"")}"></div></div>
     <div class="grid2"><div class="field"><label>Email</label><input id="cl_email" type="email" value="${esc(g.email||"")}"></div><div class="field"><label>Phone</label><input id="cl_phone" type="text" value="${esc(g.phone||"")}"></div></div>
@@ -1161,17 +1281,23 @@ function openJobFromClient(jid){closeClient();openDetail(jid);}
 function viewClientJobs(cid){closeClient();fsel={client:[cid],project:[],owner:[],preparer:[],status:[],tag:[]};$("search").value="";myWorkOnly=false;$("myWorkBtn").classList.remove("active");setView("work");renderFilters();renderView();}
 
 /* ============================ BILLING / PDF ============================ */
-function buildInvoice(job){
-  const groups={};(job.timeEntries||[]).forEach(t=>{const hh=Number(t.hours)||0;if(!hh)return;const k=t.personId||"_";(groups[k]=groups[k]||{hours:0}).hours+=hh;});
-  let items=Object.entries(groups).map(([pid,g])=>({desc:`${personName(pid)} — ${job.entityType||"Professional services"} (TY ${job.taxYear||""})`,hours:g.hours,rate:personRate(pid),amount:+(g.hours*personRate(pid)).toFixed(2)}));
-  if(!items.length)items=[{desc:`${job.entityType||"Professional services"} (TY ${job.taxYear||""})`,hours:0,rate:0,amount:0}];
-  return {number:(state.firm.invoicePrefix||"INV-")+(state.firm.nextNo||1001),date:todayISO(),lineItems:items,taxRate:Number(state.firm.taxRate)||0,notes:"Thank you for your business. Payment due within 30 days."};
+function buildInvoiceFrom(jobIds,clientId,projectId){
+  const jobsIn=jobIds.map(jobById).filter(Boolean);
+  const groups={};
+  jobsIn.forEach(job=>(job.timeEntries||[]).forEach(t=>{const hh=Number(t.hours)||0;if(!hh)return;const k=(t.personId||"_")+"|"+(job.entityType||"")+"|"+(job.taxYear||"");(groups[k]=groups[k]||{hours:0,pid:t.personId,job}).hours+=hh;}));
+  let items=Object.values(groups).map(g=>({desc:`${personName(g.pid)} — ${g.job.entityType||"Professional services"} (TY ${g.job.taxYear||""})`,hours:g.hours,rate:personRate(g.pid),amount:+(g.hours*personRate(g.pid)).toFixed(2)}));
+  if(!items.length){const j=jobsIn[0]||{};items=[{desc:`${j.entityType||"Professional services"} (TY ${j.taxYear||""})`,hours:0,rate:0,amount:0}];}
+  return {number:(state.firm.invoicePrefix||"INV-")+(state.firm.nextNo||1001),date:todayISO(),clientId,projectId:projectId||"",jobIds:jobIds.slice(),lineItems:items,taxRate:Number(state.firm.taxRate)||0,notes:"Thank you for your business. Payment due within 30 days."};
 }
-function openBill(){const job=commitDetail();if(!job)return;currentBillJob=job;billInvoice=buildInvoice(job);renderBill();$("billOverlay").classList.add("open");}
+function openBillForJobs(jobIds,clientId,projectId){ billInvoice=buildInvoiceFrom(jobIds,clientId,projectId); renderBill(); $("billOverlay").classList.add("open"); }
+function openBill(){const job=commitDetail();if(!job)return;openBillForJobs([job.id],job.clientId,job.projectId);}
+function billJob(jobId){const j=jobById(jobId);if(!j)return;openBillForJobs([jobId],j.clientId,j.projectId);}
+function billProject(pid){const p=projectById(pid);if(!p)return;const ids=jobsOfProject(pid).filter(j=>!isJobBilled(j)&&jobHours(j)>0).map(j=>j.id);if(!ids.length){toast("No unbilled tracked time in this project");return;}openBillForJobs(ids,p.clientId,pid);}
 function closeBill(){$("billOverlay").classList.remove("open");}
 function renderBill(){
-  const c=clientById(currentBillJob.clientId)||{};
-  $("billBody").innerHTML=`<div class="hint" style="margin-bottom:12px">Line items are prefilled from tracked time. Edit as needed, then Save PDF. Firm details &amp; logo come from Settings.</div>
+  const c=clientById(billInvoice.clientId)||{};
+  const scope=billInvoice.projectId?` · Project: ${esc(projectName(billInvoice.projectId))}`:billInvoice.jobIds.length>1?` · ${billInvoice.jobIds.length} work items`:"";
+  $("billBody").innerHTML=`<div class="hint" style="margin-bottom:12px">Line items are prefilled from tracked time${scope}. Edit as needed, then Save PDF. Firm details &amp; logo come from Settings.</div>
     <div class="grid2"><div class="field"><label>Invoice #</label><input id="bi_num" type="text" value="${esc(billInvoice.number)}"></div><div class="field"><label>Date</label><input id="bi_date" type="date" value="${esc(billInvoice.date)}"></div></div>
     <div style="margin-bottom:10px"><b>Bill To:</b> ${esc(c.name||"")}${c.contactName?" — "+esc(c.contactName):""}</div>
     <table class="bill-table" style="width:100%"><thead><tr><th>Description</th><th style="width:80px">Hours</th><th style="width:90px">Rate</th><th style="text-align:right">Amount</th><th></th></tr></thead><tbody id="biBody"></tbody></table>
@@ -1185,10 +1311,10 @@ function renderBillRows(){$("biBody").innerHTML=billInvoice.lineItems.map((li,i)
 function addBillLine(){billInvoice.lineItems.push({desc:"",hours:0,rate:0});renderBillRows();}
 function rmBillLine(i){billInvoice.lineItems.splice(i,1);renderBillRows();}
 function recalcBill(){let sub=0;billInvoice.lineItems.forEach(li=>sub+=(Number(li.hours)||0)*(Number(li.rate)||0));const tr=parseFloat(($("bi_tax")||{}).value)||0;const tax=sub*tr/100,total=sub+tax;document.querySelectorAll("#biBody tr").forEach((row,i)=>{const li=billInvoice.lineItems[i];const cell=row.querySelector(".amt");if(cell)cell.textContent=money((li.hours||0)*(li.rate||0));});$("biTotals").innerHTML=`<div>Subtotal: <b>${money(sub)}</b></div>${tr?`<div>Tax (${tr}%): <b>${money(tax)}</b></div>`:""}<div style="font-size:16px;margin-top:4px">Total Due: <b>${money(total)}</b></div>`;}
-function makePDF(job,inv){
+function makePDF(inv){
   if(!window.jspdf||!window.jspdf.jsPDF){toast("PDF library still loading — try again");return null;}
   const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:"pt",format:"letter"});
-  const M=54,W=doc.internal.pageSize.getWidth();let y=58;const f=state.firm,b=state.branding||{},client=clientById(job.clientId)||{name:""};
+  const M=54,W=doc.internal.pageSize.getWidth();let y=58;const f=state.firm,b=state.branding||{},client=clientById(inv.clientId)||{name:""};
   if(b.logo){try{const fmt=/png/i.test(b.logo)?"PNG":"JPEG";doc.addImage(b.logo,fmt,M,y-16,46,46);}catch(e){}}
   const tx=b.logo?M+58:M;
   doc.setFont("helvetica","bold").setFontSize(18).setTextColor(20);doc.text(f.name||"Your Firm",tx,y);
@@ -1220,10 +1346,56 @@ function makePDF(job,inv){
 }
 function saveBillPDF(){
   billInvoice.number=($("bi_num").value||"").trim()||billInvoice.number;billInvoice.date=$("bi_date").value||billInvoice.date;billInvoice.taxRate=parseFloat($("bi_tax").value)||0;billInvoice.notes=$("bi_notes").value;
-  const total=makePDF(currentBillJob,billInvoice);if(total===null)return;
-  const job=currentBillJob;job.invoice={number:billInvoice.number,date:billInvoice.date,total:total,createdAt:nowISO()};job.billedAt=nowISO();logHistory(job,"Invoice "+billInvoice.number+" created ("+money(total)+")");
-  const usedNo=parseInt(((billInvoice.number||"").match(/(\d+)\s*$/)||[])[1]);if(usedNo&&usedNo>=(state.firm.nextNo||0))state.firm.nextNo=usedNo+1;
-  persist();renderView();closeBill();toast("Invoice saved as PDF");if(currentId===job.id)openDetail(job.id);
+  const total=makePDF(billInvoice);if(total===null)return;
+  const inv={id:uid(),number:billInvoice.number,date:billInvoice.date,clientId:billInvoice.clientId,projectId:billInvoice.projectId||"",jobIds:billInvoice.jobIds.slice(),lineItems:billInvoice.lineItems,taxRate:billInvoice.taxRate,notes:billInvoice.notes,total:total,status:"unpaid",paidDate:"",createdAt:nowISO()};
+  state.invoices.push(inv);
+  billInvoice.jobIds.forEach(id=>{const j=jobById(id);if(j){j.billedAt=nowISO();logHistory(j,"Invoice "+inv.number+" created ("+money(total)+")");}});
+  const usedNo=parseInt(((inv.number||"").match(/(\d+)\s*$/)||[])[1]);if(usedNo&&usedNo>=(state.firm.nextNo||0))state.firm.nextNo=usedNo+1;
+  persist();renderView();closeBill();toast("Invoice saved as PDF");
+  if($("detailOverlay").classList.contains("open")&&currentId)openDetail(currentId);
+}
+/* Invoice helpers + actions */
+function invStatusBadge(inv){ return inv.status==="paid"?`<span class="tag billed">Paid</span>`:`<span class="tag" style="background:#fff2dd;color:#b45309">Unpaid</span>`; }
+function invoiceById(id){return (state.invoices||[]).find(i=>i.id===id);}
+function openInvoice(id){ const inv=invoiceById(id); if(!inv){toast("Invoice not found");return;} makePDF(inv); }
+function toggleInvoicePaid(id){ const inv=invoiceById(id); if(!inv)return; inv.status=inv.status==="paid"?"unpaid":"paid"; inv.paidDate=inv.status==="paid"?todayISO():""; persist(); renderView(); toast(inv.status==="paid"?"Marked paid":"Marked unpaid"); }
+function deleteInvoice(id){ const inv=invoiceById(id); if(!inv)return; if(!confirm("Delete invoice "+inv.number+"? The work items become unbilled."))return; state.invoices=state.invoices.filter(i=>i.id!==id); (inv.jobIds||[]).forEach(jid=>{const j=jobById(jid);if(j)logHistory(j,"Invoice "+inv.number+" deleted");}); persist(); renderView(); toast("Invoice deleted"); }
+
+/* ============================ BILLING CENTER ============================ */
+function renderBilling(){
+  const invs=(state.invoices||[]);
+  const billed=invs.reduce((s,i)=>s+(Number(i.total)||0),0);
+  const collected=invs.filter(i=>i.status==="paid").reduce((s,i)=>s+(Number(i.total)||0),0);
+  const outstanding=invs.filter(i=>i.status!=="paid").reduce((s,i)=>s+(Number(i.total)||0),0);
+  const wip=state.jobs.filter(j=>!isJobBilled(j)).reduce((s,j)=>s+jobCost(j),0);
+  const stat=(v,l,acc)=>`<div class="stat ${acc?'accent':''}"><div class="v">${v}</div><div class="l">${l}</div></div>`;
+  const stats=`<div class="stat-grid">${stat(money(billed),"Billed to date")}${stat(money(collected),"Collected")}${stat(money(outstanding),"Outstanding (AR)",1)}${stat(money(wip),"Unbilled WIP",1)}${stat(invs.filter(i=>i.status!=="paid").length,"Open invoices")}</div>`;
+
+  // Invoice ledger
+  const ledger=invs.slice().sort((a,b)=>(b.date||"").localeCompare(a.date||"")).map(i=>{
+    return `<tr><td><b>${esc(i.number)}</b></td><td><a href="#" onclick="openClientPage('${i.clientId}');return false">${esc(clientName(i.clientId))}</a></td><td>${i.projectId?`<a href="#" onclick="openProjectPage('${i.projectId}');return false">${esc(projectName(i.projectId))}</a>`:"—"}</td><td>${fmtDate(i.date)}</td><td class="num">${money(i.total)}</td><td>${invStatusBadge(i)}${i.status==="paid"&&i.paidDate?` <span class="muted" style="font-size:11px">${fmtDate(i.paidDate)}</span>`:""}</td>
+      <td style="white-space:nowrap"><button class="btn sm" onclick="toggleInvoicePaid('${i.id}')">${i.status==="paid"?"Mark unpaid":"Mark paid"}</button> <button class="btn sm" onclick="openInvoice('${i.id}')">PDF</button> <button class="btn sm danger" onclick="deleteInvoice('${i.id}')">×</button></td></tr>`;
+  }).join("");
+  const ledgerPanel=`<div class="report-sec"><h3>Invoices</h3><div class="listwrap"><table><thead><tr><th class="nosort">Invoice #</th><th class="nosort">Client</th><th class="nosort">Project</th><th class="nosort">Date</th><th class="nosort num">Amount</th><th class="nosort">Status</th><th class="nosort">Actions</th></tr></thead><tbody>${ledger||`<tr class="nohover"><td colspan="7" class="muted">No invoices yet.</td></tr>`}</tbody></table></div></div>`;
+
+  // Unbilled WIP grouped by client -> project
+  const clientsWithWip=state.clients.map(c=>{
+    const cj=state.jobs.filter(j=>j.clientId===c.id&&!isJobBilled(j)&&jobHours(j)>0);
+    if(!cj.length)return null;
+    const byProj={};
+    cj.forEach(j=>{ const key=j.projectId||"__none"; (byProj[key]=byProj[key]||[]).push(j); });
+    const projRows=Object.entries(byProj).map(([pid,js])=>{
+      const val=js.reduce((s,j)=>s+jobCost(j),0), hrs=js.reduce((s,j)=>s+jobHours(j),0);
+      const pname=pid==="__none"?"(no project)":projectName(pid);
+      const billBtn=pid==="__none"?"":`<button class="btn sm primary" onclick="billProject('${pid}')">Bill project</button>`;
+      return `<tr><td style="padding-left:22px">${esc(pname)} <span class="muted">(${js.length} item${js.length>1?"s":""})</span></td><td class="num">${hrs.toFixed(1)}</td><td class="num">${money(val)}</td><td>${billBtn}</td></tr>`;
+    }).join("");
+    const cval=cj.reduce((s,j)=>s+jobCost(j),0), chrs=cj.reduce((s,j)=>s+jobHours(j),0);
+    return `<tr class="nohover" style="background:var(--surface-2)"><td><b><a href="#" onclick="openClientPage('${c.id}');return false">${esc(c.name)}</a></b></td><td class="num"><b>${chrs.toFixed(1)}</b></td><td class="num"><b>${money(cval)}</b></td><td></td></tr>${projRows}`;
+  }).filter(Boolean).join("");
+  const wipPanel=`<div class="report-sec"><h3>Unbilled work (WIP) by client &amp; project</h3><div class="listwrap"><table><thead><tr><th class="nosort">Client / Project</th><th class="nosort num">Hours</th><th class="nosort num">Value</th><th class="nosort">Bill</th></tr></thead><tbody>${clientsWithWip||`<tr class="nohover"><td colspan="4" class="muted">No unbilled tracked time — everything's invoiced.</td></tr>`}</tbody></table></div></div>`;
+
+  $("billingView").innerHTML=stats+ledgerPanel+wipPanel;
 }
 
 /* ============================ SETTINGS ============================ */
