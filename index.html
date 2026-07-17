@@ -34,13 +34,49 @@
   input,select,textarea{font-family:inherit;font-size:14px}
   a{color:var(--accent);text-decoration:none}
 
+  .app{display:flex;min-height:100vh}
+
+  /* Sidebar */
+  .sidebar{width:232px;flex:none;background:var(--surface);border-right:1px solid var(--border);
+    display:flex;flex-direction:column;position:sticky;top:0;height:100vh;transition:width .16s;z-index:40}
+  .sidebar.collapsed{width:66px}
+  .side-top{display:flex;align-items:center;gap:9px;padding:15px 16px 8px}
+  .side-toggle{margin-left:auto;border:none;background:none;color:var(--muted);font-size:17px;cursor:pointer;padding:5px 7px;border-radius:7px;line-height:1;flex:none}
+  .side-toggle:hover{background:var(--surface-2);color:var(--text)}
+  .sidebar.collapsed .side-brand{display:none}
+  .sidebar.collapsed .side-top{justify-content:center;padding-left:0;padding-right:0}
+  .sidebar.collapsed .side-toggle{margin-left:0}
+  .side-brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;letter-spacing:-.2px;overflow:hidden;white-space:nowrap}
+  .side-logo{width:32px;height:32px;border-radius:8px;flex:none;object-fit:cover}
+  .side-logo.box{background:linear-gradient(135deg,#2563eb,#4f8bff);display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px}
+  .nav{display:flex;flex-direction:column;gap:2px;padding:10px 10px}
+  .nav button{display:flex;align-items:center;gap:12px;padding:10px 12px;border:none;background:none;border-radius:9px;
+    color:var(--muted);font-weight:600;text-align:left;width:100%;white-space:nowrap;overflow:hidden}
+  .nav button .ic{font-size:16px;flex:none;width:20px;text-align:center}
+  .nav button:hover{background:var(--surface-2);color:var(--text)}
+  .nav button.active{background:var(--accent-soft);color:var(--accent-ink)}
+  .side-bottom{margin-top:auto;padding:12px 10px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
+  .side-bottom .lu{font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--faint);font-weight:700;padding:0 3px}
+  .side-bottom select{border:1px solid var(--border);border-radius:8px;padding:8px 9px;background:var(--surface-2);color:var(--text);width:100%}
+  .side-bottom .brow{display:flex;gap:8px}
+  .side-bottom .brow .btn{flex:1;justify-content:center}
+  .sidebar.collapsed .side-brand span,.sidebar.collapsed .nav .label,.sidebar.collapsed .side-bottom .lu,
+  .sidebar.collapsed .side-bottom select,.sidebar.collapsed .side-bottom .lbl{display:none}
+  .sidebar.collapsed .nav button{justify-content:center;gap:0}
+  .sidebar.collapsed .side-bottom .brow{flex-direction:column}
+
+  .backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:39}
+  .backdrop.show{display:block}
+
+  /* Main */
+  .main{flex:1;min-width:0;display:flex;flex-direction:column}
   .topbar{min-height:56px;background:var(--surface);border-bottom:1px solid var(--border);
-    display:flex;align-items:center;gap:10px;padding:8px 16px;position:sticky;top:0;z-index:30}
-  .brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;letter-spacing:-.2px}
-  .brand .logo{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#2563eb,#4f8bff);
-    display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px}
-  .brand small{font-weight:500;color:var(--muted);font-size:11px;margin-left:2px}
+    display:flex;align-items:center;gap:12px;padding:8px 18px;position:sticky;top:0;z-index:30}
+  .topbar h1{margin:0;font-size:17px;font-weight:700;letter-spacing:-.2px}
+  .topbar .hamburger{display:none}
   .spacer{flex:1}
+  .content{padding:18px}
+
   .btn{border:1px solid var(--border);background:var(--surface);color:var(--text);
     padding:8px 12px;border-radius:8px;font-weight:600;display:inline-flex;align-items:center;gap:6px;
     transition:background .12s,border-color .12s;white-space:nowrap}
@@ -49,38 +85,44 @@
   .btn.primary:hover{filter:brightness(1.05)}
   .btn.sm{padding:6px 10px;font-size:12.5px}
   .btn.icon{padding:7px;justify-content:center}
+  .btn.active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
   .btn.danger{color:#c02626;border-color:#e9bcbc;background:var(--surface)}
   .btn.danger:hover{background:#fdeaea}
   [data-theme="dark"] .btn.danger{color:#f4a9a9;border-color:#5a2b2b}
   [data-theme="dark"] .btn.danger:hover{background:#2a1717}
 
-  .toolbar{background:var(--surface);border-bottom:1px solid var(--border);padding:9px 16px;
-    display:flex;align-items:center;gap:9px;flex-wrap:wrap;position:sticky;top:56px;z-index:20}
+  .toolbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:16px}
   .viewtabs{display:inline-flex;background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:3px}
   .viewtabs button{border:none;background:transparent;padding:6px 13px;border-radius:6px;font-weight:600;color:var(--muted)}
   .viewtabs button.active{background:var(--surface);color:var(--text);box-shadow:var(--shadow)}
-  .search{position:relative;flex:1 1 190px;max-width:280px}
+  .search{position:relative;flex:1 1 180px;max-width:260px}
   .search input{border:1px solid var(--border);border-radius:8px;padding:8px 10px 8px 30px;width:100%;background:var(--surface-2);color:var(--text)}
   .search svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--faint)}
   .filter{border:1px solid var(--border);border-radius:8px;padding:8px 10px;background:var(--surface-2);color:var(--text);max-width:150px}
+  .msbar{display:flex;gap:8px;flex-wrap:wrap}
+  .ms{position:relative}
+  .ms-btn{border:1px solid var(--border);border-radius:8px;padding:8px 10px;background:var(--surface-2);color:var(--text);font-weight:600;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+  .ms-btn:hover{border-color:var(--accent)}
+  .ms-btn.has{border-color:var(--accent);color:var(--accent-ink)}
+  .ms-badge{background:var(--accent);color:#fff;border-radius:20px;font-size:11px;padding:0 6px;font-weight:700}
+  .ms-caret{color:var(--faint);font-size:10px}
+  .ms-panel{display:none;position:absolute;top:calc(100% + 4px);left:0;z-index:25;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow-lg);padding:6px;min-width:190px;max-height:280px;overflow:auto}
+  .ms-panel.open{display:block}
+  .ms-opt{display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:6px;font-weight:500;font-size:13px;cursor:pointer;white-space:nowrap}
+  .ms-opt:hover{background:var(--surface-2)}
+  .ms-empty{padding:8px 9px;color:var(--muted);font-size:12.5px}
   .chip-clear{font-size:12.5px;color:var(--accent);border:none;background:none;padding:6px}
   .count{font-size:12.5px;color:var(--muted)}
 
-  .main{padding:18px}
-
   .board{display:flex;gap:14px;align-items:flex-start;overflow-x:auto;padding-bottom:12px}
-  .col{flex:0 0 300px;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;
-    display:flex;flex-direction:column;max-height:calc(100vh - 170px)}
+  .col{flex:0 0 300px;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;display:flex;flex-direction:column;max-height:calc(100vh - 190px)}
   .col-head{display:flex;align-items:center;gap:8px;padding:12px 12px 8px}
   .col-dot{width:10px;height:10px;border-radius:50%}
   .col-title{font-weight:700;font-size:13px}
-  .col-count{font-size:12px;color:var(--muted);background:var(--surface);border:1px solid var(--border);
-    border-radius:20px;padding:1px 8px;margin-left:auto}
+  .col-count{font-size:12px;color:var(--muted);background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:1px 8px;margin-left:auto}
   .col-body{padding:4px 10px 12px;overflow-y:auto;display:flex;flex-direction:column;gap:9px;min-height:40px}
   .col-body.drag-over{background:var(--accent-soft);border-radius:8px}
-
-  .card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 12px;
-    box-shadow:var(--shadow);cursor:pointer;transition:box-shadow .12s,transform .05s}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 12px;box-shadow:var(--shadow);cursor:pointer;transition:box-shadow .12s,transform .05s}
   .card:hover{box-shadow:0 4px 12px rgba(16,24,40,.12)}
   .card:active{transform:scale(.997)}
   .card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
@@ -96,8 +138,7 @@
   .prio.Medium{background:#fff2dd;color:#b45309}
   .prio.Low{background:#e9f6ee;color:#218a4e}
   .avatars{display:flex;margin-left:auto}
-  .avatar{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:10.5px;font-weight:700;
-    display:grid;place-items:center;border:2px solid var(--surface);margin-left:-6px;background-size:cover;background-position:center;overflow:hidden}
+  .avatar{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:10.5px;font-weight:700;display:grid;place-items:center;border:2px solid var(--surface);margin-left:-6px;background-size:cover;background-position:center;overflow:hidden}
   .avatar:first-child{margin-left:0}
   .avatar.owner{background-color:#6d5ae0}.avatar.prep{background-color:#0e9488}.avatar.work{background-color:#d97706}
   .due{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:4px}
@@ -109,31 +150,47 @@
   .listwrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:auto}
   table{width:100%;border-collapse:collapse}
   th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
-  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);background:var(--surface-2);
-    font-weight:700;cursor:pointer;user-select:none;white-space:nowrap}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);background:var(--surface-2);font-weight:700;cursor:pointer;user-select:none;white-space:nowrap}
+  th.nosort{cursor:default}
   th .arr{opacity:.5;font-size:10px}
   tbody tr{cursor:pointer}
+  tbody tr.nohover{cursor:default}
   tbody tr:hover{background:var(--surface-2)}
+  tbody tr.nohover:hover{background:none}
   td .client{font-weight:600}
   td .sub{color:var(--muted);font-size:12px}
+  td.num{text-align:right;font-variant-numeric:tabular-nums}
+  th.num{text-align:right}
+  tfoot td{font-weight:700;background:var(--surface-2)}
   .status-badge{display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:12.5px;white-space:nowrap}
   .status-badge .d{width:9px;height:9px;border-radius:50%}
   .empty{padding:60px 20px;text-align:center;color:var(--muted)}
   .empty h3{color:var(--text);margin:0 0 6px}
 
-  /* Clients grid */
-  .clients-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
-  .client-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;box-shadow:var(--shadow);cursor:pointer;transition:box-shadow .12s}
-  .client-card:hover{box-shadow:0 4px 12px rgba(16,24,40,.12)}
-  .client-nm{font-weight:700;font-size:15px}
-  .cc-stats{display:flex;gap:12px;margin-top:12px;font-size:12px;color:var(--muted);flex-wrap:wrap}
-  .cc-stats b{color:var(--text)}
+  /* Reports */
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px;margin-bottom:6px}
+  .stat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px;box-shadow:var(--shadow)}
+  .stat .v{font-size:23px;font-weight:800;letter-spacing:-.5px}
+  .stat .l{color:var(--muted);font-size:12px;margin-top:4px}
+  .stat.accent .v{color:var(--accent-ink)}
+  .report-sec{margin-top:24px}
+  .report-sec h3{margin:0 0 10px;font-size:14px}
+  /* Client page */
+  .cp-head{display:flex;align-items:center;gap:14px;margin:14px 0 18px;flex-wrap:wrap}
+  .cp-avatar{width:54px;height:54px;border-radius:14px;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:800;font-size:19px;flex:none}
+  .cp-head h2{margin:0;font-size:21px;letter-spacing:-.3px}
+  .cp-head .sub{color:var(--muted);font-size:13px;margin-top:2px}
+  .cp-actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:var(--shadow)}
+  .panel h3{margin:0 0 12px;font-size:13.5px}
+  .kv{display:grid;grid-template-columns:130px 1fr;gap:7px 14px;font-size:13.5px}
+  .kv .k{color:var(--muted);font-weight:600}
+  .kv .v{white-space:pre-wrap}
 
-  .overlay{position:fixed;inset:0;background:rgba(16,24,40,.45);display:none;align-items:flex-start;
-    justify-content:center;padding:40px 16px;z-index:50;overflow-y:auto}
+  .overlay{position:fixed;inset:0;background:rgba(16,24,40,.45);display:none;align-items:flex-start;justify-content:center;padding:40px 16px;z-index:50;overflow-y:auto}
   .overlay.open{display:flex}
   .modal{background:var(--surface);border-radius:14px;box-shadow:var(--shadow-lg);width:100%;max-width:720px;animation:pop .14s ease-out}
-  .modal.narrow{max-width:520px}.modal.wide{max-width:860px}
+  .modal.wide{max-width:860px}
   @keyframes pop{from{transform:translateY(8px);opacity:.6}to{transform:none;opacity:1}}
   .modal-head{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--border)}
   .modal-head h2{margin:0;font-size:17px}
@@ -149,26 +206,21 @@
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
   .hint{font-size:12px;color:var(--muted);margin-top:4px}
-  .section-label{font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);font-weight:700;
-    margin:20px 0 10px;padding-top:6px;border-top:1px solid var(--border)}
+  .section-label{font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);font-weight:700;margin:20px 0 10px;padding-top:6px;border-top:1px solid var(--border)}
 
   .tagrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-  .tag-pill{display:inline-flex;align-items:center;gap:5px;background:var(--accent-soft);color:var(--accent-ink);
-    padding:3px 6px 3px 9px;border-radius:20px;font-size:12px;font-weight:600}
+  .tag-pill{display:inline-flex;align-items:center;gap:5px;background:var(--accent-soft);color:var(--accent-ink);padding:3px 6px 3px 9px;border-radius:20px;font-size:12px;font-weight:600}
   .tag-pill button{border:none;background:none;color:var(--accent-ink);cursor:pointer;font-size:13px;line-height:1;padding:0}
   .tag-input{border:1px dashed var(--border);border-radius:20px;padding:4px 10px;background:none;color:var(--muted)}
-
   .check-item{display:flex;align-items:center;gap:9px;padding:6px 0;border-bottom:1px solid var(--surface-2)}
   .check-item input[type=text]{border:none;flex:1;padding:2px 0;background:none;color:var(--text)}
   .check-item.done input[type=text]{text-decoration:line-through;color:var(--faint)}
   .check-item .del{border:none;background:none;color:var(--faint);cursor:pointer}
-
   .tl-row{display:flex;gap:8px;align-items:center;margin-bottom:7px;flex-wrap:wrap}
   .tl-row select,.tl-row input{border:1px solid var(--border);border-radius:7px;padding:6px 8px;background:var(--surface);color:var(--text)}
   .tl-row .hrs{width:74px}.tl-row .note{flex:1;min-width:130px}
   .tl-row .del{border:none;background:none;color:var(--faint);cursor:pointer;font-size:16px}
   .totbox{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:9px 12px;margin-top:8px;font-size:13px}
-
   .attach{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;margin-bottom:7px;background:var(--surface-2)}
   .attach .fi{width:30px;height:30px;border-radius:6px;background:var(--accent-soft);display:grid;place-items:center;color:var(--accent-ink);font-weight:700;font-size:10px;flex:none}
   .attach .nm{font-weight:600;font-size:13px;word-break:break-all}
@@ -177,6 +229,12 @@
   .dropzone{border:1.5px dashed var(--border);border-radius:10px;padding:16px;text-align:center;color:var(--muted);background:var(--surface-2);cursor:pointer}
   .dropzone.over{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink)}
 
+  /* Settings */
+  .subtabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--border);margin-bottom:18px}
+  .subtabs button{border:none;background:none;padding:9px 13px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+  .subtabs button.active{color:var(--text);border-bottom-color:var(--accent)}
+  .pane{display:none;max-width:680px}
+  .pane.active{display:block}
   .status-row{display:flex;align-items:center;gap:10px;padding:9px;border:1px solid var(--border);border-radius:9px;margin-bottom:8px;background:var(--surface)}
   .status-row .handle{cursor:grab;color:var(--faint)}
   .status-row input[type=text]{flex:1;border:1px solid var(--border);border-radius:7px;padding:7px 9px;background:var(--surface);color:var(--text)}
@@ -184,11 +242,9 @@
   .person-row{display:flex;align-items:center;gap:10px;padding:8px;border:1px solid var(--border);border-radius:9px;margin-bottom:8px;flex-wrap:wrap}
   .person-row .nm{flex:1;min-width:120px;border:1px solid var(--border);border-radius:7px;padding:7px 9px;background:var(--surface);color:var(--text)}
   .person-row .rate{width:74px;border:1px solid var(--border);border-radius:7px;padding:7px 8px;background:var(--surface);color:var(--text)}
-  .person-av{width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:13px;
-    display:grid;place-items:center;background-size:cover;background-position:center;overflow:hidden;flex:none;cursor:pointer;position:relative}
+  .person-av{width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:13px;display:grid;place-items:center;background-size:cover;background-position:center;overflow:hidden;flex:none;cursor:pointer;position:relative}
   .person-av .edit{position:absolute;inset:0;background:rgba(0,0,0,.45);color:#fff;font-size:10px;display:none;place-items:center}
   .person-av:hover .edit{display:grid}
-
   .pref-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--surface-2)}
   .pref-row .t{font-weight:600}
   .switch{position:relative;width:46px;height:26px;flex:none}
@@ -197,6 +253,7 @@
   .slider:before{content:"";position:absolute;height:20px;width:20px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 2px rgba(0,0,0,.3)}
   .switch input:checked+.slider{background:var(--accent)}
   .switch input:checked+.slider:before{transform:translateX(20px)}
+  .logo-prev{width:64px;height:64px;border-radius:12px;border:1px solid var(--border);object-fit:cover;background:var(--surface-2)}
 
   .import-tabs{display:inline-flex;gap:6px;margin-bottom:12px}
   .import-tabs button{border:1px solid var(--border);background:var(--surface-2);padding:6px 12px;border-radius:8px;font-weight:600;color:var(--muted)}
@@ -207,7 +264,6 @@
   .prev-table table{font-size:12px}
   .prev-table th,.prev-table td{padding:6px 9px}
   textarea.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px}
-
   .bill-table input{border:1px solid var(--border);border-radius:6px;padding:6px 7px;background:var(--surface);color:var(--text)}
   .bill-table td,.bill-table th{padding:6px 8px}
   .job-mini{display:flex;align-items:center;gap:10px;padding:9px 10px;border:1px solid var(--border);border-radius:8px;margin-bottom:7px;cursor:pointer;background:var(--surface)}
@@ -216,212 +272,261 @@
   .job-mini .jt{font-weight:600}
   .job-mini .mm{margin-left:auto;color:var(--muted);font-size:12px;white-space:nowrap}
 
-  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);
-    background:#1c2530;color:#fff;padding:11px 18px;border-radius:9px;font-weight:600;font-size:13px;
-    opacity:0;pointer-events:none;transition:.2s;z-index:100;box-shadow:var(--shadow-lg)}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:#1c2530;color:#fff;padding:11px 18px;border-radius:9px;font-weight:600;font-size:13px;opacity:0;pointer-events:none;transition:.2s;z-index:100;box-shadow:var(--shadow-lg)}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   .muted{color:var(--muted)}
   .row-between{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 
   @media(max-width:760px){
-    .brand small{display:none}
-    .toolbar{padding:8px 12px}
-    .main{padding:12px}
-    .btn .lbl{display:none}
-    .filter{flex:1 1 44%;max-width:none}
-    .col{flex:0 0 82vw;max-width:340px;max-height:calc(100vh - 200px)}
+    .sidebar{position:fixed;left:0;top:0;transform:translateX(-100%);width:232px}
+    .sidebar.open{transform:none;box-shadow:var(--shadow-lg)}
+    .sidebar.collapsed{width:232px}
+    .sidebar.collapsed .side-brand span,.sidebar.collapsed .nav .label,.sidebar.collapsed .side-bottom .lu,
+    .sidebar.collapsed .side-bottom select,.sidebar.collapsed .side-bottom .lbl{display:inline}
+    .sidebar.collapsed .nav button{justify-content:flex-start;gap:12px}
+    .sidebar.collapsed .side-brand{display:flex}
+    .sidebar.collapsed .side-top{justify-content:space-between;padding:15px 16px 8px}
+    .topbar .hamburger{display:inline-flex}
+    .content{padding:12px}
     .map-grid,.grid2,.grid3{grid-template-columns:1fr}
     .modal-body{max-height:76vh}
+    .col{flex:0 0 82vw;max-width:340px}
   }
-  @media(max-width:420px){ .search{flex-basis:100%;max-width:none} }
 </style>
 </head>
 <body>
-  <div class="topbar">
-    <div class="brand"><span class="logo">T</span> TaxFlow <small>Return Workflow</small></div>
-    <div class="spacer"></div>
-    <button id="themeBtn" class="btn icon sm" title="Toggle dark mode" onclick="toggleTheme()">🌙</button>
-    <button class="btn sm" onclick="openImport()"><span>⬆</span><span class="lbl">Import</span></button>
-    <button class="btn sm" onclick="openSettings()"><span>⚙</span><span class="lbl">Settings</span></button>
-    <button class="btn primary sm" onclick="openDetail(null)"><span>+</span><span class="lbl">New Job</span></button>
-  </div>
-
-  <div class="toolbar">
-    <div class="viewtabs">
-      <button id="tabBoard" class="active" onclick="setView('board')">▦ Board</button>
-      <button id="tabList" onclick="setView('list')">☰ List</button>
-      <button id="tabClients" onclick="setView('clients')">👥 Clients</button>
+<div class="app">
+  <div id="backdrop" class="backdrop" onclick="closeSidebar()"></div>
+  <aside id="sidebar" class="sidebar">
+    <div class="side-top"><div class="side-brand" id="sideBrand"></div><button id="sideToggle" class="side-toggle" onclick="sideToggle()" title="Collapse menu">☰</button></div>
+    <div class="nav">
+      <button id="nav-work" onclick="setView('work')"><span class="ic">▦</span><span class="label">Work Tracking</span></button>
+      <button id="nav-projects" onclick="setView('projects')"><span class="ic">📁</span><span class="label">Projects</span></button>
+      <button id="nav-clients" onclick="setView('clients')"><span class="ic">👥</span><span class="label">Clients</span></button>
+      <button id="nav-team" onclick="setView('team')"><span class="ic">🧑‍💼</span><span class="label">Team</span></button>
+      <button id="nav-reports" onclick="setView('reports')"><span class="ic">📊</span><span class="label">Reports</span></button>
+      <button id="nav-settings" onclick="setView('settings')"><span class="ic">⚙</span><span class="label">Settings</span></button>
     </div>
-    <div class="search">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
-      <input id="search" type="text" placeholder="Search…" oninput="applyFilters()" />
+    <div class="side-bottom">
+      <div class="lu">Logged in as</div>
+      <select id="currentUser" onchange="setCurrentUser(this.value)"></select>
+      <button class="btn sm" onclick="toggleTheme()" title="Toggle theme" style="width:100%;justify-content:center"><span id="themeIco">🌙</span><span class="lbl"> Theme</span></button>
     </div>
-    <select id="fClient" class="filter" onchange="applyFilters()"></select>
-    <select id="fOwner" class="filter" onchange="applyFilters()"></select>
-    <select id="fPreparer" class="filter" onchange="applyFilters()"></select>
-    <select id="fStatus" class="filter" onchange="applyFilters()"></select>
-    <select id="fTag" class="filter" onchange="applyFilters()"></select>
-    <button class="chip-clear" onclick="clearFilters()">Clear</button>
-    <div class="spacer"></div>
-    <span id="count" class="count"></span>
-  </div>
+  </aside>
 
   <div class="main">
-    <div id="boardView" class="board"></div>
-    <div id="listView" style="display:none"></div>
-    <div id="clientsView" style="display:none"></div>
-  </div>
-
-  <!-- Job detail modal -->
-  <div id="detailOverlay" class="overlay" onclick="if(event.target===this)closeDetail()">
-    <div class="modal">
-      <div class="modal-head"><h2 id="detailTitle">Job</h2><button class="x" onclick="closeDetail()">×</button></div>
-      <div class="modal-body" id="detailBody"></div>
-      <div class="modal-foot">
-        <button id="detailDelete" class="btn danger" onclick="deleteCurrent()">Delete</button>
-        <div class="spacer" style="flex:1"></div>
-        <button class="btn" onclick="closeDetail()">Cancel</button>
-        <button class="btn primary" onclick="saveDetail()">Save</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Client modal -->
-  <div id="clientOverlay" class="overlay" onclick="if(event.target===this)closeClient()">
-    <div class="modal">
-      <div class="modal-head"><h2 id="clientTitle">Client</h2><button class="x" onclick="closeClient()">×</button></div>
-      <div class="modal-body" id="clientBody"></div>
-      <div class="modal-foot">
-        <button id="clientDelete" class="btn danger" onclick="deleteClient()">Delete</button>
-        <div class="spacer" style="flex:1"></div>
-        <button class="btn" onclick="closeClient()">Cancel</button>
-        <button class="btn primary" onclick="saveClient()">Save</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bill modal -->
-  <div id="billOverlay" class="overlay" onclick="if(event.target===this)closeBill()">
-    <div class="modal wide">
-      <div class="modal-head"><h2>Create bill</h2><button class="x" onclick="closeBill()">×</button></div>
-      <div class="modal-body" id="billBody"></div>
-      <div class="modal-foot">
-        <button class="btn" onclick="closeBill()">Cancel</button>
-        <button class="btn primary" onclick="saveBillPDF()">💾 Save PDF</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Settings modal -->
-  <div id="settingsOverlay" class="overlay" onclick="if(event.target===this)closeSettings()">
-    <div class="modal">
-      <div class="modal-head"><h2>Settings</h2><button class="x" onclick="closeSettings()">×</button></div>
-      <div class="modal-body">
-        <div class="section-label" style="border:none;margin:0 0 10px;padding:0">Preferences</div>
-        <div class="pref-row">
-          <div><div class="t">Dark mode</div><div class="hint">Remembered on this device.</div></div>
-          <label class="switch"><input id="prefDark" type="checkbox" onchange="setTheme(this.checked?'dark':'light')"><span class="slider"></span></label>
-        </div>
-        <div class="pref-row" style="border:none">
-          <div><div class="t">Accent color</div></div>
-          <input id="prefAccent" type="color" value="#2563eb" onchange="setAccent(this.value)" style="width:40px;height:32px;border:1px solid var(--border);border-radius:7px;background:none;cursor:pointer">
-        </div>
-
-        <div class="row-between" style="margin-top:20px"><div class="section-label" style="border:none;margin:0;padding:0">Statuses</div>
-          <button class="btn sm" onclick="addStatus()">+ Add status</button></div>
-        <div class="hint" style="margin-bottom:10px">Drag to reorder. These become your board columns.</div>
-        <div id="statusList"></div>
-
-        <div class="row-between" style="margin-top:22px"><div class="section-label" style="border:none;margin:0;padding:0">People &amp; rates</div>
-          <button class="btn sm" onclick="addPerson()">+ Add person</button></div>
-        <div class="hint" style="margin-bottom:10px">Click a photo to upload. The $/hr rate is used to bill tracked time.</div>
-        <div id="personList"></div>
-
-        <div class="section-label">Firm &amp; billing</div>
-        <div id="firmSettings"></div>
-
-        <div class="section-label">Data</div>
-        <div class="hint" style="margin-bottom:10px">Stored locally in this browser. Export to back up or move devices.</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn sm" onclick="exportJSON()">⬇ Export JSON</button>
-          <button class="btn sm" onclick="document.getElementById('jsonImp').click()">⬆ Import JSON</button>
-          <input id="jsonImp" type="file" accept=".json" style="display:none" onchange="importJSON(event)">
-          <button class="btn sm danger" onclick="resetSample()">Reset to sample data</button>
-        </div>
-      </div>
-      <div class="modal-foot"><button class="btn primary" onclick="closeSettings()">Done</button></div>
-    </div>
-  </div>
-
-  <!-- Import modal -->
-  <div id="importOverlay" class="overlay" onclick="if(event.target===this)closeImport()">
-    <div class="modal wide">
-      <div class="modal-head"><h2>Import jobs</h2><button class="x" onclick="closeImport()">×</button></div>
-      <div class="modal-body">
-        <div class="import-tabs">
-          <button id="impCsv" class="active" onclick="setImportMode('csv')">CSV file</button>
-          <button id="impPaste" onclick="setImportMode('paste')">Paste from Excel</button>
-        </div>
-        <div id="impCsvPane">
-          <div id="csvDrop" class="dropzone" onclick="document.getElementById('csvFile').click()">
-            <b>Drop a CSV here or click to browse</b>
-            <div class="hint">First row should be headers. <a href="#" onclick="downloadTemplate();return false">Download template</a></div>
+    <header class="topbar">
+      <button class="hamburger btn icon" onclick="openSidebar()">☰</button>
+      <h1 id="viewTitle">Work Tracking</h1>
+      <div class="spacer"></div>
+      <div id="topActions" style="display:flex;gap:8px"></div>
+    </header>
+    <div class="content">
+      <!-- WORK -->
+      <div id="workView">
+        <div class="toolbar">
+          <div class="viewtabs">
+            <button id="tabBoard" class="active" onclick="setWorkView('board')">▦ Board</button>
+            <button id="tabList" onclick="setWorkView('list')">☰ List</button>
           </div>
-          <input id="csvFile" type="file" accept=".csv,text/csv" style="display:none" onchange="csvChosen(event)">
+          <button id="myWorkBtn" class="btn sm" onclick="toggleMyWork()">👤 My work</button>
+          <div class="search">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
+            <input id="search" type="text" placeholder="Search…" oninput="applyFilters()" />
+          </div>
+          <div id="filterBar" class="msbar"></div>
+          <button class="chip-clear" onclick="clearFilters()">Clear</button>
+          <div class="spacer"></div>
+          <span id="count" class="count"></span>
         </div>
-        <div id="impPastePane" style="display:none">
-          <div class="hint" style="margin-bottom:6px">Copy rows from Excel/Google Sheets (with the header row) and paste below.</div>
-          <textarea id="pasteBox" class="mono" placeholder="Client  Form  Preparer  Owner  Due Date …" style="width:100%;min-height:130px;border:1px solid var(--border);border-radius:8px;padding:9px;background:var(--surface);color:var(--text)"></textarea>
-          <button class="btn sm" style="margin-top:8px" onclick="parsePaste()">Parse pasted data</button>
-        </div>
-        <div id="mapArea" style="display:none">
-          <div class="section-label">Map columns</div>
-          <div class="hint" style="margin-bottom:10px">Match your columns to TaxFlow fields. New clients/people/statuses are created automatically.</div>
-          <div id="mapGrid" class="map-grid"></div>
-          <div id="preview" class="prev-table"></div>
-        </div>
+        <div id="boardView" class="board"></div>
+        <div id="listView" style="display:none"></div>
       </div>
-      <div class="modal-foot">
-        <span id="impSummary" class="count" style="margin-right:auto"></span>
-        <button class="btn" onclick="closeImport()">Cancel</button>
-        <button id="impBtn" class="btn primary" onclick="runImport()" disabled>Import</button>
+
+      <!-- PROJECTS -->
+      <div id="projectsViewWrap" style="display:none">
+        <div class="toolbar">
+          <div class="search">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
+            <input id="projectSearch" type="text" placeholder="Search projects…" oninput="renderProjects()" />
+          </div>
+          <div class="spacer"></div>
+          <span id="projectCount" class="count"></span>
+        </div>
+        <div id="projectsView"></div>
+      </div>
+      <div id="projectPageView" style="display:none"></div>
+
+      <!-- CLIENTS -->
+      <div id="clientsViewWrap" style="display:none">
+        <div class="toolbar">
+          <div class="search">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
+            <input id="clientSearch" type="text" placeholder="Search clients…" oninput="renderClients()" />
+          </div>
+          <div class="spacer"></div>
+          <span id="clientCount" class="count"></span>
+        </div>
+        <div id="clientsView"></div>
+      </div>
+
+      <!-- TEAM -->
+      <div id="teamView" style="display:none"></div>
+
+      <!-- REPORTS -->
+      <div id="reportsView" style="display:none"></div>
+
+      <!-- CLIENT PROFILE PAGE -->
+      <div id="clientPageView" style="display:none"></div>
+
+      <!-- WORK ITEM FULL PAGE -->
+      <div id="workPageView" style="display:none"></div>
+
+      <!-- SETTINGS -->
+      <div id="settingsView" style="display:none">
+        <div class="subtabs" id="settingsTabs"></div>
+        <div id="pane-prefs" class="pane">
+          <div class="pref-row"><div><div class="t">Dark mode</div><div class="hint">Remembered on this device.</div></div>
+            <label class="switch"><input id="prefDark" type="checkbox" onchange="setTheme(this.checked?'dark':'light')"><span class="slider"></span></label></div>
+          <div class="pref-row" style="border:none"><div><div class="t">Accent color</div><div class="hint">Buttons, highlights and links.</div></div>
+            <input id="prefAccent" type="color" value="#2563eb" onchange="setAccent(this.value)" style="width:40px;height:32px;border:1px solid var(--border);border-radius:7px;background:none;cursor:pointer"></div>
+        </div>
+        <div id="pane-branding" class="pane"></div>
+        <div id="pane-people" class="pane">
+          <div class="row-between"><b>People &amp; rates</b><button class="btn sm" onclick="addPerson()">+ Add person</button></div>
+          <div class="hint" style="margin:6px 0 12px">Click a photo to upload. The $/hr rate bills tracked time.</div>
+          <div id="personList"></div>
+        </div>
+        <div id="pane-statuses" class="pane">
+          <div class="row-between"><b>Statuses</b><button class="btn sm" onclick="addStatus()">+ Add status</button></div>
+          <div class="hint" style="margin:6px 0 12px">Drag to reorder. These become your board columns.</div>
+          <div id="statusList"></div>
+        </div>
+        <div id="pane-firm" class="pane">
+          <b>Firm &amp; billing</b>
+          <div class="hint" style="margin:6px 0 12px">Printed on invoices.</div>
+          <div id="firmSettings"></div>
+        </div>
+        <div id="pane-data" class="pane">
+          <b>Data</b>
+          <div class="hint" style="margin:6px 0 12px">Stored locally in this browser. Export to back up or move devices.</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn sm" onclick="exportJSON()">⬇ Export JSON</button>
+            <button class="btn sm" onclick="document.getElementById('jsonImp').click()">⬆ Import JSON</button>
+            <input id="jsonImp" type="file" accept=".json" style="display:none" onchange="importJSON(event)">
+            <button class="btn sm danger" onclick="resetSample()">Reset to sample data</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+</div>
 
-  <div id="toast" class="toast"></div>
+<!-- Job detail modal -->
+<div id="detailOverlay" class="overlay" onclick="if(event.target===this)closeDetail()">
+  <div class="modal">
+    <div class="modal-head"><h2 id="detailTitle">Job</h2>
+      <div style="margin-left:auto;display:flex;gap:6px;align-items:center">
+        <button class="btn sm" onclick="expandDetail()" title="Open full page">⤢ Full view</button>
+        <button class="btn sm" onclick="copyWorkLink()" title="Copy share link">🔗 Link</button>
+        <button class="x" onclick="closeDetail()" style="margin:0">×</button>
+      </div></div>
+    <div class="modal-body" id="detailBody"></div>
+    <div class="modal-foot">
+      <button id="detailDelete" class="btn danger" onclick="deleteCurrent()">Delete</button>
+      <div class="spacer" style="flex:1"></div>
+      <button class="btn" onclick="closeDetail()">Cancel</button>
+      <button class="btn primary" onclick="saveDetail()">Save</button>
+    </div>
+  </div>
+</div>
+<!-- Client modal -->
+<div id="clientOverlay" class="overlay" onclick="if(event.target===this)closeClient()">
+  <div class="modal">
+    <div class="modal-head"><h2 id="clientTitle">Client</h2><button class="x" onclick="closeClient()">×</button></div>
+    <div class="modal-body" id="clientBody"></div>
+    <div class="modal-foot">
+      <button id="clientDelete" class="btn danger" onclick="deleteClient()">Delete</button>
+      <div class="spacer" style="flex:1"></div>
+      <button class="btn" onclick="closeClient()">Cancel</button>
+      <button class="btn primary" onclick="saveClient()">Save</button>
+    </div>
+  </div>
+</div>
+<!-- Project modal -->
+<div id="projectOverlay" class="overlay" onclick="if(event.target===this)closeProject()">
+  <div class="modal">
+    <div class="modal-head"><h2 id="projectTitle">Project</h2><button class="x" onclick="closeProject()">×</button></div>
+    <div class="modal-body" id="projectBody"></div>
+    <div class="modal-foot">
+      <button id="projectDelete" class="btn danger" onclick="deleteProject()">Delete</button>
+      <div class="spacer" style="flex:1"></div>
+      <button class="btn" onclick="closeProject()">Cancel</button>
+      <button class="btn primary" onclick="saveProject()">Save</button>
+    </div>
+  </div>
+</div>
+<!-- Bill modal -->
+<div id="billOverlay" class="overlay" onclick="if(event.target===this)closeBill()">
+  <div class="modal wide">
+    <div class="modal-head"><h2>Create bill</h2><button class="x" onclick="closeBill()">×</button></div>
+    <div class="modal-body" id="billBody"></div>
+    <div class="modal-foot"><button class="btn" onclick="closeBill()">Cancel</button><button class="btn primary" onclick="saveBillPDF()">💾 Save PDF</button></div>
+  </div>
+</div>
+<!-- Import modal -->
+<div id="importOverlay" class="overlay" onclick="if(event.target===this)closeImport()">
+  <div class="modal wide">
+    <div class="modal-head"><h2 id="importTitle">Import</h2><button class="x" onclick="closeImport()">×</button></div>
+    <div class="modal-body">
+      <div class="field" style="margin-bottom:14px"><label>What are you importing?</label>
+        <select id="importEntity" onchange="setImportEntity(this.value)" style="max-width:220px"><option value="jobs">Work items / jobs</option><option value="clients">Clients</option></select></div>
+      <div class="import-tabs"><button id="impCsv" class="active" onclick="setImportMode('csv')">CSV file</button><button id="impPaste" onclick="setImportMode('paste')">Paste from Excel</button></div>
+      <div id="impCsvPane">
+        <div id="csvDrop" class="dropzone" onclick="document.getElementById('csvFile').click()"><b>Drop a CSV here or click to browse</b><div class="hint">First row should be headers. <a href="#" onclick="downloadTemplate();return false">Download template</a></div></div>
+        <input id="csvFile" type="file" accept=".csv,text/csv" style="display:none" onchange="csvChosen(event)">
+      </div>
+      <div id="impPastePane" style="display:none">
+        <div class="hint" style="margin-bottom:6px">Copy rows from Excel/Google Sheets (with the header row) and paste below.</div>
+        <textarea id="pasteBox" class="mono" placeholder="Client  Form  Preparer  Owner  Due Date …" style="width:100%;min-height:130px;border:1px solid var(--border);border-radius:8px;padding:9px;background:var(--surface);color:var(--text)"></textarea>
+        <button class="btn sm" style="margin-top:8px" onclick="parsePaste()">Parse pasted data</button>
+      </div>
+      <div id="mapArea" style="display:none">
+        <div class="section-label">Map columns</div>
+        <div class="hint" style="margin-bottom:10px">Match your columns to TaxFlow fields. New clients/people/statuses are created automatically.</div>
+        <div id="mapGrid" class="map-grid"></div><div id="preview" class="prev-table"></div>
+      </div>
+    </div>
+    <div class="modal-foot"><span id="impSummary" class="count" style="margin-right:auto"></span><button class="btn" onclick="closeImport()">Cancel</button><button id="impBtn" class="btn primary" onclick="runImport()" disabled>Import</button></div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
-/* ============================ STATE & STORAGE ============================ */
-const LS_KEY="taxflow_v1", LS_THEME="taxflow_theme", LS_ACCENT="taxflow_accent";
-let state=null, view="board", currentId=null;
-let draftAttachments=[], draftChecklist=[], draftTags=[], draftTime=[];
-let currentClientId=null, currentBillJob=null, billInvoice=null;
-
+/* ============================ STATE ============================ */
+const LS_KEY="taxflow_v1",LS_THEME="taxflow_theme",LS_ACCENT="taxflow_accent",LS_SIDEBAR="taxflow_sidebar";
+let state=null, view="work", workView="board", settingsTab="prefs", myWorkOnly=false, currentId=null;
+let draftAttachments=[],draftChecklist=[],draftTags=[],draftTime=[];
+let currentClientId=null,currentBillJob=null,billInvoice=null;
 const uid=()=>Math.random().toString(36).slice(2,9);
 const nowISO=()=>new Date().toISOString();
 const todayISO=()=>new Date().toISOString().slice(0,10);
 const $=id=>document.getElementById(id);
 function initials(name){return (name||"?").split(/\s+/).map(w=>w[0]).slice(0,2).join("").toUpperCase();}
 
-/* ---------- Sample seed ---------- */
 function sampleState(){
   const statuses=[
-    {id:"st_todo",name:"To Do",color:"#94a3b8",order:0},
-    {id:"st_docs",name:"Awaiting Docs",color:"#d97706",order:1},
-    {id:"st_prep",name:"In Preparation",color:"#2563eb",order:2},
-    {id:"st_rev",name:"In Review",color:"#7c3aed",order:3},
-    {id:"st_sign",name:"Ready to File",color:"#0e9488",order:4},
-    {id:"st_done",name:"Complete",color:"#16a34a",order:5},
-  ];
+    {id:"st_todo",name:"To Do",color:"#94a3b8",order:0},{id:"st_docs",name:"Awaiting Docs",color:"#d97706",order:1},
+    {id:"st_prep",name:"In Preparation",color:"#2563eb",order:2},{id:"st_rev",name:"In Review",color:"#7c3aed",order:3},
+    {id:"st_sign",name:"Ready to File",color:"#0e9488",order:4},{id:"st_done",name:"Complete",color:"#16a34a",order:5}];
   const people=[
-    {id:"p1",name:"Dana Whitfield",rate:250},
-    {id:"p2",name:"Marcus Lee",rate:150},
-    {id:"p3",name:"Priya Anand",rate:140},
-    {id:"p4",name:"Tom Rivera",rate:200},
-    {id:"p5",name:"Sarah Cohen",rate:120},
-  ];
+    {id:"p1",name:"Dana Whitfield",role:"Partner",rate:250,weeklyCapacity:20,pto:[{id:uid(),start:"2026-08-24",end:"2026-08-28",note:"Conference"}]},
+    {id:"p2",name:"Marcus Lee",role:"Senior Accountant",rate:150,weeklyCapacity:40,pto:[{id:uid(),start:"2026-08-10",end:"2026-08-14",note:"Vacation"}]},
+    {id:"p3",name:"Priya Anand",role:"Senior Accountant",rate:140,weeklyCapacity:40,pto:[]},
+    {id:"p4",name:"Tom Rivera",role:"Manager",rate:200,weeklyCapacity:35,pto:[]},
+    {id:"p5",name:"Sarah Cohen",role:"Staff Accountant",rate:120,weeklyCapacity:40,pto:[{id:uid(),start:"2026-07-20",end:"2026-07-21",note:"Personal"}]}];
   const clients=[
     {id:"c1",name:"Beacon Dental Group",contactName:"Dr. Ellen Beacon",email:"ellen@beacondental.com",phone:"(216) 555-0142",address:"88 Prospect Ave\nCleveland, OH 44115",notes:"S-corp, 4 shareholders"},
     {id:"c2",name:"Hollis & Fern LLC",contactName:"Greg Hollis",email:"greg@hollisfern.com",phone:"(330) 555-0110",address:"12 Market St\nAkron, OH 44308",notes:""},
@@ -430,71 +535,73 @@ function sampleState(){
     {id:"c5",name:"Willow Creek Foundation",contactName:"Sam Ortiz",email:"sam@willowcreek.org",phone:"(216) 555-0133",address:"5 Charity Way\nLakewood, OH 44107",notes:"501(c)(3)"},
     {id:"c6",name:"Jian Wu",contactName:"Jian Wu",email:"jian.wu@outlook.com",phone:"(440) 555-0166",address:"210 Birch St\nSolon, OH 44139",notes:""},
     {id:"c7",name:"Cedar Point Rentals LLC",contactName:"Dana Whitfield",email:"info@cedarpointrentals.com",phone:"(419) 555-0188",address:"7 Lakeshore Blvd\nSandusky, OH 44870",notes:"Real estate"},
-    {id:"c8",name:"Meridian Health Partners",contactName:"Dr. Alan Meridian",email:"billing@meridianhp.com",phone:"(216) 555-0121",address:"33 Wellness Dr\nBeachwood, OH 44122",notes:"New client"},
-  ];
-  const mk=(o)=>({id:uid(),tags:[],details:"",notes:"",checklist:[],attachments:[],timeEntries:[],priority:"Medium",createdAt:nowISO(),updatedAt:nowISO(),...o});
+    {id:"c8",name:"Meridian Health Partners",contactName:"Dr. Alan Meridian",email:"billing@meridianhp.com",phone:"(216) 555-0121",address:"33 Wellness Dr\nBeachwood, OH 44122",notes:"New client"}];
+  const projects=[
+    {id:"pr1",clientId:"c1",name:"2025 S-Corp Return",description:"Form 1120-S annual engagement"},
+    {id:"pr2",clientId:"c2",name:"2025 Partnership Return",description:"Form 1065"},
+    {id:"pr3",clientId:"c3",name:"2025 Individual Return",description:"Form 1040 + Schedule C/E"},
+    {id:"pr4",clientId:"c4",name:"2025 C-Corp Return",description:"Form 1120, multi-state"},
+    {id:"pr5",clientId:"c5",name:"2025 Form 990",description:"Non-profit information return"},
+    {id:"pr6",clientId:"c6",name:"2025 Individual Return",description:"Form 1040"},
+    {id:"pr7",clientId:"c7",name:"2025 Partnership Return",description:"Form 1065, real estate"},
+    {id:"pr8",clientId:"c8",name:"2025 S-Corp Return",description:"Form 1120-S, first year"},
+    {id:"pr9",clientId:"c1",name:"2024 Amended Return",description:"Form 1120-S/X"},
+    {id:"pr10",clientId:"c2",name:"Monthly Bookkeeping",description:"Ongoing bookkeeping engagement"},
+    {id:"pr11",clientId:"c4",name:"Q1 Estimated Payments",description:"Quarterly estimates"},
+    {id:"pr12",clientId:"c8",name:"Advisory — Entity Setup",description:"New entity structuring advisory"}];
+  const mk=(o)=>({id:uid(),tags:[],details:"",notes:"",checklist:[],attachments:[],timeEntries:[],comments:[],history:[],priority:"Medium",createdAt:nowISO(),updatedAt:nowISO(),...o});
   const jobs=[
-    mk({clientId:"c1",entityType:"1120-S",taxYear:"2025",statusId:"st_prep",ownerId:"p1",preparerId:"p2",workerId:"p2",dueDate:"2026-09-15",priority:"High",
-      tags:["S-Corp","Extension"],details:"K-1s to 4 shareholders. Prior year on file.",
-      checklist:[{text:"Trial balance received",done:true},{text:"Depreciation schedule",done:true},{text:"Reconcile shareholder distributions",done:false}],
-      timeEntries:[{id:uid(),personId:"p2",date:"2026-07-08",hours:3.5,note:"Trial balance review"},{id:uid(),personId:"p2",date:"2026-07-13",hours:2,note:"Depreciation schedule"}]}),
-    mk({clientId:"c2",entityType:"1065",taxYear:"2025",statusId:"st_docs",ownerId:"p1",preparerId:"p3",workerId:"p3",dueDate:"2026-09-15",priority:"Medium",
-      tags:["Partnership"],details:"Waiting on Q4 bank statements."}),
-    mk({clientId:"c3",entityType:"1040",taxYear:"2025",statusId:"st_todo",ownerId:"p4",preparerId:"p5",workerId:"p5",dueDate:"2026-10-15",priority:"Low",
-      tags:["Individual","Extension"],details:"Schedule C + rental property."}),
-    mk({clientId:"c4",entityType:"1120",taxYear:"2025",statusId:"st_rev",ownerId:"p2",preparerId:"p4",workerId:"p4",dueDate:"2026-04-15",priority:"High",
-      tags:["C-Corp"],details:"Multi-state apportionment (OH, PA, IN).",
-      checklist:[{text:"Federal return drafted",done:true},{text:"State returns",done:true},{text:"Partner review",done:false}],
-      timeEntries:[{id:uid(),personId:"p4",date:"2026-07-01",hours:5,note:"Federal + state prep"},{id:uid(),personId:"p2",date:"2026-07-11",hours:1.5,note:"Partner review"}]}),
-    mk({clientId:"c5",entityType:"990",taxYear:"2025",statusId:"st_prep",ownerId:"p3",preparerId:"p2",workerId:"p2",dueDate:"2026-11-15",priority:"Medium",
-      tags:["Non-Profit"],details:"Public charity, Schedule A support test."}),
-    mk({clientId:"c6",entityType:"1040",taxYear:"2025",statusId:"st_sign",ownerId:"p5",preparerId:"p3",workerId:"p3",dueDate:"2026-04-15",priority:"Medium",
-      tags:["Individual"],details:"RSU income, needs e-file authorization.",
-      timeEntries:[{id:uid(),personId:"p3",date:"2026-06-20",hours:2.5,note:"Return prep"}]}),
-    mk({clientId:"c7",entityType:"1065",taxYear:"2025",statusId:"st_done",ownerId:"p1",preparerId:"p4",workerId:"p4",dueDate:"2026-03-15",priority:"Low",
-      tags:["Partnership","Real Estate"],details:"Filed 3/10. Confirmation on file.",
-      timeEntries:[{id:uid(),personId:"p4",date:"2026-03-05",hours:4,note:"Return prep and filing"}]}),
-    mk({clientId:"c8",entityType:"1120-S",taxYear:"2025",statusId:"st_todo",ownerId:"p2",preparerId:"p5",workerId:"p5",dueDate:"2026-09-15",priority:"High",
-      tags:["S-Corp","New Client"],details:"First year with firm. Onboarding docs needed."}),
-  ];
+    mk({clientId:"c1",projectId:"pr1",entityType:"1120-S",taxYear:"2025",statusId:"st_prep",ownerId:"p1",preparerId:"p2",workerId:"p2",dueDate:"2026-09-15",priority:"High",tags:["S-Corp","Extension"],details:"K-1s to 4 shareholders.",checklist:[{text:"Trial balance received",done:true},{text:"Depreciation schedule",done:true},{text:"Reconcile distributions",done:false}],timeEntries:[{id:uid(),personId:"p2",date:"2026-07-08",hours:3.5,note:"Trial balance review"},{id:uid(),personId:"p2",date:"2026-07-13",hours:2,note:"Depreciation"}]}),
+    mk({clientId:"c2",projectId:"pr2",entityType:"1065",taxYear:"2025",statusId:"st_docs",ownerId:"p1",preparerId:"p3",workerId:"p3",dueDate:"2026-09-15",priority:"Medium",tags:["Partnership"],details:"Waiting on Q4 bank statements."}),
+    mk({clientId:"c3",projectId:"pr3",entityType:"1040",taxYear:"2025",statusId:"st_todo",ownerId:"p4",preparerId:"p5",workerId:"p5",dueDate:"2026-10-15",priority:"Low",tags:["Individual","Extension"],details:"Schedule C + rental."}),
+    mk({clientId:"c4",projectId:"pr4",entityType:"1120",taxYear:"2025",statusId:"st_rev",ownerId:"p2",preparerId:"p4",workerId:"p4",dueDate:"2026-04-15",priority:"High",tags:["C-Corp"],details:"Multi-state apportionment.",checklist:[{text:"Federal drafted",done:true},{text:"State returns",done:true},{text:"Partner review",done:false}],timeEntries:[{id:uid(),personId:"p4",date:"2026-07-01",hours:5,note:"Fed + state prep"},{id:uid(),personId:"p2",date:"2026-07-11",hours:1.5,note:"Partner review"}]}),
+    mk({clientId:"c5",projectId:"pr5",entityType:"990",taxYear:"2025",statusId:"st_prep",ownerId:"p3",preparerId:"p2",workerId:"p2",dueDate:"2026-11-15",priority:"Medium",tags:["Non-Profit"],details:"Schedule A support test."}),
+    mk({clientId:"c6",projectId:"pr6",entityType:"1040",taxYear:"2025",statusId:"st_sign",ownerId:"p5",preparerId:"p3",workerId:"p3",dueDate:"2026-04-15",priority:"Medium",tags:["Individual"],details:"RSU income.",timeEntries:[{id:uid(),personId:"p3",date:"2026-06-20",hours:2.5,note:"Return prep"}]}),
+    mk({clientId:"c7",projectId:"pr7",entityType:"1065",taxYear:"2025",statusId:"st_done",ownerId:"p1",preparerId:"p4",workerId:"p4",dueDate:"2026-03-15",priority:"Low",tags:["Partnership","Real Estate"],details:"Filed 3/10.",timeEntries:[{id:uid(),personId:"p4",date:"2026-03-05",hours:4,note:"Prep and filing"}]}),
+    mk({clientId:"c8",projectId:"pr8",entityType:"1120-S",taxYear:"2025",statusId:"st_todo",ownerId:"p2",preparerId:"p5",workerId:"p5",dueDate:"2026-09-15",priority:"High",tags:["S-Corp","New Client"],details:"First year with firm."}),
+    mk({clientId:"c1",projectId:"pr1",entityType:"OH IT-4708",taxYear:"2025",statusId:"st_todo",ownerId:"p1",preparerId:"p3",workerId:"p3",dueDate:"2026-09-15",priority:"Medium",tags:["State"],details:"Ohio composite return for the S-corp."}),
+    mk({clientId:"c2",projectId:"pr10",entityType:"Bookkeeping",taxYear:"2025",statusId:"st_prep",ownerId:"p1",preparerId:"p5",workerId:"p5",dueDate:"2026-07-31",priority:"Medium",tags:["Bookkeeping"],details:"June close.",timeEntries:[{id:uid(),personId:"p5",date:"2026-07-14",hours:3,note:"Bank reconciliations"}]})];
   const firm={name:"Riverside Tax & Advisory, CPA",address:"400 Superior Ave, Suite 210\nCleveland, OH 44114",email:"billing@riversidetax.com",phone:"(216) 555-0100",invoicePrefix:"INV-",nextNo:1001,taxRate:0};
-  return {statuses,people,clients,jobs,firm};
+  const branding={appName:"TaxFlow",logo:""};
+  return {statuses,people,clients,projects,jobs,firm,branding,currentUserId:"p2"};
 }
 
-/* ---------- Migration / load / save ---------- */
 function migrate(s){
-  if(!s.people) s.people=[]; s.people.forEach(p=>{ if(p.rate==null) p.rate=0; });
+  if(!s.people) s.people=[]; s.people.forEach(p=>{if(p.rate==null)p.rate=0;if(p.weeklyCapacity==null)p.weeklyCapacity=40;if(!p.pto)p.pto=[];if(p.role==null)p.role="";});
   if(!s.clients) s.clients=[];
-  const jobs = s.jobs || s.returns || [];
+  if(!s.projects) s.projects=[];
+  const jobs=s.jobs||s.returns||[];
   jobs.forEach(j=>{
-    if(!j.clientId){
-      const nm=(j.clientName||"Unknown").trim();
-      let c=s.clients.find(x=>x.name.toLowerCase()===nm.toLowerCase());
-      if(!c){ c={id:uid(),name:nm,contactName:"",email:"",phone:"",address:"",notes:""}; s.clients.push(c); }
-      j.clientId=c.id;
-    }
-    if(!j.timeEntries) j.timeEntries=[];
-    if(!j.tags) j.tags=[]; if(!j.checklist) j.checklist=[]; if(!j.attachments) j.attachments=[];
-    delete j.clientName;
+    if(!j.clientId){ const nm=(j.clientName||"Unknown").trim(); let c=s.clients.find(x=>x.name.toLowerCase()===nm.toLowerCase());
+      if(!c){c={id:uid(),name:nm,contactName:"",email:"",phone:"",address:"",notes:""};s.clients.push(c);} j.clientId=c.id; }
+    if(!j.timeEntries)j.timeEntries=[]; if(!j.tags)j.tags=[]; if(!j.checklist)j.checklist=[]; if(!j.attachments)j.attachments=[]; if(!j.comments)j.comments=[]; if(!j.history)j.history=[]; delete j.clientName;
   });
   s.jobs=jobs; delete s.returns;
-  if(!s.firm) s.firm={name:"Your Firm, CPA",address:"123 Main St\nCity, ST 00000",email:"",phone:"",invoicePrefix:"INV-",nextNo:1001,taxRate:0};
-  if(s.firm.nextNo==null) s.firm.nextNo=1001;
-  if(s.firm.invoicePrefix==null) s.firm.invoicePrefix="INV-";
-  if(s.firm.taxRate==null) s.firm.taxRate=0;
+  if(!s.firm)s.firm={name:"Your Firm, CPA",address:"123 Main St\nCity, ST 00000",email:"",phone:"",invoicePrefix:"INV-",nextNo:1001,taxRate:0};
+  if(s.firm.nextNo==null)s.firm.nextNo=1001; if(s.firm.invoicePrefix==null)s.firm.invoicePrefix="INV-"; if(s.firm.taxRate==null)s.firm.taxRate=0;
+  if(!s.branding)s.branding={appName:"TaxFlow",logo:""};
+  if(!s.currentUserId)s.currentUserId=(s.people[0]||{}).id||"";
   return s;
 }
-function loadLocal(){ try{ const raw=localStorage.getItem(LS_KEY); if(raw) return migrate(JSON.parse(raw)); }catch(e){} return null; }
-function saveLocal(){ try{ localStorage.setItem(LS_KEY,JSON.stringify(state)); }catch(e){ console.warn(e); toast("Storage full — remove large attachments"); } }
+function loadLocal(){ try{const raw=localStorage.getItem(LS_KEY);if(raw)return migrate(JSON.parse(raw));}catch(e){} return null; }
+function saveLocal(){ try{localStorage.setItem(LS_KEY,JSON.stringify(state));}catch(e){console.warn(e);toast("Storage full — remove large attachments");} }
 function persist(){ state.__updated=nowISO(); saveLocal(); }
 
-/* ============================ THEME & PREFS ============================ */
+/* ============================ THEME / SIDEBAR / USER ============================ */
 function setTheme(t){ document.documentElement.setAttribute("data-theme",t); localStorage.setItem(LS_THEME,t);
-  const b=$("themeBtn"); if(b) b.textContent=t==="dark"?"☀️":"🌙"; const s=$("prefDark"); if(s) s.checked=(t==="dark"); }
+  const i=$("themeIco"); if(i)i.textContent=t==="dark"?"☀️":"🌙"; const s=$("prefDark"); if(s)s.checked=(t==="dark"); }
 function toggleTheme(){ setTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark"); }
 function setAccent(hex){ document.documentElement.style.setProperty("--accent",hex); document.documentElement.style.setProperty("--accent-ink",hex);
-  localStorage.setItem(LS_ACCENT,hex); const p=$("prefAccent"); if(p) p.value=hex; }
-function initPrefs(){ setTheme(localStorage.getItem(LS_THEME)||"light"); const a=localStorage.getItem(LS_ACCENT); if(a) setAccent(a); }
+  localStorage.setItem(LS_ACCENT,hex); const p=$("prefAccent"); if(p)p.value=hex; }
+function initPrefs(){ setTheme(localStorage.getItem(LS_THEME)||"light"); const a=localStorage.getItem(LS_ACCENT); if(a)setAccent(a);
+  if(localStorage.getItem(LS_SIDEBAR)==="1") $("sidebar").classList.add("collapsed"); updateCollapseIcon(); }
+function toggleSidebar(){ const sb=$("sidebar"); sb.classList.toggle("collapsed"); localStorage.setItem(LS_SIDEBAR,sb.classList.contains("collapsed")?"1":"0"); updateCollapseIcon(); }
+function updateCollapseIcon(){ const i=$("collapseIco"); if(i)i.textContent=$("sidebar").classList.contains("collapsed")?"»":"«"; }
+function isMobile(){ return window.matchMedia("(max-width:760px)").matches; }
+function sideToggle(){ if(isMobile()) closeSidebar(); else toggleSidebar(); }
+function openSidebar(){ $("sidebar").classList.add("open"); $("backdrop").classList.add("show"); }
+function closeSidebar(){ $("sidebar").classList.remove("open"); $("backdrop").classList.remove("show"); }
+function setCurrentUser(id){ state.currentUserId=id; persist(); if(myWorkOnly)renderView(); }
 
 /* ============================ HELPERS ============================ */
 function statusById(id){return state.statuses.find(s=>s.id===id);}
@@ -503,102 +610,152 @@ function personName(id){const p=personById(id);return p?p.name:"—";}
 function personRate(id){const p=personById(id);return p?(Number(p.rate)||0):0;}
 function clientById(id){return state.clients.find(c=>c.id===id);}
 function clientName(id){const c=clientById(id);return c?c.name:"—";}
+function projectById(id){return state.projects.find(p=>p.id===id);}
+function projectName(id){const p=projectById(id);return p?p.name:"";}
+function projectsOfClient(cid){return state.projects.filter(p=>p.clientId===cid);}
+function jobsOfProject(pid){return state.jobs.filter(j=>j.projectId===pid);}
 function sortedStatuses(){return [...state.statuses].sort((a,b)=>a.order-b.order);}
 function allTags(){const t=new Set();state.jobs.forEach(r=>(r.tags||[]).forEach(x=>t.add(x)));return [...t].sort();}
 function daysUntil(d){if(!d)return null;const ms=new Date(d)-new Date(new Date().toDateString());return Math.round(ms/86400000);}
 function fmtDate(d){if(!d)return "";const dt=new Date(d+"T00:00:00");return isNaN(dt)?d:dt.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});}
 function jobHours(j){return (j.timeEntries||[]).reduce((s,t)=>s+(Number(t.hours)||0),0);}
 function jobCost(j){return (j.timeEntries||[]).reduce((s,t)=>s+(Number(t.hours)||0)*personRate(t.personId),0);}
-function avatarMarkup(p,cls){ if(!p) return ""; const st=p.avatar?`background-image:url('${p.avatar}')`:""; return `<div class="avatar ${cls||''}" style="${st}" title="${esc(p.name)}">${p.avatar?"":initials(p.name)}</div>`; }
+function isComplete(j){const s=statusById(j.statusId);if(!s)return false;const mx=Math.max(...state.statuses.map(x=>x.order));return s.order===mx;}
+function avatarMarkup(p,cls){if(!p)return "";const st=p.avatar?`background-image:url('${p.avatar}')`:"";return `<div class="avatar ${cls||''}" style="${st}" title="${esc(p.name)}">${p.avatar?"":initials(p.name)}</div>`;}
 function esc(s){return (s==null?"":String(s)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
 function money(n){return "$"+(Number(n)||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});}
+function fmtDateTime(iso){if(!iso)return "";const d=new Date(iso);return isNaN(d)?"":d.toLocaleString(undefined,{month:"short",day:"numeric",year:"numeric",hour:"numeric",minute:"2-digit"});}
+function logHistory(job,text){ if(!job.history)job.history=[]; job.history.push({at:nowISO(),by:state.currentUserId||"",text}); }
+function ptoUpcomingDays(p){ const today=todayISO(); let n=0; (p.pto||[]).forEach(x=>{ if(!x.start)return; const s=x.start,e=x.end||x.start; if(e>=today) n+=Math.max(1,Math.round((new Date(e)-new Date(s))/86400000)+1); }); return n; }
+function openAssignedCount(pid){ return state.jobs.filter(j=>!isComplete(j)&&[j.ownerId,j.preparerId,j.workerId].includes(pid)).length; }
+function personTrackedHours(pid){ let h=0; state.jobs.forEach(j=>(j.timeEntries||[]).forEach(t=>{if(t.personId===pid)h+=Number(t.hours)||0;})); return h; }
+function onPtoNow(p){ const today=todayISO(); return (p.pto||[]).some(x=>x.start&&x.start<=today&&(x.end||x.start)>=today); }
 
-/* ============================ FILTERS ============================ */
-function getFilters(){ return {q:$("search").value.trim().toLowerCase(),client:$("fClient").value,owner:$("fOwner").value,preparer:$("fPreparer").value,status:$("fStatus").value,tag:$("fTag").value}; }
+/* ============================ FILTERS (multi-select) ============================ */
+let fsel={client:[],project:[],owner:[],preparer:[],status:[],tag:[]};
+const MS=[
+  {key:"client",label:"Clients",opts:()=>[...state.clients].sort((a,b)=>a.name.localeCompare(b.name)).map(c=>[c.id,c.name])},
+  {key:"project",label:"Projects",opts:()=>[...state.projects].sort((a,b)=>a.name.localeCompare(b.name)).map(p=>[p.id,`${p.name} — ${clientName(p.clientId)}`])},
+  {key:"owner",label:"Owners",opts:()=>state.people.map(p=>[p.id,p.name])},
+  {key:"preparer",label:"Preparers",opts:()=>state.people.map(p=>[p.id,p.name])},
+  {key:"status",label:"Statuses",opts:()=>sortedStatuses().map(s=>[s.id,s.name])},
+  {key:"tag",label:"Tags",opts:()=>allTags().map(t=>[t,t])},
+];
 function filtered(){
-  const f=getFilters();
+  const q=$("search").value.trim().toLowerCase(), me=state.currentUserId, F=fsel;
   return state.jobs.filter(r=>{
-    if(f.client && r.clientId!==f.client) return false;
-    if(f.owner && r.ownerId!==f.owner) return false;
-    if(f.preparer && r.preparerId!==f.preparer) return false;
-    if(f.status && r.statusId!==f.status) return false;
-    if(f.tag && !(r.tags||[]).includes(f.tag)) return false;
-    if(f.q){ const hay=[clientName(r.clientId),r.entityType,r.taxYear,r.details,r.notes,(r.tags||[]).join(" "),
-      personName(r.ownerId),personName(r.preparerId),personName(r.workerId)].join(" ").toLowerCase(); if(!hay.includes(f.q)) return false; }
+    if(myWorkOnly && me && ![r.ownerId,r.preparerId,r.workerId].includes(me)) return false;
+    if(F.client.length && !F.client.includes(r.clientId)) return false;
+    if(F.project.length && !F.project.includes(r.projectId)) return false;
+    if(F.owner.length && !F.owner.includes(r.ownerId)) return false;
+    if(F.preparer.length && !F.preparer.includes(r.preparerId)) return false;
+    if(F.status.length && !F.status.includes(r.statusId)) return false;
+    if(F.tag.length && !(r.tags||[]).some(t=>F.tag.includes(t))) return false;
+    if(q){const hay=[clientName(r.clientId),r.entityType,r.taxYear,r.details,r.notes,(r.tags||[]).join(" "),personName(r.ownerId),personName(r.preparerId),personName(r.workerId)].join(" ").toLowerCase();if(!hay.includes(q))return false;}
     return true;
   });
 }
-function clearFilters(){["fClient","fOwner","fPreparer","fStatus","fTag"].forEach(id=>$(id).value="");$("search").value="";applyFilters();}
+function renderFilters(){
+  const valid={client:new Set(state.clients.map(c=>c.id)),project:new Set(state.projects.map(p=>p.id)),owner:new Set(state.people.map(p=>p.id)),preparer:new Set(state.people.map(p=>p.id)),status:new Set(state.statuses.map(s=>s.id)),tag:new Set(allTags())};
+  Object.keys(fsel).forEach(k=>{fsel[k]=fsel[k].filter(v=>valid[k].has(v));});
+  $("filterBar").innerHTML=MS.map(m=>{
+    const sel=fsel[m.key], n=sel.length;
+    const opts=m.opts().map(([v,l])=>`<label class="ms-opt"><input type="checkbox" value="${esc(v)}" data-key="${m.key}" ${sel.includes(v)?"checked":""} onchange="msChange(this)"> ${esc(l)}</label>`).join("")||`<div class="ms-empty">None yet</div>`;
+    return `<div class="ms" data-key="${m.key}"><button class="ms-btn ${n?'has':''}" onclick="msOpen('${m.key}',event)">${m.label}${n?`<span class="ms-badge">${n}</span>`:""} <span class="ms-caret">▾</span></button><div class="ms-panel" id="mspanel-${m.key}" onclick="event.stopPropagation()">${opts}</div></div>`;
+  }).join("");
+}
+function msOpen(k,e){ e.stopPropagation(); document.querySelectorAll(".ms-panel.open").forEach(p=>{if(p.id!=="mspanel-"+k)p.classList.remove("open");}); $("mspanel-"+k).classList.toggle("open"); }
+function closeAllMs(){ document.querySelectorAll(".ms-panel.open").forEach(p=>p.classList.remove("open")); }
+function msChange(el){
+  const k=el.dataset.key, v=el.value, arr=fsel[k];
+  if(el.checked){ if(!arr.includes(v))arr.push(v); } else { fsel[k]=arr.filter(x=>x!==v); }
+  updateMsBadge(k); renderView();
+}
+function updateMsBadge(k){
+  const btn=document.querySelector('.ms[data-key="'+k+'"] .ms-btn'); if(!btn)return;
+  const m=MS.find(x=>x.key===k), n=fsel[k].length;
+  btn.classList.toggle("has",n>0);
+  btn.innerHTML=`${m.label}${n?`<span class="ms-badge">${n}</span>`:""} <span class="ms-caret">▾</span>`;
+}
+function clearFilters(){ fsel={client:[],project:[],owner:[],preparer:[],status:[],tag:[]}; $("search").value=""; renderFilters(); renderView(); }
 function applyFilters(){ renderView(); }
+function toggleMyWork(){ myWorkOnly=!myWorkOnly; $("myWorkBtn").classList.toggle("active",myWorkOnly); renderView(); }
 function buildFilterOptions(){
-  const peo=state.people.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("");
-  const cli=[...state.clients].sort((a,b)=>a.name.localeCompare(b.name)).map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("");
-  $("fClient").innerHTML=`<option value="">All clients</option>`+cli;
-  $("fOwner").innerHTML=`<option value="">All owners</option>`+peo;
-  $("fPreparer").innerHTML=`<option value="">All preparers</option>`+peo;
-  $("fStatus").innerHTML=`<option value="">All statuses</option>`+sortedStatuses().map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join("");
-  $("fTag").innerHTML=`<option value="">All tags</option>`+allTags().map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join("");
+  $("currentUser").innerHTML=state.people.map(p=>`<option value="${p.id}" ${state.currentUserId===p.id?"selected":""}>${esc(p.name)}</option>`).join("");
+  renderFilters();
 }
 
-/* ============================ RENDER ============================ */
-function renderAll(){ buildFilterOptions(); renderView(); }
-function setView(v){ view=v;
-  $("tabBoard").classList.toggle("active",v==="board");
-  $("tabList").classList.toggle("active",v==="list");
-  $("tabClients").classList.toggle("active",v==="clients");
-  $("boardView").style.display=v==="board"?"flex":"none";
-  $("listView").style.display=v==="list"?"block":"none";
-  $("clientsView").style.display=v==="clients"?"block":"none";
+/* ============================ VIEW SWITCHING ============================ */
+const VIEW_TITLES={work:"Work Tracking",projects:"Projects",clients:"Clients",team:"Team & Capacity",reports:"Reports",settings:"Settings"};
+const VIEW_CONTAINERS=["workView","projectsViewWrap","projectPageView","clientsViewWrap","teamView","reportsView","settingsView","clientPageView","workPageView"];
+function hideAllViews(){ VIEW_CONTAINERS.forEach(x=>{const e=$(x);if(e)e.style.display="none";}); }
+function setNav(active){ ["work","projects","clients","team","reports","settings"].forEach(k=>$("nav-"+k).classList.toggle("active",k===active)); }
+function setView(v){
+  if(v!=="workPage" && location.hash) history.replaceState(null,"",location.pathname+location.search);
+  view=v; setNav(v); $("viewTitle").textContent=VIEW_TITLES[v]; hideAllViews();
+  const map={work:"workView",projects:"projectsViewWrap",clients:"clientsViewWrap",team:"teamView",reports:"reportsView",settings:"settingsView"};
+  if(map[v]) $(map[v]).style.display="block";
+  let act="";
+  if(v==="work") act=`<button class="btn sm" onclick="openImport('jobs')"><span>⬆</span> Import</button><button class="btn primary sm" onclick="openDetail(null)">+ New Work</button>`;
+  else if(v==="projects") act=`<button class="btn primary sm" onclick="openProject(null)">+ New Project</button>`;
+  else if(v==="clients") act=`<button class="btn sm" onclick="openImport('clients')"><span>⬆</span> Import</button><button class="btn primary sm" onclick="openClient(null)">+ New Client</button>`;
+  else if(v==="team") act=`<button class="btn primary sm" onclick="addTeamMember()">+ Add member</button>`;
+  $("topActions").innerHTML=act;
+  if(v==="settings") renderSettings();
+  closeSidebar();
   renderView();
 }
+function setWorkView(sub){ workView=sub; $("tabBoard").classList.toggle("active",sub==="board"); $("tabList").classList.toggle("active",sub==="list");
+  $("boardView").style.display=sub==="board"?"flex":"none"; $("listView").style.display=sub==="list"?"block":"none"; renderView(); }
 function renderView(){
-  if(view==="clients"){ renderClients(); return; }
+  if(view==="clientPage"){renderClientPage();return;}
+  if(view==="projectPage"){renderProjectPage();return;}
+  if(view==="workPage"){renderWorkPage();return;}
+  if(view==="projects"){renderProjects();return;}
+  if(view==="clients"){renderClients();return;}
+  if(view==="team"){renderTeam();return;}
+  if(view==="reports"){renderReports();return;}
+  if(view==="settings")return;
   const items=filtered();
-  $("count").textContent=`${items.length} of ${state.jobs.length} jobs`;
-  if(view==="board") renderBoard(items); else renderList(items);
+  $("count").textContent=`${items.length} of ${state.jobs.length} jobs${myWorkOnly?" (my work)":""}`;
+  if(workView==="board") renderBoard(items); else renderList(items);
 }
-function avatarSet(r){ const mk=(id,cls)=>{const p=personById(id);return p?avatarMarkup(p,cls):"";}; return `<div class="avatars">${mk(r.ownerId,"owner")}${mk(r.preparerId,"prep")}${mk(r.workerId,"work")}</div>`; }
+function renderAll(){ buildFilterOptions(); renderSidebar(); renderView(); }
+function renderSidebar(){
+  const b=state.branding||{};
+  $("sideBrand").innerHTML=(b.logo?`<img class="side-logo" src="${b.logo}">`:`<span class="side-logo box">${esc((b.appName||"T")[0].toUpperCase())}</span>`)+`<span>${esc(b.appName||"TaxFlow")}</span>`;
+  document.title=(b.appName||"TaxFlow")+" — Workflow";
+}
+
+/* ============================ BOARD / LIST ============================ */
+function avatarSet(r){const mk=(id,cls)=>{const p=personById(id);return p?avatarMarkup(p,cls):"";};return `<div class="avatars">${mk(r.ownerId,"owner")}${mk(r.preparerId,"prep")}${mk(r.workerId,"work")}</div>`;}
 function renderBoard(items){
-  $("boardView").innerHTML=sortedStatuses().map(st=>{
-    const cards=items.filter(r=>r.statusId===st.id);
+  $("boardView").innerHTML=sortedStatuses().map(st=>{const cards=items.filter(r=>r.statusId===st.id);
     return `<div class="col" data-status="${st.id}" ondragover="colDragOver(event)" ondragleave="colDragLeave(event)" ondrop="colDrop(event,'${st.id}')">
-      <div class="col-head"><span class="col-dot" style="background:${st.color}"></span>
-        <span class="col-title">${esc(st.name)}</span><span class="col-count">${cards.length}</span></div>
-      <div class="col-body">${cards.map(cardHTML).join("")||`<div style="color:var(--faint);font-size:12px;padding:6px 2px">No jobs</div>`}</div></div>`;
-  }).join("");
+      <div class="col-head"><span class="col-dot" style="background:${st.color}"></span><span class="col-title">${esc(st.name)}</span><span class="col-count">${cards.length}</span></div>
+      <div class="col-body">${cards.map(cardHTML).join("")||`<div style="color:var(--faint);font-size:12px;padding:6px 2px">No jobs</div>`}</div></div>`;}).join("");
 }
 function cardHTML(r){
   const du=daysUntil(r.dueDate),overdue=du!==null&&du<0;
   const dueTxt=r.dueDate?`<span class="due ${overdue?'overdue':''}">📅 ${fmtDate(r.dueDate)}</span>`:"";
   const tags=(r.tags||[]).slice(0,3).map(t=>`<span class="tag gray">${esc(t)}</span>`).join("")+(r.invoice?`<span class="tag billed">💵 Billed</span>`:"");
   const nAtt=(r.attachments||[]).length,nChk=(r.checklist||[]).length,done=(r.checklist||[]).filter(c=>c.done).length,hrs=jobHours(r);
-  const icons=[]; if(hrs) icons.push(`<span title="Tracked time">⏱ ${hrs.toFixed(1)}h</span>`); if(nAtt) icons.push(`<span title="Attachments">📎 ${nAtt}</span>`); if(nChk) icons.push(`<span title="Checklist">✔ ${done}/${nChk}</span>`);
+  const icons=[]; if(hrs)icons.push(`<span title="Tracked time">⏱ ${hrs.toFixed(1)}h</span>`); if(nAtt)icons.push(`<span title="Attachments">📎 ${nAtt}</span>`); if(nChk)icons.push(`<span title="Checklist">✔ ${done}/${nChk}</span>`);
   return `<div class="card" draggable="true" ondragstart="cardDrag(event,'${r.id}')" onclick="openDetail('${r.id}')">
-    <div class="top"><div><div class="client">${esc(clientName(r.clientId))}</div>
-      <div class="sub">${esc(r.entityType)} · TY ${esc(r.taxYear||"")}</div></div>
-      <span class="prio ${r.priority}">${r.priority}</span></div>
-    <div class="meta">${tags}</div>
-    <div class="meta">${dueTxt}<div class="card-icons">${icons.join("")}</div>${avatarSet(r)}</div></div>`;
+    <div class="top"><div><div class="client">${esc(clientName(r.clientId))}</div><div class="sub">${r.projectId?esc(projectName(r.projectId))+" · ":""}${esc(r.entityType)} · TY ${esc(r.taxYear||"")}</div></div><span class="prio ${r.priority}">${r.priority}</span></div>
+    <div class="meta">${tags}</div><div class="meta">${dueTxt}<div class="card-icons">${icons.join("")}</div>${avatarSet(r)}</div></div>`;
 }
 let sortKey="dueDate",sortDir=1;
 function renderList(items){
   const cols=[["clientId","Client"],["entityType","Form"],["statusId","Status"],["ownerId","Owner"],["preparerId","Preparer"],["workerId","Working On"],["hours","Hours"],["dueDate","Due"],["priority","Priority"]];
   const sorted=[...items].sort((a,b)=>{let x=sortVal(a,sortKey),y=sortVal(b,sortKey);return (x<y?-1:x>y?1:0)*sortDir;});
   const head=cols.map(([k,l])=>`<th onclick="sortBy('${k}')">${l}${sortKey===k?`<span class="arr">${sortDir>0?'▲':'▼'}</span>`:''}</th>`).join("");
-  const rows=sorted.map(r=>{
-    const st=statusById(r.statusId),du=daysUntil(r.dueDate),overdue=du!==null&&du<0;
-    return `<tr onclick="openDetail('${r.id}')">
-      <td><div class="client">${esc(clientName(r.clientId))}${r.invoice?' <span class="tag billed">Billed</span>':''}</div><div class="sub">TY ${esc(r.taxYear||"")}</div></td>
-      <td>${esc(r.entityType)}</td>
-      <td><span class="status-badge"><span class="d" style="background:${st?st.color:'#ccc'}"></span>${st?esc(st.name):'—'}</span></td>
+  const rows=sorted.map(r=>{const st=statusById(r.statusId),du=daysUntil(r.dueDate),overdue=du!==null&&du<0;
+    return `<tr onclick="openDetail('${r.id}')"><td><div class="client">${esc(clientName(r.clientId))}${r.invoice?' <span class="tag billed">Billed</span>':''}</div><div class="sub">${r.projectId?esc(projectName(r.projectId))+" · ":""}TY ${esc(r.taxYear||"")}</div></td>
+      <td>${esc(r.entityType)}</td><td><span class="status-badge"><span class="d" style="background:${st?st.color:'#ccc'}"></span>${st?esc(st.name):'—'}</span></td>
       <td>${esc(personName(r.ownerId))}</td><td>${esc(personName(r.preparerId))}</td><td>${esc(personName(r.workerId))}</td>
-      <td>${jobHours(r).toFixed(1)}</td>
-      <td class="${overdue?'due overdue':''}">${r.dueDate?fmtDate(r.dueDate):'—'}</td>
-      <td><span class="prio ${r.priority}">${r.priority}</span></td></tr>`;
-  }).join("");
-  $("count").textContent=`${items.length} of ${state.jobs.length} jobs`;
-  $("listView").innerHTML=items.length?`<div class="listwrap"><table><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div>`
-    :`<div class="listwrap"><div class="empty"><h3>No jobs match</h3><div>Try clearing filters or adding a job.</div></div></div>`;
+      <td class="num">${jobHours(r).toFixed(1)}</td><td class="${overdue?'due overdue':''}">${r.dueDate?fmtDate(r.dueDate):'—'}</td><td><span class="prio ${r.priority}">${r.priority}</span></td></tr>`;}).join("");
+  $("listView").innerHTML=items.length?`<div class="listwrap"><table><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div>`:`<div class="listwrap"><div class="empty"><h3>No jobs match</h3><div>Try clearing filters or adding a job.</div></div></div>`;
 }
 function sortVal(r,k){
   if(k==="clientId")return clientName(r.clientId).toLowerCase();
@@ -611,42 +768,304 @@ function sortVal(r,k){
 }
 function sortBy(k){ if(sortKey===k)sortDir*=-1; else{sortKey=k;sortDir=1;} renderList(filtered()); }
 
+/* ============================ CLIENTS ============================ */
 let cliSortKey="name",cliSortDir=1;
 function renderClients(){
-  const q=$("search").value.trim().toLowerCase();
-  let cs=state.clients
-    .filter(c=>!q||(c.name+" "+(c.contactName||"")+" "+(c.email||"")).toLowerCase().includes(q))
-    .map(c=>{const jobs=state.jobs.filter(j=>j.clientId===c.id);
-      return {c,jobs:jobs.length,hrs:jobs.reduce((s,j)=>s+jobHours(j),0),cost:jobs.reduce((s,j)=>s+jobCost(j),0)};});
+  const q=$("clientSearch").value.trim().toLowerCase();
+  let cs=state.clients.filter(c=>!q||(c.name+" "+(c.contactName||"")+" "+(c.email||"")).toLowerCase().includes(q))
+    .map(c=>{const jobs=state.jobs.filter(j=>j.clientId===c.id);return {c,jobs:jobs.length,hrs:jobs.reduce((s,j)=>s+jobHours(j),0),cost:jobs.reduce((s,j)=>s+jobCost(j),0)};});
   const cv=(o)=>({name:o.c.name.toLowerCase(),contactName:(o.c.contactName||"").toLowerCase(),jobs:o.jobs,hrs:o.hrs,cost:o.cost}[cliSortKey]);
   cs.sort((a,b)=>{let x=cv(a),y=cv(b);return (x<y?-1:x>y?1:0)*cliSortDir;});
-  $("count").textContent=`${cs.length} of ${state.clients.length} clients`;
+  $("clientCount").textContent=`${cs.length} of ${state.clients.length} clients`;
   const cols=[["name","Client"],["contactName","Contact"],["jobs","Jobs"],["hrs","Hours"],["cost","Billable value"]];
-  const head=cols.map(([k,l])=>`<th onclick="cliSortBy('${k}')">${l}${cliSortKey===k?`<span class="arr">${cliSortDir>0?'▲':'▼'}</span>`:''}</th>`).join("");
-  const rows=cs.map(o=>{const c=o.c;
-    return `<tr onclick="openClient('${c.id}')">
-      <td><div class="client">${esc(c.name)}</div><div class="sub">${c.email?esc(c.email):""}${c.phone?(c.email?" · ":"")+esc(c.phone):""}</div></td>
-      <td>${esc(c.contactName||"—")}</td>
-      <td>${o.jobs}</td>
-      <td>${o.hrs.toFixed(1)}</td>
-      <td>${money(o.cost)}</td></tr>`;}).join("");
-  $("clientsView").innerHTML=`<div style="margin-bottom:12px"><button class="btn primary sm" onclick="openClient(null)">+ New client</button></div>`+
-    (cs.length?`<div class="listwrap"><table><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div>`
-      :`<div class="listwrap"><div class="empty"><h3>No clients</h3><div>Add a client to get started.</div></div></div>`);
+  const head=cols.map(([k,l])=>`<th class="${k==='jobs'||k==='hrs'||k==='cost'?'num':''}" onclick="cliSortBy('${k}')">${l}${cliSortKey===k?`<span class="arr">${cliSortDir>0?'▲':'▼'}</span>`:''}</th>`).join("");
+  const rows=cs.map(o=>{const c=o.c;return `<tr onclick="openClientPage('${c.id}')"><td><div class="client">${esc(c.name)}</div><div class="sub">${c.email?esc(c.email):""}${c.phone?(c.email?" · ":"")+esc(c.phone):""}</div></td><td>${esc(c.contactName||"—")}</td><td class="num">${o.jobs}</td><td class="num">${o.hrs.toFixed(1)}</td><td class="num">${money(o.cost)}</td></tr>`;}).join("");
+  $("clientsView").innerHTML=cs.length?`<div class="listwrap"><table><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div>`:`<div class="listwrap"><div class="empty"><h3>No clients</h3><div>Add a client to get started.</div></div></div>`;
 }
 function cliSortBy(k){ if(cliSortKey===k)cliSortDir*=-1; else{cliSortKey=k;cliSortDir=1;} renderClients(); }
+
+/* ============================ CLIENT PROFILE PAGE ============================ */
+let currentPageClientId=null;
+function openClientPage(id){
+  view="clientPage"; currentPageClientId=id; setNav("clients"); hideAllViews();
+  $("clientPageView").style.display="block"; $("viewTitle").textContent="Client"; $("topActions").innerHTML="";
+  closeSidebar(); renderClientPage();
+}
+function renderClientPage(){
+  const c=clientById(currentPageClientId);
+  if(!c){ setView("clients"); return; }
+  const jobs=state.jobs.filter(j=>j.clientId===c.id);
+  const open=jobs.filter(j=>!isComplete(j)).length;
+  const hrs=jobs.reduce((s,j)=>s+jobHours(j),0);
+  const val=jobs.reduce((s,j)=>s+jobCost(j),0);
+  const billed=jobs.filter(j=>j.invoice).reduce((s,j)=>s+(Number(j.invoice.total)||0),0);
+  const unbilled=jobs.filter(j=>!j.invoice).reduce((s,j)=>s+jobCost(j),0);
+  const stat=(v,l,acc)=>`<div class="stat ${acc?'accent':''}"><div class="v">${v}</div><div class="l">${l}</div></div>`;
+
+  const subParts=[c.contactName,c.email,c.phone].filter(Boolean).map(esc).join(" · ");
+  const header=`<button class="btn sm" onclick="setView('clients')">← All clients</button>
+    <div class="cp-head"><div class="cp-avatar">${esc(initials(c.name))}</div>
+      <div><h2>${esc(c.name)}</h2><div class="sub">${subParts||"No contact details"}</div></div>
+      <div class="cp-actions">
+        <button class="btn sm" onclick="openClient('${c.id}')">✎ Edit details</button>
+        <button class="btn sm" onclick="newJobForClient('${c.id}')">+ New job</button>
+        <button class="btn sm" onclick="viewClientJobs('${c.id}')">↗ Board view</button>
+      </div></div>`;
+
+  const stats=`<div class="stat-grid">${stat(jobs.length,"Total jobs")}${stat(open,"Open jobs")}${stat(hrs.toFixed(1),"Tracked hours",1)}${stat(money(val),"Billable value",1)}${stat(money(billed),"Billed")}${stat(money(unbilled),"Unbilled")}</div>`;
+
+  const details=`<div class="panel"><h3>Client details</h3><div class="kv">
+    <div class="k">Primary contact</div><div class="v">${esc(c.contactName||"—")}</div>
+    <div class="k">Email</div><div class="v">${c.email?`<a href="mailto:${esc(c.email)}">${esc(c.email)}</a>`:"—"}</div>
+    <div class="k">Phone</div><div class="v">${esc(c.phone||"—")}</div>
+    <div class="k">Address</div><div class="v">${esc(c.address||"—")}</div>
+    <div class="k">Notes</div><div class="v">${esc(c.notes||"—")}</div></div></div>`;
+
+  const projs=projectsOfClient(c.id);
+  const projRows=projs.length?projs.map(p=>{const pj=jobsOfProject(p.id);return `<tr onclick="openProjectPage('${p.id}')"><td><div class="client">${esc(p.name)}</div><div class="sub">${esc(p.description||"")}</div></td><td class="num">${pj.length}</td><td class="num">${pj.reduce((s,j)=>s+jobHours(j),0).toFixed(1)}</td><td class="num">${money(pj.reduce((s,j)=>s+jobCost(j),0))}</td></tr>`;}).join(""):`<tr class="nohover"><td colspan="4" class="muted">No projects yet. <a href="#" onclick="newProjectForClient('${c.id}');return false">Create one</a>.</td></tr>`;
+  const projPanel=`<div class="panel"><h3>Projects (${projs.length}) <button class="btn sm" style="float:right;margin-top:-2px" onclick="newProjectForClient('${c.id}')">+ New project</button></h3><div class="listwrap"><table><thead><tr><th class="nosort">Project</th><th class="nosort num">Work items</th><th class="nosort num">Hours</th><th class="nosort num">Value</th></tr></thead><tbody>${projRows}</tbody></table></div></div>`;
+
+  const jobRows=jobs.length?jobs.slice().sort((a,b)=>(a.dueDate||"9999").localeCompare(b.dueDate||"9999")).map(j=>{const st=statusById(j.statusId),du=daysUntil(j.dueDate),od=du!==null&&du<0&&!isComplete(j);
+    return `<tr onclick="openDetail('${j.id}')"><td><div class="client">${esc(j.entityType||"Work")}</div><div class="sub">${j.projectId?esc(projectName(j.projectId))+" · ":""}TY ${esc(j.taxYear||"")}</div></td>
+      <td><span class="status-badge"><span class="d" style="background:${st?st.color:'#ccc'}"></span>${st?esc(st.name):'—'}</span></td>
+      <td>${esc(personName(j.preparerId))}</td><td class="num">${jobHours(j).toFixed(1)}</td><td class="num">${money(jobCost(j))}</td>
+      <td class="${od?'due overdue':''}">${j.dueDate?fmtDate(j.dueDate):'—'}</td><td>${j.invoice?'<span class="tag billed">Billed</span>':'—'}</td></tr>`;}).join(""):`<tr class="nohover"><td colspan="7" class="muted">No work items yet. <a href="#" onclick="newJobForClient('${c.id}');return false">Create one</a>.</td></tr>`;
+  const jobsPanel=`<div class="panel"><h3>All work items (${jobs.length})</h3><div class="listwrap"><table><thead><tr><th class="nosort">Work</th><th class="nosort">Status</th><th class="nosort">Preparer</th><th class="nosort num">Hours</th><th class="nosort num">Value</th><th class="nosort">Due</th><th class="nosort">Billing</th></tr></thead><tbody>${jobRows}</tbody></table></div></div>`;
+
+  const invs=jobs.filter(j=>j.invoice).sort((a,b)=>(b.invoice.date||"").localeCompare(a.invoice.date||""));
+  const invRows=invs.map(j=>`<tr onclick="openDetail('${j.id}')"><td>${esc(j.invoice.number)}</td><td>${fmtDate(j.invoice.date)}</td><td>${esc(j.entityType||"")} TY ${esc(j.taxYear||"")}</td><td class="num">${money(j.invoice.total)}</td></tr>`).join("");
+  const invPanel=`<div class="panel"><h3>Invoices (${invs.length})</h3>${invs.length?`<div class="listwrap"><table><thead><tr><th class="nosort">Invoice #</th><th class="nosort">Date</th><th class="nosort">Job</th><th class="nosort num">Total</th></tr></thead><tbody>${invRows}</tbody></table></div>`:`<div class="muted">No invoices yet.</div>`}</div>`;
+
+  const entries=[];
+  jobs.forEach(j=>(j.timeEntries||[]).forEach(t=>entries.push({t,j})));
+  entries.sort((a,b)=>(b.t.date||"").localeCompare(a.t.date||""));
+  const teRows=entries.slice(0,12).map(({t,j})=>`<tr class="nohover"><td>${t.date?fmtDate(t.date):"—"}</td><td>${esc(personName(t.personId))}</td><td>${esc(j.entityType||"Job")}</td><td>${esc(t.note||"")}</td><td class="num">${(Number(t.hours)||0).toFixed(2)}</td></tr>`).join("");
+  const tePanel=`<div class="panel"><h3>Recent time entries</h3>${entries.length?`<div class="listwrap"><table><thead><tr><th class="nosort">Date</th><th class="nosort">Person</th><th class="nosort">Job</th><th class="nosort">Notes</th><th class="nosort num">Hours</th></tr></thead><tbody>${teRows}</tbody></table></div>`:`<div class="muted">No time logged yet.</div>`}</div>`;
+
+  $("clientPageView").innerHTML=header+stats+details+projPanel+jobsPanel+invPanel+tePanel;
+}
+
+/* ============================ PROJECTS ============================ */
+let projSortKey="name",projSortDir=1,currentPageProjectId=null,currentProjectId=null;
+function renderProjects(){
+  const q=$("projectSearch").value.trim().toLowerCase();
+  let rows=state.projects.filter(p=>!q||(p.name+" "+clientName(p.clientId)+" "+(p.description||"")).toLowerCase().includes(q))
+    .map(p=>{const js=jobsOfProject(p.id);return {p,cname:clientName(p.clientId),jobs:js.length,hrs:js.reduce((s,j)=>s+jobHours(j),0),cost:js.reduce((s,j)=>s+jobCost(j),0)};});
+  const cv=(o)=>({name:o.p.name.toLowerCase(),client:o.cname.toLowerCase(),jobs:o.jobs,hrs:o.hrs,cost:o.cost}[projSortKey]);
+  rows.sort((a,b)=>{let x=cv(a),y=cv(b);return (x<y?-1:x>y?1:0)*projSortDir;});
+  $("projectCount").textContent=`${rows.length} of ${state.projects.length} projects`;
+  const cols=[["name","Project"],["client","Client"],["jobs","Work items"],["hrs","Hours"],["cost","Value"]];
+  const head=cols.map(([k,l])=>`<th class="${['jobs','hrs','cost'].includes(k)?'num':''}" onclick="projSortBy('${k}')">${l}${projSortKey===k?`<span class="arr">${projSortDir>0?'▲':'▼'}</span>`:''}</th>`).join("");
+  const body=rows.map(o=>`<tr onclick="openProjectPage('${o.p.id}')"><td><div class="client">${esc(o.p.name)}</div><div class="sub">${esc(o.p.description||"")}</div></td><td><a href="#" onclick="event.stopPropagation();openClientPage('${o.p.clientId}');return false">${esc(o.cname)}</a></td><td class="num">${o.jobs}</td><td class="num">${o.hrs.toFixed(1)}</td><td class="num">${money(o.cost)}</td></tr>`).join("");
+  $("projectsView").innerHTML=rows.length?`<div class="listwrap"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`:`<div class="listwrap"><div class="empty"><h3>No projects</h3><div>Create a project to group a client's work.</div></div></div>`;
+}
+function projSortBy(k){ if(projSortKey===k)projSortDir*=-1; else{projSortKey=k;projSortDir=1;} renderProjects(); }
+function openProjectPage(id){
+  view="projectPage"; currentPageProjectId=id; setNav("projects"); hideAllViews();
+  $("projectPageView").style.display="block"; $("viewTitle").textContent="Project"; $("topActions").innerHTML="";
+  closeSidebar(); renderProjectPage();
+}
+function renderProjectPage(){
+  const p=projectById(currentPageProjectId);
+  if(!p){ setView("projects"); return; }
+  const c=clientById(p.clientId)||{name:"—"};
+  const jobs=jobsOfProject(p.id);
+  const open=jobs.filter(j=>!isComplete(j)).length, hrs=jobs.reduce((s,j)=>s+jobHours(j),0), val=jobs.reduce((s,j)=>s+jobCost(j),0);
+  const billed=jobs.filter(j=>j.invoice).reduce((s,j)=>s+(Number(j.invoice.total)||0),0), unbilled=jobs.filter(j=>!j.invoice).reduce((s,j)=>s+jobCost(j),0);
+  const stat=(v,l,acc)=>`<div class="stat ${acc?'accent':''}"><div class="v">${v}</div><div class="l">${l}</div></div>`;
+  const header=`<button class="btn sm" onclick="setView('projects')">← All projects</button>
+    <div class="cp-head"><div class="cp-avatar">📁</div>
+      <div><h2>${esc(p.name)}</h2><div class="sub">Client: <a href="#" onclick="openClientPage('${p.clientId}');return false">${esc(c.name)}</a>${p.description?" · "+esc(p.description):""}</div></div>
+      <div class="cp-actions"><button class="btn sm" onclick="openProject('${p.id}')">✎ Edit project</button><button class="btn sm" onclick="newJobForProject('${p.id}')">+ New work item</button><button class="btn sm" onclick="viewProjectJobs('${p.id}')">↗ Board view</button></div></div>`;
+  const stats=`<div class="stat-grid">${stat(jobs.length,"Work items")}${stat(open,"Open")}${stat(hrs.toFixed(1),"Hours",1)}${stat(money(val),"Billable value",1)}${stat(money(billed),"Billed")}${stat(money(unbilled),"Unbilled")}</div>`;
+  const rows=jobs.length?jobs.slice().sort((a,b)=>(a.dueDate||"9999").localeCompare(b.dueDate||"9999")).map(j=>{const st=statusById(j.statusId),du=daysUntil(j.dueDate),od=du!==null&&du<0&&!isComplete(j);
+    return `<tr onclick="openDetail('${j.id}')"><td><div class="client">${esc(j.entityType||"Work item")}</div><div class="sub">TY ${esc(j.taxYear||"")}</div></td><td><span class="status-badge"><span class="d" style="background:${st?st.color:'#ccc'}"></span>${st?esc(st.name):'—'}</span></td><td>${esc(personName(j.preparerId))}</td><td class="num">${jobHours(j).toFixed(1)}</td><td class="num">${money(jobCost(j))}</td><td class="${od?'due overdue':''}">${j.dueDate?fmtDate(j.dueDate):'—'}</td><td>${j.invoice?'<span class="tag billed">Billed</span>':'—'}</td></tr>`;}).join(""):`<tr class="nohover"><td colspan="7" class="muted">No work items yet. <a href="#" onclick="newJobForProject('${p.id}');return false">Add one</a>.</td></tr>`;
+  const jobsPanel=`<div class="panel"><h3>Work / tasks in this project (${jobs.length})</h3><div class="listwrap"><table><thead><tr><th class="nosort">Work</th><th class="nosort">Status</th><th class="nosort">Preparer</th><th class="nosort num">Hours</th><th class="nosort num">Value</th><th class="nosort">Due</th><th class="nosort">Billing</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+  $("projectPageView").innerHTML=header+stats+jobsPanel;
+}
+function viewProjectJobs(pid){const p=projectById(pid);if(!p)return;fsel={client:[p.clientId],owner:[],preparer:[],status:[],tag:[],project:[pid]};$("search").value="";myWorkOnly=false;$("myWorkBtn").classList.remove("active");setView("work");renderFilters();renderView();}
+function newJobForProject(pid){const p=projectById(pid);openDetail(null,p?p.clientId:"",pid);}
+
+/* Project modal */
+function projectClientOpts(sel){return [...state.clients].sort((a,b)=>a.name.localeCompare(b.name)).map(c=>`<option value="${c.id}" ${sel===c.id?"selected":""}>${esc(c.name)}</option>`).join("");}
+function openProject(id,presetClientId){
+  currentProjectId=id;const pr=id?projectById(id):null;
+  $("projectTitle").textContent=pr?pr.name:"New Project";$("projectDelete").style.display=pr?"inline-flex":"none";
+  const g=pr||{};
+  $("projectBody").innerHTML=`
+    <div class="field"><label>Project name</label><input id="pr_name" type="text" value="${esc(g.name||"")}" placeholder="e.g. 2025 Tax Return"></div>
+    <div class="field"><label>Client</label><select id="pr_client">${projectClientOpts(g.clientId||presetClientId||"")}</select></div>
+    <div class="field"><label>Description</label><textarea id="pr_desc" placeholder="What this engagement covers…">${esc(g.description||"")}</textarea></div>`;
+  $("projectOverlay").classList.add("open");
+}
+function closeProject(){$("projectOverlay").classList.remove("open");currentProjectId=null;}
+function saveProject(){const name=$("pr_name").value.trim();if(!name){toast("Project name is required");return;}const clientId=$("pr_client").value;if(!clientId){toast("Pick a client");return;}const data={name,clientId,description:$("pr_desc").value};if(currentProjectId){Object.assign(projectById(currentProjectId),data);}else{state.projects.push({id:uid(),...data});}persist();buildFilterOptions();renderView();closeProject();toast("Project saved");}
+function deleteProject(){if(!currentProjectId)return;const n=jobsOfProject(currentProjectId).length;if(n){toast(`This project has ${n} work item(s). Reassign or delete them first.`);return;}if(!confirm("Delete this project?"))return;state.projects=state.projects.filter(p=>p.id!==currentProjectId);persist();buildFilterOptions();renderView();closeProject();toast("Project deleted");}
+function newProjectForClient(cid){if(view==="clientPage"){/* stay */}openProject(null,cid);}
+
+/* ============================ WORK ITEM FULL PAGE + DEEP LINK ============================ */
+let currentPageJobId=null;
+function openWorkPage(id){
+  const j=state.jobs.find(x=>x.id===id); if(!j){toast("Work item not found");setView("work");return;}
+  view="workPage"; currentPageJobId=id; setNav("work"); hideAllViews();
+  $("workPageView").style.display="block"; $("viewTitle").textContent="Work item"; $("topActions").innerHTML="";
+  if(location.hash!=="#work/"+id) history.replaceState(null,"","#work/"+id);
+  closeSidebar(); renderWorkPage();
+}
+function expandDetail(){ const j=commitDetail(); if(!j)return; closeDetail(); openWorkPage(j.id); }
+function copyWorkLink(id){
+  id=id||currentId||currentPageJobId; if(!id){ const j=commitDetail(); if(!j)return; id=j.id; }
+  const url=location.origin+location.pathname+"#work/"+id;
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(()=>toast("Link copied to clipboard")).catch(()=>prompt("Copy this link:",url)); }
+  else prompt("Copy this link:",url);
+}
+function toggleJobCheck(id,i){ const j=state.jobs.find(x=>x.id===id); if(!j)return; j.checklist[i].done=!j.checklist[i].done; persist(); renderWorkPage(); }
+function quickLogTime(id){
+  const j=state.jobs.find(x=>x.id===id); if(!j)return;
+  const h=parseFloat($("qt_hours").value)||0; if(!h){toast("Enter hours");return;}
+  j.timeEntries=j.timeEntries||[]; j.timeEntries.push({id:uid(),personId:$("qt_person").value,date:$("qt_date").value||todayISO(),hours:h,note:$("qt_note").value});
+  logHistory(j,"Logged "+h+"h"); persist(); renderWorkPage(); toast("Time logged");
+}
+function addComment(id){
+  const j=state.jobs.find(x=>x.id===id); if(!j)return;
+  const t=($("cm_text").value||"").trim(); if(!t){toast("Write a comment first");return;}
+  j.comments=j.comments||[]; j.comments.push({id:uid(),by:state.currentUserId||"",text:t,at:nowISO()});
+  persist(); renderWorkPage(); toast("Comment added");
+}
+function handleHash(){ const m=(location.hash||"").match(/^#work\/(.+)$/); if(m&&state){ const id=decodeURIComponent(m[1]); if(state.jobs.find(x=>x.id===id)){ openWorkPage(id); return true; } } return false; }
+function renderWorkPage(){
+  const j=state.jobs.find(x=>x.id===currentPageJobId); if(!j){ setView("work"); return; }
+  const st=statusById(j.statusId), c=clientById(j.clientId)||{name:"—"}, pr=projectById(j.projectId);
+  const du=daysUntil(j.dueDate), od=du!==null&&du<0&&!isComplete(j);
+  const header=`<button class="btn sm" onclick="setView('work')">← Work Tracking</button>
+    <div class="cp-head"><div class="cp-avatar" style="background:${st?st.color:'var(--accent)'}">${esc((j.entityType||'W')[0].toUpperCase())}</div>
+      <div><h2>${esc(c.name)}</h2><div class="sub">${pr?`<a href="#" onclick="openProjectPage('${pr.id}');return false">${esc(pr.name)}</a> · `:""}${esc(j.entityType||"Work item")} · TY ${esc(j.taxYear||"")}</div></div>
+      <div class="cp-actions"><button class="btn sm" onclick="copyWorkLink('${j.id}')">🔗 Copy link</button><button class="btn sm" onclick="openDetail('${j.id}')">✎ Edit</button></div></div>`;
+  const badges=`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px"><span class="status-badge"><span class="d" style="background:${st?st.color:'#ccc'}"></span>${st?esc(st.name):'—'}</span><span class="prio ${j.priority}">${j.priority}</span>${j.dueDate?`<span class="due ${od?'overdue':''}">📅 ${fmtDate(j.dueDate)}</span>`:""}${j.invoice?`<span class="tag billed">💵 ${esc(j.invoice.number)}</span>`:""}</div>`;
+  const people=`<div class="panel"><h3>Assignment</h3><div class="kv"><div class="k">Client</div><div class="v"><a href="#" onclick="openClientPage('${j.clientId}');return false">${esc(c.name)}</a></div><div class="k">Project</div><div class="v">${pr?`<a href="#" onclick="openProjectPage('${pr.id}');return false">${esc(pr.name)}</a>`:"—"}</div><div class="k">Account owner</div><div class="v">${esc(personName(j.ownerId))}</div><div class="k">Preparer</div><div class="v">${esc(personName(j.preparerId))}</div><div class="k">Working on it</div><div class="v">${esc(personName(j.workerId))}</div><div class="k">Tags</div><div class="v">${(j.tags||[]).map(t=>`<span class="tag gray">${esc(t)}</span>`).join(" ")||"—"}</div></div></div>`;
+  const details=`<div class="panel"><h3>Details</h3><div style="white-space:pre-wrap">${esc(j.details||"—")}</div>${j.notes?`<div class="section-label">Internal notes</div><div style="white-space:pre-wrap">${esc(j.notes)}</div>`:""}</div>`;
+  const chk=(j.checklist||[]);
+  const chkRows=chk.map((c2,i)=>`<label class="ms-opt" style="cursor:pointer"><input type="checkbox" ${c2.done?"checked":""} onchange="toggleJobCheck('${j.id}',${i})"> ${esc(c2.text)}</label>`).join("")||`<div class="muted">No steps.</div>`;
+  const chkPanel=`<div class="panel"><h3>Checklist (${chk.filter(x=>x.done).length}/${chk.length})</h3>${chkRows}</div>`;
+  const teRows=(j.timeEntries||[]).slice().sort((a,b)=>(b.date||"").localeCompare(a.date||"")).map(t=>`<tr class="nohover"><td>${t.date?fmtDate(t.date):"—"}</td><td>${esc(personName(t.personId))}</td><td>${esc(t.note||"")}</td><td class="num">${(Number(t.hours)||0).toFixed(2)}</td></tr>`).join("");
+  const timePanel=`<div class="panel"><h3>Time — ${jobHours(j).toFixed(2)} hrs · ${money(jobCost(j))}</h3><div class="listwrap" style="margin-bottom:10px"><table><thead><tr><th class="nosort">Date</th><th class="nosort">Person</th><th class="nosort">Notes</th><th class="nosort num">Hours</th></tr></thead><tbody>${teRows||`<tr class="nohover"><td colspan="4" class="muted">No time logged.</td></tr>`}</tbody></table></div><div class="tl-row"><select id="qt_person">${state.people.map(p=>`<option value="${p.id}" ${p.id===state.currentUserId?"selected":""}>${esc(p.name)}</option>`).join("")}</select><input id="qt_date" type="date" value="${todayISO()}"><input id="qt_hours" class="hrs" type="number" step="0.25" min="0" placeholder="hrs"><input id="qt_note" class="note" type="text" placeholder="What did you do?"><button class="btn sm primary" onclick="quickLogTime('${j.id}')">Log</button></div></div>`;
+  const billPanel=`<div class="panel"><h3>Billing</h3>${j.invoice?`Invoiced <b>${esc(j.invoice.number)}</b> · ${fmtDate(j.invoice.date)} · <b>${money(j.invoice.total)}</b>`:`Not billed yet.`}<div style="margin-top:8px"><button class="btn sm" onclick="openDetail('${j.id}')">Open editor to bill</button></div></div>`;
+  const comments=(j.comments||[]).slice().sort((a,b)=>(b.at||"").localeCompare(a.at||""));
+  const cmRows=comments.map(cm=>`<div style="padding:9px 0;border-bottom:1px solid var(--surface-2)"><div style="font-size:12px;color:var(--muted)"><b style="color:var(--text)">${esc(personName(cm.by))}</b> · ${fmtDateTime(cm.at)}</div><div style="white-space:pre-wrap;margin-top:2px">${esc(cm.text)}</div></div>`).join("")||`<div class="muted">No comments yet.</div>`;
+  const cmPanel=`<div class="panel"><h3>Comments</h3><div style="display:flex;gap:8px;margin-bottom:10px;align-items:flex-start"><textarea id="cm_text" placeholder="Add a comment…" style="flex:1;min-height:42px;border:1px solid var(--border);border-radius:8px;padding:8px;background:var(--surface);color:var(--text)"></textarea><button class="btn primary" onclick="addComment('${j.id}')">Post</button></div>${cmRows}</div>`;
+  const hist=(j.history||[]).slice().sort((a,b)=>(b.at||"").localeCompare(a.at||""));
+  const hRows=hist.map(h=>`<div style="padding:6px 0;font-size:12.5px;color:var(--muted)"><b style="color:var(--text)">${esc(h.text)}</b> — ${esc(personName(h.by))} · ${fmtDateTime(h.at)}</div>`).join("")||`<div class="muted">No history.</div>`;
+  const hPanel=`<div class="panel"><h3>Activity history</h3>${hRows}</div>`;
+  const atts=(j.attachments||[]);
+  const attPanel=atts.length?`<div class="panel"><h3>Attachments</h3>${atts.map(a=>`<div class="attach"><div class="fi">${esc((a.name.split(".").pop()||"?").slice(0,4).toUpperCase())}</div><div><div class="nm">${esc(a.name)}</div><div class="sz">${fmtSize(a.size)}</div></div><div class="acts"><a class="btn sm" href="${a.dataUrl}" download="${esc(a.name)}">Download</a></div></div>`).join("")}</div>`:"";
+  $("workPageView").innerHTML=header+badges+people+details+chkPanel+timePanel+billPanel+attPanel+cmPanel+hPanel;
+}
+
+/* ============================ TEAM & CAPACITY ============================ */
+function renderTeam(){
+  const totCap=state.people.reduce((s,p)=>s+(Number(p.weeklyCapacity)||0),0);
+  const totOpen=state.jobs.filter(j=>!isComplete(j)).length;
+  const onPto=state.people.filter(onPtoNow).length;
+  const stat=(v,l,acc)=>`<div class="stat ${acc?'accent':''}"><div class="v">${v}</div><div class="l">${l}</div></div>`;
+  const head=`<div class="stat-grid">${stat(state.people.length,"Team members")}${stat(totCap+" h","Weekly capacity",1)}${stat(totOpen,"Open work items")}${stat(onPto,"Out today")}</div>`;
+  const cards=state.people.map(p=>{
+    const av=p.avatar?`background-image:url('${p.avatar}')`:"";
+    const pto=(p.pto||[]).slice().sort((a,b)=>(a.start||"").localeCompare(b.start||""));
+    const ptoRows=pto.map(x=>`<div style="display:flex;align-items:center;gap:10px;font-size:13px;padding:5px 0;border-bottom:1px solid var(--surface-2)"><span>${fmtDate(x.start)} – ${fmtDate(x.end||x.start)}</span><span class="muted">${esc(x.note||"")}</span><button class="btn sm danger" style="margin-left:auto;padding:2px 8px" onclick="removePTO('${p.id}','${x.id}')">Remove</button></div>`).join("")||`<div class="muted" style="font-size:12.5px">No PTO scheduled.</div>`;
+    return `<div class="panel">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="person-av" style="${av}">${p.avatar?"":initials(p.name)}</div>
+        <div><div style="font-weight:700;font-size:15px">${esc(p.name)} ${onPtoNow(p)?'<span class="tag" style="background:#fde8e8;color:#c02626">Out today</span>':''}</div>
+          <input type="text" value="${esc(p.role||"")}" placeholder="Role / title" onchange="setTeamField('${p.id}','role',this.value)" style="border:none;background:none;color:var(--muted);font-size:12.5px;padding:2px 0;width:180px"></div>
+        <div style="margin-left:auto;display:flex;gap:18px;text-align:right;flex-wrap:wrap">
+          <div><div class="muted" style="font-size:10.5px">CAPACITY/WK</div><div><input type="number" min="0" step="1" value="${p.weeklyCapacity||0}" onchange="setTeamField('${p.id}','weeklyCapacity',parseFloat(this.value)||0)" style="width:58px;border:1px solid var(--border);border-radius:6px;padding:4px;background:var(--surface);color:var(--text);text-align:right"> h</div></div>
+          <div><div class="muted" style="font-size:10.5px">RATE</div><div style="font-weight:700">${money(p.rate)}</div></div>
+          <div><div class="muted" style="font-size:10.5px">OPEN</div><div style="font-weight:700">${openAssignedCount(p.id)}</div></div>
+          <div><div class="muted" style="font-size:10.5px">TRACKED</div><div style="font-weight:700">${personTrackedHours(p.id).toFixed(1)}h</div></div>
+          <div><div class="muted" style="font-size:10.5px">PTO AHEAD</div><div style="font-weight:700">${ptoUpcomingDays(p)}d</div></div>
+        </div>
+      </div>
+      <div class="section-label">Time off (PTO)</div>${ptoRows}
+      <div class="tl-row" style="margin-top:10px"><input id="pto_s_${p.id}" type="date"><span class="muted">to</span><input id="pto_e_${p.id}" type="date"><input id="pto_n_${p.id}" class="note" type="text" placeholder="Note (e.g. Vacation)"><button class="btn sm primary" onclick="addPTO('${p.id}')">+ Add PTO</button></div>
+    </div>`;
+  }).join("");
+  $("teamView").innerHTML=head+cards;
+}
+function setTeamField(id,f,v){ personById(id)[f]=v; persist(); buildFilterOptions(); if(view==="team")renderTeam(); }
+function addPTO(id){ const s=$("pto_s_"+id).value,e=$("pto_e_"+id).value,n=$("pto_n_"+id).value; if(!s){toast("Pick a start date");return;} const p=personById(id); p.pto=p.pto||[]; p.pto.push({id:uid(),start:s,end:e||s,note:n}); persist(); renderTeam(); toast("PTO added"); }
+function removePTO(id,ptoId){ const p=personById(id); p.pto=(p.pto||[]).filter(x=>x.id!==ptoId); persist(); renderTeam(); }
+function addTeamMember(){ const n=prompt("Team member name:"); if(!n||!n.trim())return; state.people.push({id:uid(),name:n.trim(),role:"",rate:0,weeklyCapacity:40,pto:[]}); persist(); buildFilterOptions(); renderTeam(); toast("Member added"); }
+
+/* ============================ REPORTS ============================ */
+function renderReports(){
+  const jobs=state.jobs;
+  const totalHours=jobs.reduce((s,j)=>s+jobHours(j),0);
+  const totalValue=jobs.reduce((s,j)=>s+jobCost(j),0);
+  const billed=jobs.filter(j=>j.invoice).reduce((s,j)=>s+(Number(j.invoice.total)||0),0);
+  const unbilled=jobs.filter(j=>!j.invoice).reduce((s,j)=>s+jobCost(j),0);
+  const openCount=jobs.filter(j=>!isComplete(j)).length;
+  const overdue=jobs.filter(j=>j.dueDate&&daysUntil(j.dueDate)<0&&!isComplete(j)).length;
+  const stat=(v,l,acc)=>`<div class="stat ${acc?'accent':''}"><div class="v">${v}</div><div class="l">${l}</div></div>`;
+  const stats=`<div class="stat-grid">
+    ${stat(jobs.length,"Total jobs")}
+    ${stat(openCount,"Open jobs")}
+    ${stat(overdue,"Overdue")}
+    ${stat(totalHours.toFixed(1),"Billable hours",1)}
+    ${stat(money(totalValue),"Billable value",1)}
+    ${stat(money(billed),"Billed to date")}
+    ${stat(money(unbilled),"Unbilled value")}
+  </div>`;
+
+  // By person
+  const per=state.people.map(p=>{let hrs=0,val=0,set=new Set();
+    jobs.forEach(j=>(j.timeEntries||[]).forEach(t=>{if(t.personId===p.id){const h=Number(t.hours)||0;hrs+=h;val+=h*(Number(p.rate)||0);set.add(j.id);}}));
+    return {p,hrs,val,jobs:set.size};}).filter(x=>x.hrs>0).sort((a,b)=>b.val-a.val);
+  const perRows=per.map(x=>`<tr class="nohover"><td>${esc(x.p.name)}</td><td class="num">${money(x.p.rate)}/hr</td><td class="num">${x.jobs}</td><td class="num">${x.hrs.toFixed(2)}</td><td class="num">${money(x.val)}</td></tr>`).join("");
+  const perTotal=`<tr><td>Total</td><td></td><td class="num"></td><td class="num">${per.reduce((s,x)=>s+x.hrs,0).toFixed(2)}</td><td class="num">${money(per.reduce((s,x)=>s+x.val,0))}</td></tr>`;
+  const byPerson=`<div class="report-sec"><h3>Billable hours by person</h3><div class="listwrap"><table>
+    <thead><tr><th class="nosort">Person</th><th class="nosort num">Rate</th><th class="nosort num">Jobs</th><th class="nosort num">Hours</th><th class="nosort num">Value</th></tr></thead>
+    <tbody>${perRows||`<tr class="nohover"><td colspan="5" class="muted">No time logged yet.</td></tr>`}</tbody><tfoot>${per.length?perTotal:""}</tfoot></table></div></div>`;
+
+  // By client
+  const byC=state.clients.map(c=>{const js=jobs.filter(j=>j.clientId===c.id);const hrs=js.reduce((s,j)=>s+jobHours(j),0);
+    return {c,jobs:js.length,hrs,val:js.reduce((s,j)=>s+jobCost(j),0),billed:js.filter(j=>j.invoice).reduce((s,j)=>s+(Number(j.invoice.total)||0),0)};})
+    .filter(x=>x.jobs>0).sort((a,b)=>b.val-a.val);
+  const cRows=byC.map(x=>`<tr class="nohover"><td>${esc(x.c.name)}</td><td class="num">${x.jobs}</td><td class="num">${x.hrs.toFixed(1)}</td><td class="num">${money(x.val)}</td><td class="num">${money(x.billed)}</td><td class="num">${money(Math.max(0,x.val-x.billed))}</td></tr>`).join("");
+  const byClient=`<div class="report-sec"><h3>Work &amp; billing by client</h3><div class="listwrap"><table>
+    <thead><tr><th class="nosort">Client</th><th class="nosort num">Jobs</th><th class="nosort num">Hours</th><th class="nosort num">Billable</th><th class="nosort num">Billed</th><th class="nosort num">Unbilled</th></tr></thead>
+    <tbody>${cRows||`<tr class="nohover"><td colspan="6" class="muted">No jobs yet.</td></tr>`}</tbody></table></div></div>`;
+
+  // By status
+  const byS=sortedStatuses().map(s=>{const js=jobs.filter(j=>j.statusId===s.id);return {s,n:js.length,hrs:js.reduce((a,j)=>a+jobHours(j),0)};});
+  const sRows=byS.map(x=>`<tr class="nohover"><td><span class="status-badge"><span class="d" style="background:${x.s.color}"></span>${esc(x.s.name)}</span></td><td class="num">${x.n}</td><td class="num">${x.hrs.toFixed(1)}</td></tr>`).join("");
+  const byStatus=`<div class="report-sec"><h3>Jobs by status (pipeline)</h3><div class="listwrap"><table><thead><tr><th class="nosort">Status</th><th class="nosort num">Jobs</th><th class="nosort num">Hours</th></tr></thead><tbody>${sRows}</tbody></table></div></div>`;
+
+  // Unbilled work
+  const unb=jobs.filter(j=>!j.invoice&&jobHours(j)>0).sort((a,b)=>jobCost(b)-jobCost(a));
+  const uRows=unb.map(j=>`<tr onclick="openDetail('${j.id}')"><td><div class="client">${esc(clientName(j.clientId))}</div><div class="sub">${esc(j.entityType)} · TY ${esc(j.taxYear||"")}</div></td><td class="num">${jobHours(j).toFixed(1)}</td><td class="num">${money(jobCost(j))}</td><td>${j.dueDate?fmtDate(j.dueDate):"—"}</td></tr>`).join("");
+  const unbilledTbl=`<div class="report-sec"><h3>Unbilled work (ready to invoice)</h3><div class="listwrap"><table><thead><tr><th class="nosort">Job</th><th class="nosort num">Hours</th><th class="nosort num">Value</th><th class="nosort">Due</th></tr></thead><tbody>${uRows||`<tr class="nohover"><td colspan="4" class="muted">Nothing outstanding — all tracked time is billed.</td></tr>`}</tbody></table></div></div>`;
+
+  // Upcoming deadlines
+  const up=jobs.filter(j=>j.dueDate&&!isComplete(j)).sort((a,b)=>a.dueDate.localeCompare(b.dueDate)).slice(0,8);
+  const upRows=up.map(j=>{const du=daysUntil(j.dueDate),od=du<0;return `<tr onclick="openDetail('${j.id}')"><td><div class="client">${esc(clientName(j.clientId))}</div><div class="sub">${esc(j.entityType)}</div></td><td class="${od?'due overdue':''}">${fmtDate(j.dueDate)}${od?` (${-du}d late)`:du===0?" (today)":` (${du}d)`}</td><td>${esc(personName(j.preparerId))}</td></tr>`;}).join("");
+  const deadlines=`<div class="report-sec"><h3>Upcoming deadlines</h3><div class="listwrap"><table><thead><tr><th class="nosort">Job</th><th class="nosort">Due</th><th class="nosort">Preparer</th></tr></thead><tbody>${upRows||`<tr class="nohover"><td colspan="3" class="muted">No dated jobs.</td></tr>`}</tbody></table></div></div>`;
+
+  $("reportsView").innerHTML=stats+byPerson+byClient+byStatus+unbilledTbl+deadlines;
+}
 
 /* ============================ DRAG & DROP ============================ */
 let dragId=null;
 function cardDrag(e,id){dragId=id;e.dataTransfer.effectAllowed="move";}
 function colDragOver(e){e.preventDefault();e.currentTarget.querySelector(".col-body").classList.add("drag-over");}
 function colDragLeave(e){e.currentTarget.querySelector(".col-body").classList.remove("drag-over");}
-function colDrop(e,statusId){ e.preventDefault(); e.currentTarget.querySelector(".col-body").classList.remove("drag-over");
-  const r=state.jobs.find(x=>x.id===dragId); if(r&&r.statusId!==statusId){r.statusId=statusId;r.updatedAt=nowISO();persist();renderView();} dragId=null; }
+function colDrop(e,statusId){e.preventDefault();e.currentTarget.querySelector(".col-body").classList.remove("drag-over");const r=state.jobs.find(x=>x.id===dragId);if(r&&r.statusId!==statusId){r.statusId=statusId;r.updatedAt=nowISO();logHistory(r,"Moved to "+(statusById(statusId)?statusById(statusId).name:""));persist();renderView();}dragId=null;}
 
 /* ============================ JOB DETAIL ============================ */
-function clientOpts(sel){ return [...state.clients].sort((a,b)=>a.name.localeCompare(b.name)).map(c=>`<option value="${c.id}" ${sel===c.id?"selected":""}>${esc(c.name)}</option>`).join(""); }
-function openDetail(id,presetClientId){
+function clientOpts(sel){return [...state.clients].sort((a,b)=>a.name.localeCompare(b.name)).map(c=>`<option value="${c.id}" ${sel===c.id?"selected":""}>${esc(c.name)}</option>`).join("");}
+function projOptsFor(clientId,sel){const ps=state.projects.filter(p=>p.clientId===clientId);return `<option value="">— none —</option>`+ps.map(p=>`<option value="${p.id}" ${sel===p.id?"selected":""}>${esc(p.name)}</option>`).join("");}
+function onDetailClientChange(){ $("d_project").innerHTML=projOptsFor($("d_client").value,""); }
+function quickAddProject(){ const cid=$("d_client").value; if(!cid){toast("Pick a client first");return;} const n=prompt("New project name:"); if(!n||!n.trim())return; const pr={id:uid(),clientId:cid,name:n.trim(),description:""}; state.projects.push(pr); persist(); buildFilterOptions(); $("d_project").innerHTML=projOptsFor(cid,pr.id); toast("Project added"); }
+function openDetail(id,presetClientId,presetProjectId){
   currentId=id;
   const r=id?state.jobs.find(x=>x.id===id):null;
   draftAttachments=r?JSON.parse(JSON.stringify(r.attachments||[])):[];
@@ -658,173 +1077,102 @@ function openDetail(id,presetClientId){
   const peopleOpts=(sel)=>state.people.map(p=>`<option value="${p.id}" ${sel===p.id?"selected":""}>${esc(p.name)}</option>`).join("");
   const statusOpts=(sel)=>sortedStatuses().map(s=>`<option value="${s.id}" ${sel===s.id?"selected":""}>${esc(s.name)}</option>`).join("");
   const prioOpts=(sel)=>["High","Medium","Low"].map(p=>`<option ${sel===p?"selected":""}>${p}</option>`).join("");
-  const g=r||{}; const cliSel=g.clientId||presetClientId||"";
+  const g=r||{}; const cliSel=g.clientId||presetClientId||""; const projSel=g.projectId||presetProjectId||"";
   $("detailBody").innerHTML=`
-    <div class="field"><label>Client</label>
-      <div style="display:flex;gap:8px"><select id="d_client" style="flex:1">${clientOpts(cliSel)}</select>
-      <button class="btn sm" type="button" onclick="quickAddClient()">+ New</button></div></div>
     <div class="grid2">
-      <div class="field"><label>Service / form</label><input id="d_entity" type="text" value="${esc(g.entityType||"")}" placeholder="1040, 1120-S, 1065…"></div>
-      <div class="field"><label>Tax year</label><input id="d_year" type="text" value="${esc(g.taxYear||"2025")}"></div>
+      <div class="field"><label>Client</label><div style="display:flex;gap:8px"><select id="d_client" style="flex:1" onchange="onDetailClientChange()">${clientOpts(cliSel)}</select><button class="btn sm" type="button" onclick="quickAddClient()">+</button></div></div>
+      <div class="field"><label>Project</label><div style="display:flex;gap:8px"><select id="d_project" style="flex:1">${projOptsFor(cliSel,projSel)}</select><button class="btn sm" type="button" onclick="quickAddProject()">+</button></div></div>
     </div>
-    <div class="grid3">
-      <div class="field"><label>Status</label><select id="d_status">${statusOpts(g.statusId)}</select></div>
-      <div class="field"><label>Priority</label><select id="d_prio">${prioOpts(g.priority||"Medium")}</select></div>
-      <div class="field"><label>Due date</label><input id="d_due" type="date" value="${esc(g.dueDate||"")}"></div>
-    </div>
-    <div class="grid3">
-      <div class="field"><label>Account owner</label><select id="d_owner"><option value="">—</option>${peopleOpts(g.ownerId)}</select></div>
-      <div class="field"><label>Preparer</label><select id="d_prep"><option value="">—</option>${peopleOpts(g.preparerId)}</select></div>
-      <div class="field"><label>Working on it</label><select id="d_work"><option value="">—</option>${peopleOpts(g.workerId)}</select></div>
-    </div>
+    <div class="grid2"><div class="field"><label>Service / form</label><input id="d_entity" type="text" value="${esc(g.entityType||"")}" placeholder="1040, 1120-S…"></div><div class="field"><label>Tax year</label><input id="d_year" type="text" value="${esc(g.taxYear||"2025")}"></div></div>
+    <div class="grid3"><div class="field"><label>Status</label><select id="d_status">${statusOpts(g.statusId)}</select></div><div class="field"><label>Priority</label><select id="d_prio">${prioOpts(g.priority||"Medium")}</select></div><div class="field"><label>Due date</label><input id="d_due" type="date" value="${esc(g.dueDate||"")}"></div></div>
+    <div class="grid3"><div class="field"><label>Account owner</label><select id="d_owner"><option value="">—</option>${peopleOpts(g.ownerId)}</select></div><div class="field"><label>Preparer</label><select id="d_prep"><option value="">—</option>${peopleOpts(g.preparerId)}</select></div><div class="field"><label>Working on it</label><select id="d_work"><option value="">—</option>${peopleOpts(g.workerId)}</select></div></div>
     <div class="section-label">Tags</div><div id="tagRow" class="tagrow"></div>
-    <div class="section-label">Details</div>
-    <div class="field"><textarea id="d_details" placeholder="Scope, engagement notes…">${esc(g.details||"")}</textarea></div>
-    <div class="section-label">Checklist / preparation steps</div><div id="chkList"></div>
-    <button class="btn sm" style="margin-top:8px" onclick="addCheck()">+ Add step</button>
-    <div class="section-label">Time entries</div>
-    <div class="hint" style="margin-bottom:8px">Record hours worked toward this job. Billed at each person's rate.</div>
-    <div id="timeList"></div>
-    <button class="btn sm" style="margin-top:4px" onclick="addTime()">+ Add time</button>
-    <div class="totbox" id="timeTotal"></div>
+    <div class="section-label">Details</div><div class="field"><textarea id="d_details" placeholder="Scope, engagement notes…">${esc(g.details||"")}</textarea></div>
+    <div class="section-label">Checklist / preparation steps</div><div id="chkList"></div><button class="btn sm" style="margin-top:8px" onclick="addCheck()">+ Add step</button>
+    <div class="section-label">Time entries</div><div class="hint" style="margin-bottom:8px">Record hours worked toward this job. Billed at each person's rate.</div><div id="timeList"></div><button class="btn sm" style="margin-top:4px" onclick="addTime()">+ Add time</button><div class="totbox" id="timeTotal"></div>
     <div class="section-label">Billing</div><div id="billInfo"></div>
-    <div class="section-label">Attachments</div><div id="attList"></div>
-    <div id="attDrop" class="dropzone" onclick="document.getElementById('attFile').click()"><b>Drop files here or click to attach</b><div class="hint">Stored with the job. Keep demo files small.</div></div>
-    <input id="attFile" type="file" multiple style="display:none" onchange="attChosen(event)">
-    <div class="section-label">Internal notes</div>
-    <div class="field"><textarea id="d_notes" placeholder="Anything the team should know…">${esc(g.notes||"")}</textarea></div>`;
-  renderTags(); renderChecklist(); renderTime(); renderAttachments(); renderBillInfo(); setupAttDrop();
+    <div class="section-label">Attachments</div><div id="attList"></div><div id="attDrop" class="dropzone" onclick="document.getElementById('attFile').click()"><b>Drop files here or click to attach</b><div class="hint">Stored with the job.</div></div><input id="attFile" type="file" multiple style="display:none" onchange="attChosen(event)">
+    <div class="section-label">Internal notes</div><div class="field"><textarea id="d_notes" placeholder="Anything the team should know…">${esc(g.notes||"")}</textarea></div>`;
+  renderTags();renderChecklist();renderTime();renderAttachments();renderBillInfo();setupAttDrop();
   $("detailOverlay").classList.add("open");
 }
 function closeDetail(){ $("detailOverlay").classList.remove("open"); currentId=null; }
-function quickAddClient(){
-  const n=prompt("New client name:"); if(!n||!n.trim())return;
-  const c={id:uid(),name:n.trim(),contactName:"",email:"",phone:"",address:"",notes:""};
-  state.clients.push(c); persist(); buildFilterOptions();
-  const sel=$("d_client"); sel.innerHTML=clientOpts(c.id); toast("Client added");
-}
-function renderTags(){ $("tagRow").innerHTML=draftTags.map((t,i)=>`<span class="tag-pill">${esc(t)}<button onclick="rmTag(${i})">×</button></span>`).join("")+`<input class="tag-input" id="tagInput" placeholder="+ tag, Enter" onkeydown="tagKey(event)">`; }
-function tagKey(e){ if(e.key==="Enter"){e.preventDefault();const v=e.target.value.trim();if(v&&!draftTags.includes(v)){draftTags.push(v);renderTags();$("tagInput").focus();}} }
-function rmTag(i){ draftTags.splice(i,1); renderTags(); }
-function renderChecklist(){ $("chkList").innerHTML=draftChecklist.map((c,i)=>`<div class="check-item ${c.done?'done':''}"><input type="checkbox" ${c.done?"checked":""} onchange="toggleCheck(${i})"><input type="text" value="${esc(c.text)}" oninput="editCheck(${i},this.value)" placeholder="Step…"><button class="del" onclick="rmCheck(${i})">×</button></div>`).join(""); }
-function addCheck(){ draftChecklist.push({text:"",done:false}); renderChecklist(); }
-function toggleCheck(i){ draftChecklist[i].done=!draftChecklist[i].done; renderChecklist(); }
-function editCheck(i,v){ draftChecklist[i].text=v; }
-function rmCheck(i){ draftChecklist.splice(i,1); renderChecklist(); }
-
-function peopleTimeOpts(sel){ return `<option value="">— who —</option>`+state.people.map(p=>`<option value="${p.id}" ${sel===p.id?"selected":""}>${esc(p.name)} ($${p.rate||0})</option>`).join(""); }
+function quickAddClient(){const n=prompt("New client name:");if(!n||!n.trim())return;const c={id:uid(),name:n.trim(),contactName:"",email:"",phone:"",address:"",notes:""};state.clients.push(c);persist();buildFilterOptions();$("d_client").innerHTML=clientOpts(c.id);toast("Client added");}
+function renderTags(){$("tagRow").innerHTML=draftTags.map((t,i)=>`<span class="tag-pill">${esc(t)}<button onclick="rmTag(${i})">×</button></span>`).join("")+`<input class="tag-input" id="tagInput" placeholder="+ tag, Enter" onkeydown="tagKey(event)">`;}
+function tagKey(e){if(e.key==="Enter"){e.preventDefault();const v=e.target.value.trim();if(v&&!draftTags.includes(v)){draftTags.push(v);renderTags();$("tagInput").focus();}}}
+function rmTag(i){draftTags.splice(i,1);renderTags();}
+function renderChecklist(){$("chkList").innerHTML=draftChecklist.map((c,i)=>`<div class="check-item ${c.done?'done':''}"><input type="checkbox" ${c.done?"checked":""} onchange="toggleCheck(${i})"><input type="text" value="${esc(c.text)}" oninput="editCheck(${i},this.value)" placeholder="Step…"><button class="del" onclick="rmCheck(${i})">×</button></div>`).join("");}
+function addCheck(){draftChecklist.push({text:"",done:false});renderChecklist();}
+function toggleCheck(i){draftChecklist[i].done=!draftChecklist[i].done;renderChecklist();}
+function editCheck(i,v){draftChecklist[i].text=v;}
+function rmCheck(i){draftChecklist.splice(i,1);renderChecklist();}
+function peopleTimeOpts(sel){return `<option value="">— who —</option>`+state.people.map(p=>`<option value="${p.id}" ${sel===p.id?"selected":""}>${esc(p.name)} ($${p.rate||0})</option>`).join("");}
 function renderTime(){
-  $("timeList").innerHTML=draftTime.map((t,i)=>`<div class="tl-row">
-    <select onchange="draftTime[${i}].personId=this.value;renderTimeTotal()">${peopleTimeOpts(t.personId)}</select>
-    <input type="date" value="${esc(t.date||'')}" onchange="draftTime[${i}].date=this.value">
-    <input class="hrs" type="number" step="0.25" min="0" value="${t.hours||''}" placeholder="hrs" oninput="draftTime[${i}].hours=parseFloat(this.value)||0;renderTimeTotal()">
-    <input class="note" type="text" value="${esc(t.note||'')}" placeholder="What was done" oninput="draftTime[${i}].note=this.value">
-    <button class="del" onclick="rmTime(${i})">×</button></div>`).join("");
+  $("timeList").innerHTML=draftTime.map((t,i)=>`<div class="tl-row"><select onchange="draftTime[${i}].personId=this.value;renderTimeTotal()">${peopleTimeOpts(t.personId)}</select><input type="date" value="${esc(t.date||'')}" onchange="draftTime[${i}].date=this.value"><input class="hrs" type="number" step="0.25" min="0" value="${t.hours||''}" placeholder="hrs" oninput="draftTime[${i}].hours=parseFloat(this.value)||0;renderTimeTotal()"><input class="note" type="text" value="${esc(t.note||'')}" placeholder="What was done" oninput="draftTime[${i}].note=this.value"><button class="del" onclick="rmTime(${i})">×</button></div>`).join("");
   renderTimeTotal();
 }
-function renderTimeTotal(){ let h=0,c=0; draftTime.forEach(t=>{const hh=Number(t.hours)||0;h+=hh;c+=hh*personRate(t.personId);}); $("timeTotal").innerHTML=`Total tracked: <b>${h.toFixed(2)} hrs</b> · <b>${money(c)}</b>`; }
-function addTime(){ draftTime.push({id:uid(),personId:state.people[0]?.id||"",date:todayISO(),hours:0,note:""}); renderTime(); }
-function rmTime(i){ draftTime.splice(i,1); renderTime(); }
-
+function renderTimeTotal(){let h=0,c=0;draftTime.forEach(t=>{const hh=Number(t.hours)||0;h+=hh;c+=hh*personRate(t.personId);});$("timeTotal").innerHTML=`Total tracked: <b>${h.toFixed(2)} hrs</b> · <b>${money(c)}</b>`;}
+function addTime(){draftTime.push({id:uid(),personId:state.currentUserId||state.people[0]?.id||"",date:todayISO(),hours:0,note:""});renderTime();}
+function rmTime(i){draftTime.splice(i,1);renderTime();}
 function renderBillInfo(){
   const el=$("billInfo");
-  if(!currentId){ el.innerHTML=`<div class="hint">Save the job first, then you can create a bill from tracked time.</div>`; return; }
+  if(!currentId){el.innerHTML=`<div class="hint">Save the job first, then you can create a bill from tracked time.</div>`;return;}
   const job=state.jobs.find(j=>j.id===currentId);
-  if(job&&job.invoice){
-    el.innerHTML=`<div class="totbox">Invoiced: <b>${esc(job.invoice.number)}</b> · ${fmtDate(job.invoice.date)} · <b>${money(job.invoice.total)}</b>
-      <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" onclick="openBill()">Re-create / edit bill</button></div></div>`;
-  } else {
-    el.innerHTML=`<div class="totbox">Not billed yet.<div style="margin-top:8px"><button class="btn sm primary" onclick="openBill()">💵 Create bill (PDF)</button></div></div>`;
-  }
+  if(job&&job.invoice){el.innerHTML=`<div class="totbox">Invoiced: <b>${esc(job.invoice.number)}</b> · ${fmtDate(job.invoice.date)} · <b>${money(job.invoice.total)}</b><div style="margin-top:8px"><button class="btn sm" onclick="openBill()">Re-create / edit bill</button></div></div>`;}
+  else{el.innerHTML=`<div class="totbox">Not billed yet.<div style="margin-top:8px"><button class="btn sm primary" onclick="openBill()">💵 Create bill (PDF)</button></div></div>`;}
 }
-
-function renderAttachments(){ $("attList").innerHTML=draftAttachments.map((a,i)=>`<div class="attach"><div class="fi">${esc((a.name.split(".").pop()||"?").slice(0,4).toUpperCase())}</div><div><div class="nm">${esc(a.name)}</div><div class="sz">${fmtSize(a.size)}</div></div><div class="acts"><a class="btn sm" href="${a.dataUrl}" download="${esc(a.name)}">Download</a><button class="btn sm danger" onclick="rmAtt(${i})">Remove</button></div></div>`).join(""); }
+function renderAttachments(){$("attList").innerHTML=draftAttachments.map((a,i)=>`<div class="attach"><div class="fi">${esc((a.name.split(".").pop()||"?").slice(0,4).toUpperCase())}</div><div><div class="nm">${esc(a.name)}</div><div class="sz">${fmtSize(a.size)}</div></div><div class="acts"><a class="btn sm" href="${a.dataUrl}" download="${esc(a.name)}">Download</a><button class="btn sm danger" onclick="rmAtt(${i})">Remove</button></div></div>`).join("");}
 function fmtSize(b){if(!b)return"";const u=["B","KB","MB"];let i=0,n=b;while(n>=1024&&i<2){n/=1024;i++;}return n.toFixed(n<10&&i>0?1:0)+" "+u[i];}
-function attChosen(e){ handleFiles(e.target.files); e.target.value=""; }
-function handleFiles(files){ [...files].forEach(f=>{ if(f.size>3*1024*1024){toast(`${f.name} is large (>3MB) — skipped`);return;} const rd=new FileReader(); rd.onload=()=>{draftAttachments.push({name:f.name,size:f.size,type:f.type,dataUrl:rd.result});renderAttachments();}; rd.readAsDataURL(f); }); }
-function rmAtt(i){ draftAttachments.splice(i,1); renderAttachments(); }
-function setupAttDrop(){ const dz=$("attDrop"); ["dragover","dragenter"].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add("over");})); ["dragleave","drop"].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove("over");})); dz.addEventListener("drop",e=>handleFiles(e.dataTransfer.files)); }
-
+function attChosen(e){handleFiles(e.target.files);e.target.value="";}
+function handleFiles(files){[...files].forEach(f=>{if(f.size>3*1024*1024){toast(`${f.name} is large (>3MB) — skipped`);return;}const rd=new FileReader();rd.onload=()=>{draftAttachments.push({name:f.name,size:f.size,type:f.type,dataUrl:rd.result});renderAttachments();};rd.readAsDataURL(f);});}
+function rmAtt(i){draftAttachments.splice(i,1);renderAttachments();}
+function setupAttDrop(){const dz=$("attDrop");["dragover","dragenter"].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add("over");}));["dragleave","drop"].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove("over");}));dz.addEventListener("drop",e=>handleFiles(e.dataTransfer.files));}
 function commitDetail(){
-  const clientId=$("d_client").value;
-  if(!clientId){ toast("Pick a client"); return null; }
-  const data={ clientId, entityType:$("d_entity").value.trim(), taxYear:$("d_year").value.trim(),
-    statusId:$("d_status").value, priority:$("d_prio").value, ownerId:$("d_owner").value, preparerId:$("d_prep").value, workerId:$("d_work").value,
-    dueDate:$("d_due").value, details:$("d_details").value, notes:$("d_notes").value,
-    tags:draftTags, checklist:draftChecklist.filter(c=>c.text.trim()), timeEntries:draftTime.filter(t=>t.personId||Number(t.hours)), attachments:draftAttachments, updatedAt:nowISO() };
+  const clientId=$("d_client").value; if(!clientId){toast("Pick a client");return null;}
+  const data={clientId,projectId:$("d_project").value,entityType:$("d_entity").value.trim(),taxYear:$("d_year").value.trim(),statusId:$("d_status").value,priority:$("d_prio").value,ownerId:$("d_owner").value,preparerId:$("d_prep").value,workerId:$("d_work").value,dueDate:$("d_due").value,details:$("d_details").value,notes:$("d_notes").value,tags:draftTags,checklist:draftChecklist.filter(c=>c.text.trim()),timeEntries:draftTime.filter(t=>t.personId||Number(t.hours)),attachments:draftAttachments,updatedAt:nowISO()};
   let job;
-  if(currentId){ job=state.jobs.find(x=>x.id===currentId); Object.assign(job,data); }
-  else { job={id:uid(),createdAt:nowISO(),...data}; state.jobs.push(job); currentId=job.id; }
-  persist(); return job;
+  if(currentId){job=state.jobs.find(x=>x.id===currentId);const prev=job.statusId;Object.assign(job,data);
+    if(prev!==data.statusId)logHistory(job,"Status → "+(statusById(data.statusId)?statusById(data.statusId).name:"")); else logHistory(job,"Edited details");}
+  else{job={id:uid(),createdAt:nowISO(),comments:[],history:[],...data};state.jobs.push(job);currentId=job.id;logHistory(job,"Created work item");}
+  persist();return job;
 }
-function saveDetail(){ const j=commitDetail(); if(!j)return; buildFilterOptions(); renderView(); closeDetail(); toast("Saved"); }
-function deleteCurrent(){ if(!currentId)return; if(!confirm("Delete this job?"))return; state.jobs=state.jobs.filter(x=>x.id!==currentId); persist(); buildFilterOptions(); renderView(); closeDetail(); toast("Deleted"); }
+function saveDetail(){const j=commitDetail();if(!j)return;buildFilterOptions();renderView();closeDetail();toast("Saved");}
+function deleteCurrent(){if(!currentId)return;if(!confirm("Delete this job?"))return;state.jobs=state.jobs.filter(x=>x.id!==currentId);persist();buildFilterOptions();renderView();closeDetail();toast("Deleted");}
 
 /* ============================ CLIENT MODAL ============================ */
 function openClient(id){
-  currentClientId=id;
-  const c=id?clientById(id):null;
-  $("clientTitle").textContent=c?c.name:"New Client";
-  $("clientDelete").style.display=c?"inline-flex":"none";
-  const g=c||{};
-  const jobs=c?state.jobs.filter(j=>j.clientId===c.id):[];
+  currentClientId=id;const c=id?clientById(id):null;
+  $("clientTitle").textContent=c?c.name:"New Client";$("clientDelete").style.display=c?"inline-flex":"none";
+  const g=c||{};const jobs=c?state.jobs.filter(j=>j.clientId===c.id):[];
   const jobList=jobs.length?jobs.map(j=>{const st=statusById(j.statusId);return `<div class="job-mini" onclick="openJobFromClient('${j.id}')"><span class="d" style="background:${st?st.color:'#ccc'}"></span><div><div class="jt">${esc(j.entityType||"Job")} · TY ${esc(j.taxYear||"")}</div><div class="sub">${st?esc(st.name):""}${j.invoice?" · Billed":""}</div></div><div class="mm">${jobHours(j).toFixed(1)}h · ${money(jobCost(j))}</div></div>`;}).join(""):`<div class="hint">No jobs yet.</div>`;
   $("clientBody").innerHTML=`
-    <div class="grid2">
-      <div class="field"><label>Client name</label><input id="cl_name" type="text" value="${esc(g.name||"")}" placeholder="Company or individual"></div>
-      <div class="field"><label>Primary contact</label><input id="cl_contact" type="text" value="${esc(g.contactName||"")}"></div>
-    </div>
-    <div class="grid2">
-      <div class="field"><label>Email</label><input id="cl_email" type="email" value="${esc(g.email||"")}"></div>
-      <div class="field"><label>Phone</label><input id="cl_phone" type="text" value="${esc(g.phone||"")}"></div>
-    </div>
+    <div class="grid2"><div class="field"><label>Client name</label><input id="cl_name" type="text" value="${esc(g.name||"")}" placeholder="Company or individual"></div><div class="field"><label>Primary contact</label><input id="cl_contact" type="text" value="${esc(g.contactName||"")}"></div></div>
+    <div class="grid2"><div class="field"><label>Email</label><input id="cl_email" type="email" value="${esc(g.email||"")}"></div><div class="field"><label>Phone</label><input id="cl_phone" type="text" value="${esc(g.phone||"")}"></div></div>
     <div class="field"><label>Address</label><textarea id="cl_addr" placeholder="Street&#10;City, ST ZIP">${esc(g.address||"")}</textarea></div>
     <div class="field"><label>Notes</label><textarea id="cl_notes">${esc(g.notes||"")}</textarea></div>
-    <div class="section-label">Jobs for this client ${c?`<button class="btn sm" style="float:right;margin-top:-4px" onclick="newJobForClient('${c.id}')">+ New job</button>`:""}</div>
-    ${jobList}`;
+    <div class="section-label">Jobs for this client ${c?`<span style="float:right;margin-top:-4px;display:inline-flex;gap:6px"><button class="btn sm" onclick="viewClientJobs('${c.id}')">↗ View in Work Tracking</button><button class="btn sm" onclick="newJobForClient('${c.id}')">+ New job</button></span>`:""}</div>${jobList}`;
   $("clientOverlay").classList.add("open");
 }
-function closeClient(){ $("clientOverlay").classList.remove("open"); currentClientId=null; }
-function saveClient(){
-  const name=$("cl_name").value.trim(); if(!name){ toast("Client name is required"); return; }
-  const data={name,contactName:$("cl_contact").value.trim(),email:$("cl_email").value.trim(),phone:$("cl_phone").value.trim(),address:$("cl_addr").value,notes:$("cl_notes").value};
-  if(currentClientId){ Object.assign(clientById(currentClientId),data); }
-  else { state.clients.push({id:uid(),...data}); }
-  persist(); buildFilterOptions(); renderView(); closeClient(); toast("Client saved");
-}
-function deleteClient(){
-  if(!currentClientId)return;
-  const n=state.jobs.filter(j=>j.clientId===currentClientId).length;
-  if(n){ toast(`Move or delete this client's ${n} job(s) first`); return; }
-  if(!confirm("Delete this client?"))return;
-  state.clients=state.clients.filter(c=>c.id!==currentClientId);
-  persist(); buildFilterOptions(); renderView(); closeClient(); toast("Client deleted");
-}
-function newJobForClient(cid){ closeClient(); openDetail(null,cid); }
-function openJobFromClient(jid){ closeClient(); openDetail(jid); }
+function closeClient(){$("clientOverlay").classList.remove("open");currentClientId=null;}
+function saveClient(){const name=$("cl_name").value.trim();if(!name){toast("Client name is required");return;}const data={name,contactName:$("cl_contact").value.trim(),email:$("cl_email").value.trim(),phone:$("cl_phone").value.trim(),address:$("cl_addr").value,notes:$("cl_notes").value};if(currentClientId){Object.assign(clientById(currentClientId),data);}else{state.clients.push({id:uid(),...data});}persist();buildFilterOptions();renderView();closeClient();toast("Client saved");}
+function deleteClient(){if(!currentClientId)return;const n=state.jobs.filter(j=>j.clientId===currentClientId).length;if(n){toast(`Move or delete this client's ${n} job(s) first`);return;}if(!confirm("Delete this client?"))return;state.clients=state.clients.filter(c=>c.id!==currentClientId);persist();buildFilterOptions();renderView();closeClient();toast("Client deleted");}
+function newJobForClient(cid){closeClient();openDetail(null,cid);}
+function openJobFromClient(jid){closeClient();openDetail(jid);}
+function viewClientJobs(cid){closeClient();fsel={client:[cid],project:[],owner:[],preparer:[],status:[],tag:[]};$("search").value="";myWorkOnly=false;$("myWorkBtn").classList.remove("active");setView("work");renderFilters();renderView();}
 
 /* ============================ BILLING / PDF ============================ */
 function buildInvoice(job){
-  const groups={};
-  (job.timeEntries||[]).forEach(t=>{ const hh=Number(t.hours)||0; if(!hh)return; const k=t.personId||"_"; (groups[k]=groups[k]||{hours:0}).hours+=hh; });
+  const groups={};(job.timeEntries||[]).forEach(t=>{const hh=Number(t.hours)||0;if(!hh)return;const k=t.personId||"_";(groups[k]=groups[k]||{hours:0}).hours+=hh;});
   let items=Object.entries(groups).map(([pid,g])=>({desc:`${personName(pid)} — ${job.entityType||"Professional services"} (TY ${job.taxYear||""})`,hours:g.hours,rate:personRate(pid),amount:+(g.hours*personRate(pid)).toFixed(2)}));
-  if(!items.length) items=[{desc:`${job.entityType||"Professional services"} (TY ${job.taxYear||""})`,hours:0,rate:0,amount:0}];
-  const num=(state.firm.invoicePrefix||"INV-")+(state.firm.nextNo||1001);
-  return {number:num,date:todayISO(),lineItems:items,taxRate:Number(state.firm.taxRate)||0,notes:"Thank you for your business. Payment due within 30 days."};
+  if(!items.length)items=[{desc:`${job.entityType||"Professional services"} (TY ${job.taxYear||""})`,hours:0,rate:0,amount:0}];
+  return {number:(state.firm.invoicePrefix||"INV-")+(state.firm.nextNo||1001),date:todayISO(),lineItems:items,taxRate:Number(state.firm.taxRate)||0,notes:"Thank you for your business. Payment due within 30 days."};
 }
-function openBill(){
-  const job=commitDetail(); if(!job){ return; }
-  currentBillJob=job; billInvoice=buildInvoice(job); renderBill(); $("billOverlay").classList.add("open");
-}
-function closeBill(){ $("billOverlay").classList.remove("open"); }
+function openBill(){const job=commitDetail();if(!job)return;currentBillJob=job;billInvoice=buildInvoice(job);renderBill();$("billOverlay").classList.add("open");}
+function closeBill(){$("billOverlay").classList.remove("open");}
 function renderBill(){
   const c=clientById(currentBillJob.clientId)||{};
-  $("billBody").innerHTML=`
-    <div class="hint" style="margin-bottom:12px">Line items are prefilled from tracked time. Edit as needed, then Save PDF. Firm details come from Settings → Firm &amp; billing.</div>
-    <div class="grid2">
-      <div class="field"><label>Invoice #</label><input id="bi_num" type="text" value="${esc(billInvoice.number)}"></div>
-      <div class="field"><label>Date</label><input id="bi_date" type="date" value="${esc(billInvoice.date)}"></div>
-    </div>
+  $("billBody").innerHTML=`<div class="hint" style="margin-bottom:12px">Line items are prefilled from tracked time. Edit as needed, then Save PDF. Firm details &amp; logo come from Settings.</div>
+    <div class="grid2"><div class="field"><label>Invoice #</label><input id="bi_num" type="text" value="${esc(billInvoice.number)}"></div><div class="field"><label>Date</label><input id="bi_date" type="date" value="${esc(billInvoice.date)}"></div></div>
     <div style="margin-bottom:10px"><b>Bill To:</b> ${esc(c.name||"")}${c.contactName?" — "+esc(c.contactName):""}</div>
     <table class="bill-table" style="width:100%"><thead><tr><th>Description</th><th style="width:80px">Hours</th><th style="width:90px">Rate</th><th style="text-align:right">Amount</th><th></th></tr></thead><tbody id="biBody"></tbody></table>
     <button class="btn sm" style="margin-top:8px" onclick="addBillLine()">+ Add line</button>
@@ -833,175 +1181,139 @@ function renderBill(){
     <div class="field"><label>Notes on invoice</label><textarea id="bi_notes">${esc(billInvoice.notes||"")}</textarea></div>`;
   renderBillRows();
 }
-function renderBillRows(){
-  $("biBody").innerHTML=billInvoice.lineItems.map((li,i)=>`<tr>
-    <td><input type="text" value="${esc(li.desc||'')}" style="width:100%" oninput="billInvoice.lineItems[${i}].desc=this.value"></td>
-    <td><input type="number" step="0.25" value="${li.hours||0}" style="width:70px" oninput="billInvoice.lineItems[${i}].hours=parseFloat(this.value)||0;recalcBill()"></td>
-    <td><input type="number" step="5" value="${li.rate||0}" style="width:80px" oninput="billInvoice.lineItems[${i}].rate=parseFloat(this.value)||0;recalcBill()"></td>
-    <td class="amt" style="text-align:right">${money((li.hours||0)*(li.rate||0))}</td>
-    <td><button class="del" style="border:none;background:none;color:var(--faint);cursor:pointer;font-size:16px" onclick="rmBillLine(${i})">×</button></td></tr>`).join("");
-  recalcBill();
-}
-function addBillLine(){ billInvoice.lineItems.push({desc:"",hours:0,rate:0}); renderBillRows(); }
-function rmBillLine(i){ billInvoice.lineItems.splice(i,1); renderBillRows(); }
-function recalcBill(){
-  let sub=0; billInvoice.lineItems.forEach(li=>sub+=(Number(li.hours)||0)*(Number(li.rate)||0));
-  const tr=parseFloat(($("bi_tax")||{}).value)||0; const tax=sub*tr/100, total=sub+tax;
-  document.querySelectorAll("#biBody tr").forEach((row,i)=>{const li=billInvoice.lineItems[i];const cell=row.querySelector(".amt");if(cell)cell.textContent=money((li.hours||0)*(li.rate||0));});
-  $("biTotals").innerHTML=`<div>Subtotal: <b>${money(sub)}</b></div>${tr?`<div>Tax (${tr}%): <b>${money(tax)}</b></div>`:""}<div style="font-size:16px;margin-top:4px">Total Due: <b>${money(total)}</b></div>`;
-}
+function renderBillRows(){$("biBody").innerHTML=billInvoice.lineItems.map((li,i)=>`<tr><td><input type="text" value="${esc(li.desc||'')}" style="width:100%" oninput="billInvoice.lineItems[${i}].desc=this.value"></td><td><input type="number" step="0.25" value="${li.hours||0}" style="width:70px" oninput="billInvoice.lineItems[${i}].hours=parseFloat(this.value)||0;recalcBill()"></td><td><input type="number" step="5" value="${li.rate||0}" style="width:80px" oninput="billInvoice.lineItems[${i}].rate=parseFloat(this.value)||0;recalcBill()"></td><td class="amt" style="text-align:right">${money((li.hours||0)*(li.rate||0))}</td><td><button class="del" style="border:none;background:none;color:var(--faint);cursor:pointer;font-size:16px" onclick="rmBillLine(${i})">×</button></td></tr>`).join("");recalcBill();}
+function addBillLine(){billInvoice.lineItems.push({desc:"",hours:0,rate:0});renderBillRows();}
+function rmBillLine(i){billInvoice.lineItems.splice(i,1);renderBillRows();}
+function recalcBill(){let sub=0;billInvoice.lineItems.forEach(li=>sub+=(Number(li.hours)||0)*(Number(li.rate)||0));const tr=parseFloat(($("bi_tax")||{}).value)||0;const tax=sub*tr/100,total=sub+tax;document.querySelectorAll("#biBody tr").forEach((row,i)=>{const li=billInvoice.lineItems[i];const cell=row.querySelector(".amt");if(cell)cell.textContent=money((li.hours||0)*(li.rate||0));});$("biTotals").innerHTML=`<div>Subtotal: <b>${money(sub)}</b></div>${tr?`<div>Tax (${tr}%): <b>${money(tax)}</b></div>`:""}<div style="font-size:16px;margin-top:4px">Total Due: <b>${money(total)}</b></div>`;}
 function makePDF(job,inv){
-  if(!window.jspdf||!window.jspdf.jsPDF){ toast("PDF library still loading — try again in a moment"); return null; }
-  const {jsPDF}=window.jspdf; const doc=new jsPDF({unit:"pt",format:"letter"});
-  const M=54, W=doc.internal.pageSize.getWidth(); let y=58;
-  const f=state.firm, client=clientById(job.clientId)||{name:""};
-  doc.setFont("helvetica","bold").setFontSize(18).setTextColor(20); doc.text(f.name||"Your Firm",M,y);
-  doc.setFont("helvetica","normal").setFontSize(10).setTextColor(90); let ay=y+16;
-  (f.address||"").split("\n").forEach(l=>{if(l){doc.text(l,M,ay);ay+=13;}});
-  if(f.email){doc.text(f.email,M,ay);ay+=13;} if(f.phone){doc.text(f.phone,M,ay);ay+=13;}
-  doc.setFont("helvetica","bold").setFontSize(22).setTextColor(20); doc.text("INVOICE",W-M,y,{align:"right"});
+  if(!window.jspdf||!window.jspdf.jsPDF){toast("PDF library still loading — try again");return null;}
+  const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:"pt",format:"letter"});
+  const M=54,W=doc.internal.pageSize.getWidth();let y=58;const f=state.firm,b=state.branding||{},client=clientById(job.clientId)||{name:""};
+  if(b.logo){try{const fmt=/png/i.test(b.logo)?"PNG":"JPEG";doc.addImage(b.logo,fmt,M,y-16,46,46);}catch(e){}}
+  const tx=b.logo?M+58:M;
+  doc.setFont("helvetica","bold").setFontSize(18).setTextColor(20);doc.text(f.name||"Your Firm",tx,y);
+  doc.setFont("helvetica","normal").setFontSize(10).setTextColor(90);let ay=y+16;
+  (f.address||"").split("\n").forEach(l=>{if(l){doc.text(l,tx,ay);ay+=13;}});
+  if(f.email){doc.text(f.email,tx,ay);ay+=13;}if(f.phone){doc.text(f.phone,tx,ay);ay+=13;}
+  doc.setFont("helvetica","bold").setFontSize(22).setTextColor(20);doc.text("INVOICE",W-M,y,{align:"right"});
   doc.setFont("helvetica","normal").setFontSize(10).setTextColor(90);
-  doc.text("Invoice #: "+inv.number,W-M,y+18,{align:"right"});
-  doc.text("Date: "+fmtDate(inv.date),W-M,y+32,{align:"right"});
+  doc.text("Invoice #: "+inv.number,W-M,y+18,{align:"right"});doc.text("Date: "+fmtDate(inv.date),W-M,y+32,{align:"right"});
   y=Math.max(ay,y+50)+16;
-  doc.setFont("helvetica","bold").setFontSize(11).setTextColor(20); doc.text("Bill To",M,y); y+=15;
+  doc.setFont("helvetica","bold").setFontSize(11).setTextColor(20);doc.text("Bill To",M,y);y+=15;
   doc.setFont("helvetica","normal").setFontSize(10).setTextColor(60);
-  if(client.name){doc.text(client.name,M,y);y+=13;}
-  if(client.contactName){doc.text(client.contactName,M,y);y+=13;}
-  (client.address||"").split("\n").forEach(l=>{if(l){doc.text(l,M,y);y+=13;}});
-  if(client.email){doc.text(client.email,M,y);y+=13;}
-  y+=16;
-  const xHrs=W-M-190, xRate=W-M-100, xAmt=W-M;
-  doc.setFillColor(37,99,235); doc.rect(M,y-13,W-2*M,20,"F");
-  doc.setTextColor(255).setFont("helvetica","bold").setFontSize(10);
-  doc.text("Description",M+6,y); doc.text("Hours",xHrs,y,{align:"right"}); doc.text("Rate",xRate,y,{align:"right"}); doc.text("Amount",xAmt-6,y,{align:"right"});
-  y+=22; doc.setTextColor(30).setFont("helvetica","normal");
-  let sub=0;
-  inv.lineItems.forEach(li=>{ const amt=(Number(li.hours)||0)*(Number(li.rate)||0); sub+=amt;
-    const lines=doc.splitTextToSize(String(li.desc||""), xHrs-M-30);
-    doc.text(lines,M+6,y);
-    doc.text((Number(li.hours)||0).toFixed(2),xHrs,y,{align:"right"});
-    doc.text("$"+(Number(li.rate)||0).toFixed(2),xRate,y,{align:"right"});
-    doc.text("$"+amt.toFixed(2),xAmt-6,y,{align:"right"});
-    y+=Math.max(16,lines.length*13); if(y>720){doc.addPage();y=60;} });
-  y+=6; doc.setDrawColor(210); doc.line(xRate-40,y,xAmt,y); y+=16;
-  const tax=sub*(Number(inv.taxRate)||0)/100, total=sub+tax;
-  doc.text("Subtotal",xRate,y,{align:"right"}); doc.text("$"+sub.toFixed(2),xAmt-6,y,{align:"right"}); y+=15;
-  if(Number(inv.taxRate)){ doc.text("Tax ("+inv.taxRate+"%)",xRate,y,{align:"right"}); doc.text("$"+tax.toFixed(2),xAmt-6,y,{align:"right"}); y+=15; }
-  doc.setFont("helvetica","bold").setFontSize(12); doc.text("Total Due",xRate,y,{align:"right"}); doc.text("$"+total.toFixed(2),xAmt-6,y,{align:"right"});
-  if(inv.notes){ y+=32; doc.setFont("helvetica","normal").setFontSize(9).setTextColor(90); doc.text(doc.splitTextToSize("Notes: "+inv.notes,W-2*M),M,y); }
-  doc.setFontSize(8).setTextColor(150); doc.text("Generated by TaxFlow",M,762);
+  if(client.name){doc.text(client.name,M,y);y+=13;}if(client.contactName){doc.text(client.contactName,M,y);y+=13;}
+  (client.address||"").split("\n").forEach(l=>{if(l){doc.text(l,M,y);y+=13;}});if(client.email){doc.text(client.email,M,y);y+=13;}
+  y+=16;const xHrs=W-M-190,xRate=W-M-100,xAmt=W-M;
+  doc.setFillColor(37,99,235);doc.rect(M,y-13,W-2*M,20,"F");doc.setTextColor(255).setFont("helvetica","bold").setFontSize(10);
+  doc.text("Description",M+6,y);doc.text("Hours",xHrs,y,{align:"right"});doc.text("Rate",xRate,y,{align:"right"});doc.text("Amount",xAmt-6,y,{align:"right"});
+  y+=22;doc.setTextColor(30).setFont("helvetica","normal");let sub=0;
+  inv.lineItems.forEach(li=>{const amt=(Number(li.hours)||0)*(Number(li.rate)||0);sub+=amt;const lines=doc.splitTextToSize(String(li.desc||""),xHrs-M-30);doc.text(lines,M+6,y);doc.text((Number(li.hours)||0).toFixed(2),xHrs,y,{align:"right"});doc.text("$"+(Number(li.rate)||0).toFixed(2),xRate,y,{align:"right"});doc.text("$"+amt.toFixed(2),xAmt-6,y,{align:"right"});y+=Math.max(16,lines.length*13);if(y>720){doc.addPage();y=60;}});
+  y+=6;doc.setDrawColor(210);doc.line(xRate-40,y,xAmt,y);y+=16;
+  const tax=sub*(Number(inv.taxRate)||0)/100,total=sub+tax;
+  doc.text("Subtotal",xRate,y,{align:"right"});doc.text("$"+sub.toFixed(2),xAmt-6,y,{align:"right"});y+=15;
+  if(Number(inv.taxRate)){doc.text("Tax ("+inv.taxRate+"%)",xRate,y,{align:"right"});doc.text("$"+tax.toFixed(2),xAmt-6,y,{align:"right"});y+=15;}
+  doc.setFont("helvetica","bold").setFontSize(12);doc.text("Total Due",xRate,y,{align:"right"});doc.text("$"+total.toFixed(2),xAmt-6,y,{align:"right"});
+  if(inv.notes){y+=32;doc.setFont("helvetica","normal").setFontSize(9).setTextColor(90);doc.text(doc.splitTextToSize("Notes: "+inv.notes,W-2*M),M,y);}
+  doc.setFontSize(8).setTextColor(150);doc.text("Generated by "+(b.appName||"TaxFlow"),M,762);
   doc.save(inv.number.replace(/[^\w\-]/g,"_")+".pdf");
   return +total.toFixed(2);
 }
 function saveBillPDF(){
-  billInvoice.number=($("bi_num").value||"").trim()||billInvoice.number;
-  billInvoice.date=$("bi_date").value||billInvoice.date;
-  billInvoice.taxRate=parseFloat($("bi_tax").value)||0;
-  billInvoice.notes=$("bi_notes").value;
-  const total=makePDF(currentBillJob,billInvoice);
-  if(total===null) return;
-  const job=currentBillJob;
-  job.invoice={number:billInvoice.number,date:billInvoice.date,total:total,createdAt:nowISO()};
-  job.billedAt=nowISO();
-  const usedNo=parseInt(((billInvoice.number||"").match(/(\d+)\s*$/)||[])[1]);
-  if(usedNo && usedNo>=(state.firm.nextNo||0)) state.firm.nextNo=usedNo+1;
-  persist(); renderView(); closeBill(); toast("Invoice saved as PDF");
-  if(currentId===job.id) openDetail(job.id);
+  billInvoice.number=($("bi_num").value||"").trim()||billInvoice.number;billInvoice.date=$("bi_date").value||billInvoice.date;billInvoice.taxRate=parseFloat($("bi_tax").value)||0;billInvoice.notes=$("bi_notes").value;
+  const total=makePDF(currentBillJob,billInvoice);if(total===null)return;
+  const job=currentBillJob;job.invoice={number:billInvoice.number,date:billInvoice.date,total:total,createdAt:nowISO()};job.billedAt=nowISO();logHistory(job,"Invoice "+billInvoice.number+" created ("+money(total)+")");
+  const usedNo=parseInt(((billInvoice.number||"").match(/(\d+)\s*$/)||[])[1]);if(usedNo&&usedNo>=(state.firm.nextNo||0))state.firm.nextNo=usedNo+1;
+  persist();renderView();closeBill();toast("Invoice saved as PDF");if(currentId===job.id)openDetail(job.id);
 }
 
 /* ============================ SETTINGS ============================ */
-function openSettings(){ renderStatusSettings(); renderPersonSettings(); renderFirmSettings(); $("settingsOverlay").classList.add("open"); }
-function closeSettings(){ $("settingsOverlay").classList.remove("open"); buildFilterOptions(); renderView(); }
-function renderStatusSettings(){
-  $("statusList").innerHTML=sortedStatuses().map((s,idx)=>`<div class="status-row" draggable="true" data-idx="${idx}" ondragstart="stDragStart(event,${idx})" ondragover="event.preventDefault()" ondrop="stDrop(event,${idx})">
-    <span class="handle">⋮⋮</span><input type="color" value="${s.color}" onchange="setStatus('${s.id}','color',this.value)"><input type="text" value="${esc(s.name)}" onchange="setStatus('${s.id}','name',this.value)"><button class="btn sm danger" onclick="delStatus('${s.id}')">Delete</button></div>`).join("");
+const SETTINGS_TABS=[["prefs","Preferences"],["branding","Branding & logo"],["people","People & rates"],["statuses","Statuses"],["firm","Firm & billing"],["data","Data"]];
+function renderSettings(){
+  $("settingsTabs").innerHTML=SETTINGS_TABS.map(([k,l])=>`<button class="${settingsTab===k?'active':''}" onclick="setSettingsTab('${k}')">${l}</button>`).join("");
+  SETTINGS_TABS.forEach(([k])=>$("pane-"+k).classList.toggle("active",k===settingsTab));
+  renderStatusSettings();renderPersonSettings();renderFirmSettings();renderBrandingSettings();
+  const dk=$("prefDark");if(dk)dk.checked=document.documentElement.getAttribute("data-theme")==="dark";
 }
-function setStatus(id,k,v){ statusById(id)[k]=v; persist(); renderStatusSettings(); }
-function addStatus(){ const max=Math.max(-1,...state.statuses.map(s=>s.order)); state.statuses.push({id:uid(),name:"New Status",color:"#64748b",order:max+1}); persist(); renderStatusSettings(); }
-function delStatus(id){ if(state.statuses.length<=1){toast("Keep at least one status");return;} const used=state.jobs.filter(r=>r.statusId===id).length; if(used&&!confirm(`${used} job(s) use this status. They'll move to the first status. Continue?`))return; state.statuses=state.statuses.filter(s=>s.id!==id); const first=sortedStatuses()[0].id; state.jobs.forEach(r=>{if(r.statusId===id)r.statusId=first;}); persist(); renderStatusSettings(); }
+function setSettingsTab(k){settingsTab=k;renderSettings();}
+function renderStatusSettings(){$("statusList").innerHTML=sortedStatuses().map((s,idx)=>`<div class="status-row" draggable="true" data-idx="${idx}" ondragstart="stDragStart(event,${idx})" ondragover="event.preventDefault()" ondrop="stDrop(event,${idx})"><span class="handle">⋮⋮</span><input type="color" value="${s.color}" onchange="setStatus('${s.id}','color',this.value)"><input type="text" value="${esc(s.name)}" onchange="setStatus('${s.id}','name',this.value)"><button class="btn sm danger" onclick="delStatus('${s.id}')">Delete</button></div>`).join("");}
+function setStatus(id,k,v){statusById(id)[k]=v;persist();renderStatusSettings();}
+function addStatus(){const max=Math.max(-1,...state.statuses.map(s=>s.order));state.statuses.push({id:uid(),name:"New Status",color:"#64748b",order:max+1});persist();renderStatusSettings();}
+function delStatus(id){if(state.statuses.length<=1){toast("Keep at least one status");return;}const used=state.jobs.filter(r=>r.statusId===id).length;if(used&&!confirm(`${used} job(s) use this status. They'll move to the first status. Continue?`))return;state.statuses=state.statuses.filter(s=>s.id!==id);const first=sortedStatuses()[0].id;state.jobs.forEach(r=>{if(r.statusId===id)r.statusId=first;});persist();renderStatusSettings();}
 let stDragIdx=null;
 function stDragStart(e,i){stDragIdx=i;}
-function stDrop(e,i){ e.preventDefault(); const arr=sortedStatuses(); const [m]=arr.splice(stDragIdx,1); arr.splice(i,0,m); arr.forEach((s,idx)=>s.order=idx); persist(); renderStatusSettings(); }
-function renderPersonSettings(){
-  $("personList").innerHTML=state.people.map(p=>{ const st=p.avatar?`background-image:url('${p.avatar}')`:"";
-    return `<div class="person-row">
-      <div class="person-av" style="${st}" onclick="document.getElementById('ph_${p.id}').click()" title="Upload photo">${p.avatar?"":initials(p.name)}<span class="edit">Edit</span></div>
-      <input id="ph_${p.id}" type="file" accept="image/*" style="display:none" onchange="personPhoto('${p.id}',this)">
-      <input class="nm" type="text" value="${esc(p.name)}" onchange="setPerson('${p.id}',this.value)">
-      <div style="display:flex;align-items:center;gap:4px"><span class="muted">$</span><input class="rate" type="number" min="0" step="5" value="${p.rate||0}" onchange="setPersonRate('${p.id}',this.value)"><span class="muted">/hr</span></div>
-      ${p.avatar?`<button class="btn sm" onclick="removePhoto('${p.id}')">Remove photo</button>`:""}
-      <button class="btn sm danger" onclick="delPerson('${p.id}')">Delete</button></div>`;
-  }).join("");
-}
-function setPerson(id,v){ personById(id).name=v; persist(); renderView(); }
-function setPersonRate(id,v){ personById(id).rate=parseFloat(v)||0; persist(); renderView(); }
-function addPerson(){ state.people.push({id:uid(),name:"New Person",rate:0}); persist(); renderPersonSettings(); }
-function delPerson(id){ const used=state.jobs.filter(r=>[r.ownerId,r.preparerId,r.workerId].includes(id)||(r.timeEntries||[]).some(t=>t.personId===id)).length; if(used&&!confirm(`${used} job(s) reference this person. Their assignment/time will be cleared. Continue?`))return; state.people=state.people.filter(p=>p.id!==id); state.jobs.forEach(r=>{["ownerId","preparerId","workerId"].forEach(k=>{if(r[k]===id)r[k]="";}); (r.timeEntries||[]).forEach(t=>{if(t.personId===id)t.personId="";});}); persist(); renderPersonSettings(); renderView(); }
-function personPhoto(id,input){ const f=input.files[0]; if(!f)return; if(f.size>1.5*1024*1024){toast("Image too large (>1.5MB)");input.value="";return;} const rd=new FileReader(); rd.onload=()=>{personById(id).avatar=rd.result;persist();renderPersonSettings();renderView();}; rd.readAsDataURL(f); input.value=""; }
-function removePhoto(id){ delete personById(id).avatar; persist(); renderPersonSettings(); renderView(); }
-function renderFirmSettings(){
-  const f=state.firm;
-  $("firmSettings").innerHTML=`
-    <div class="field"><label>Firm name (shown on invoices)</label><input id="fm_name" type="text" value="${esc(f.name||"")}" onchange="setFirm('name',this.value)"></div>
-    <div class="grid2"><div class="field"><label>Email</label><input id="fm_email" type="text" value="${esc(f.email||"")}" onchange="setFirm('email',this.value)"></div>
-      <div class="field"><label>Phone</label><input id="fm_phone" type="text" value="${esc(f.phone||"")}" onchange="setFirm('phone',this.value)"></div></div>
-    <div class="field"><label>Address</label><textarea id="fm_addr" onchange="setFirm('address',this.value)">${esc(f.address||"")}</textarea></div>
-    <div class="grid3"><div class="field"><label>Invoice prefix</label><input id="fm_pref" type="text" value="${esc(f.invoicePrefix||"INV-")}" onchange="setFirm('invoicePrefix',this.value)"></div>
-      <div class="field"><label>Next invoice #</label><input id="fm_next" type="number" value="${f.nextNo||1001}" onchange="setFirm('nextNo',parseInt(this.value)||1001)"></div>
-      <div class="field"><label>Default tax %</label><input id="fm_tax" type="number" step="0.1" value="${f.taxRate||0}" onchange="setFirm('taxRate',parseFloat(this.value)||0)"></div></div>`;
-}
-function setFirm(k,v){ state.firm[k]=v; persist(); }
+function stDrop(e,i){e.preventDefault();const arr=sortedStatuses();const [m]=arr.splice(stDragIdx,1);arr.splice(i,0,m);arr.forEach((s,idx)=>s.order=idx);persist();renderStatusSettings();}
+function renderPersonSettings(){$("personList").innerHTML=state.people.map(p=>{const st=p.avatar?`background-image:url('${p.avatar}')`:"";return `<div class="person-row"><div class="person-av" style="${st}" onclick="document.getElementById('ph_${p.id}').click()" title="Upload photo">${p.avatar?"":initials(p.name)}<span class="edit">Edit</span></div><input id="ph_${p.id}" type="file" accept="image/*" style="display:none" onchange="personPhoto('${p.id}',this)"><input class="nm" type="text" value="${esc(p.name)}" onchange="setPerson('${p.id}',this.value)"><div style="display:flex;align-items:center;gap:4px"><span class="muted">$</span><input class="rate" type="number" min="0" step="5" value="${p.rate||0}" onchange="setPersonRate('${p.id}',this.value)"><span class="muted">/hr</span></div>${p.avatar?`<button class="btn sm" onclick="removePhoto('${p.id}')">Remove photo</button>`:""}<button class="btn sm danger" onclick="delPerson('${p.id}')">Delete</button></div>`;}).join("");}
+function setPerson(id,v){personById(id).name=v;persist();buildFilterOptions();renderView();}
+function setPersonRate(id,v){personById(id).rate=parseFloat(v)||0;persist();renderView();}
+function addPerson(){state.people.push({id:uid(),name:"New Person",rate:0});persist();renderPersonSettings();buildFilterOptions();}
+function delPerson(id){const used=state.jobs.filter(r=>[r.ownerId,r.preparerId,r.workerId].includes(id)||(r.timeEntries||[]).some(t=>t.personId===id)).length;if(used&&!confirm(`${used} job(s) reference this person. Their assignment/time will be cleared. Continue?`))return;state.people=state.people.filter(p=>p.id!==id);state.jobs.forEach(r=>{["ownerId","preparerId","workerId"].forEach(k=>{if(r[k]===id)r[k]="";});(r.timeEntries||[]).forEach(t=>{if(t.personId===id)t.personId="";});});if(state.currentUserId===id)state.currentUserId=(state.people[0]||{}).id||"";persist();renderPersonSettings();buildFilterOptions();renderView();}
+function personPhoto(id,input){const f=input.files[0];if(!f)return;if(f.size>1.5*1024*1024){toast("Image too large (>1.5MB)");input.value="";return;}const rd=new FileReader();rd.onload=()=>{personById(id).avatar=rd.result;persist();renderPersonSettings();renderView();};rd.readAsDataURL(f);input.value="";}
+function removePhoto(id){delete personById(id).avatar;persist();renderPersonSettings();renderView();}
+function renderFirmSettings(){const f=state.firm;$("firmSettings").innerHTML=`<div class="field"><label>Firm name (shown on invoices)</label><input id="fm_name" type="text" value="${esc(f.name||"")}" onchange="setFirm('name',this.value)"></div><div class="grid2"><div class="field"><label>Email</label><input id="fm_email" type="text" value="${esc(f.email||"")}" onchange="setFirm('email',this.value)"></div><div class="field"><label>Phone</label><input id="fm_phone" type="text" value="${esc(f.phone||"")}" onchange="setFirm('phone',this.value)"></div></div><div class="field"><label>Address</label><textarea id="fm_addr" onchange="setFirm('address',this.value)">${esc(f.address||"")}</textarea></div><div class="grid3"><div class="field"><label>Invoice prefix</label><input id="fm_pref" type="text" value="${esc(f.invoicePrefix||"INV-")}" onchange="setFirm('invoicePrefix',this.value)"></div><div class="field"><label>Next invoice #</label><input id="fm_next" type="number" value="${f.nextNo||1001}" onchange="setFirm('nextNo',parseInt(this.value)||1001)"></div><div class="field"><label>Default tax %</label><input id="fm_tax" type="number" step="0.1" value="${f.taxRate||0}" onchange="setFirm('taxRate',parseFloat(this.value)||0)"></div></div>`;}
+function setFirm(k,v){state.firm[k]=v;persist();}
+function renderBrandingSettings(){const b=state.branding||{};$("pane-branding").innerHTML=`<b>Branding &amp; logo</b><div class="hint" style="margin:6px 0 14px">Customize the app name and logo. The logo also appears on invoices.</div>
+  <div class="field"><label>App / firm short name</label><input id="br_name" type="text" value="${esc(b.appName||"TaxFlow")}" onchange="setBranding('appName',this.value)"></div>
+  <div class="field"><label>Logo</label><div style="display:flex;align-items:center;gap:14px">${b.logo?`<img class="logo-prev" src="${b.logo}">`:`<div class="logo-prev" style="display:grid;place-items:center;color:var(--faint)">No logo</div>`}<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" onclick="document.getElementById('br_logo').click()">Upload logo</button>${b.logo?`<button class="btn sm danger" onclick="removeLogo()">Remove</button>`:""}</div></div><input id="br_logo" type="file" accept="image/png,image/jpeg" style="display:none" onchange="uploadLogo(this)"><div class="hint">PNG or JPG, square works best. Kept under 500&nbsp;KB.</div></div>
+  <div class="field"><label>Accent color</label><input id="br_accent" type="color" value="${localStorage.getItem(LS_ACCENT)||'#2563eb'}" onchange="setAccent(this.value)" style="width:44px;height:34px;border:1px solid var(--border);border-radius:8px;background:none;cursor:pointer"></div>`;}
+function setBranding(k,v){state.branding[k]=v;persist();renderSidebar();}
+function uploadLogo(input){const f=input.files[0];if(!f)return;if(f.size>500*1024){toast("Logo too large (>500KB)");input.value="";return;}const rd=new FileReader();rd.onload=()=>{state.branding.logo=rd.result;persist();renderSidebar();renderBrandingSettings();toast("Logo updated");};rd.readAsDataURL(f);input.value="";}
+function removeLogo(){state.branding.logo="";persist();renderSidebar();renderBrandingSettings();}
 
-function exportJSON(){ const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"}); const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="taxflow-workspace.json"; a.click(); toast("Exported"); }
-function importJSON(e){ const f=e.target.files[0]; if(!f)return; const rd=new FileReader(); rd.onload=()=>{ try{ const d=JSON.parse(rd.result); if(!d.statuses||!(d.jobs||d.returns))throw 0; state=migrate(d); persist(); renderAll(); renderStatusSettings(); renderPersonSettings(); renderFirmSettings(); toast("Workspace imported"); }catch(err){ toast("That file isn't a valid TaxFlow export"); } }; rd.readAsText(f); e.target.value=""; }
-function resetSample(){ if(!confirm("Replace everything with sample data?"))return; state=sampleState(); persist(); renderAll(); renderStatusSettings(); renderPersonSettings(); renderFirmSettings(); toast("Reset to sample"); }
+function exportJSON(){const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="taxflow-workspace.json";a.click();toast("Exported");}
+function importJSON(e){const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const d=JSON.parse(rd.result);if(!d.statuses||!(d.jobs||d.returns))throw 0;state=migrate(d);persist();renderAll();renderSettings();toast("Workspace imported");}catch(err){toast("That file isn't a valid TaxFlow export");}};rd.readAsText(f);e.target.value="";}
+function resetSample(){if(!confirm("Replace everything with sample data?"))return;state=sampleState();persist();renderAll();renderSettings();toast("Reset to sample");}
 
 /* ============================ IMPORT ============================ */
-let importMode="csv",importRows=[],importHeaders=[],colMap={};
-const FIELDS=[["clientName","Client name *"],["entityType","Service / form"],["taxYear","Tax year"],["statusName","Status"],["ownerName","Account owner"],["preparerName","Preparer"],["workerName","Working on"],["dueDate","Due date"],["priority","Priority"],["tags","Tags (comma/;)"],["details","Details"]];
-function openImport(){ importRows=[];importHeaders=[];colMap={}; $("mapArea").style.display="none"; $("impBtn").disabled=true; $("impSummary").textContent=""; $("pasteBox").value=""; setImportMode("csv"); $("importOverlay").classList.add("open"); setupCsvDrop(); }
-function closeImport(){ $("importOverlay").classList.remove("open"); }
-function setImportMode(m){ importMode=m; $("impCsv").classList.toggle("active",m==="csv"); $("impPaste").classList.toggle("active",m==="paste"); $("impCsvPane").style.display=m==="csv"?"block":"none"; $("impPastePane").style.display=m==="paste"?"block":"none"; }
-function setupCsvDrop(){ const dz=$("csvDrop"); ["dragover","dragenter"].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add("over");})); ["dragleave","drop"].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove("over");})); dz.addEventListener("drop",e=>{e.preventDefault();if(e.dataTransfer.files[0])readCsv(e.dataTransfer.files[0]);}); }
-function csvChosen(e){ if(e.target.files[0])readCsv(e.target.files[0]); e.target.value=""; }
-function readCsv(file){ const rd=new FileReader(); rd.onload=()=>parseTable(parseCSV(rd.result)); rd.readAsText(file); }
-function parseCSV(text){ const rows=[];let row=[],cur="",q=false; for(let i=0;i<text.length;i++){const c=text[i]; if(q){ if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else q=false; } else cur+=c; } else { if(c==='"')q=true; else if(c===','){row.push(cur);cur="";} else if(c==='\n'){row.push(cur);rows.push(row);row=[];cur="";} else if(c==='\r'){} else cur+=c; } } if(cur!==""||row.length){row.push(cur);rows.push(row);} return rows.filter(r=>r.some(c=>c.trim()!=="")); }
-function parsePaste(){ const text=$("pasteBox").value; if(!text.trim()){toast("Paste some rows first");return;} parseTable(text.split(/\r?\n/).filter(l=>l.trim()!=="").map(l=>l.split("\t"))); }
-function parseTable(rows){ if(rows.length<2){toast("Need a header row plus at least one data row");return;} importHeaders=rows[0].map(h=>h.trim()); importRows=rows.slice(1).map(r=>{const o={};importHeaders.forEach((h,i)=>o[h]=(r[i]||"").trim());return o;}); autoMap(); renderMap(); $("mapArea").style.display="block"; $("impBtn").disabled=false; $("impSummary").textContent=`${importRows.length} row(s) ready`; }
-function autoMap(){ colMap={}; const norm=s=>s.toLowerCase().replace(/[^a-z]/g,""); const guesses={clientName:["client","clientname","name","taxpayer"],entityType:["form","entity","entitytype","returntype","type","service"],taxYear:["taxyear","year","ty"],statusName:["status","stage"],ownerName:["owner","accountowner","partner"],preparerName:["preparer","prep"],workerName:["workingon","assignedto","staff","worker","assignee"],dueDate:["due","duedate","deadline"],priority:["priority","urgency"],tags:["tags","tag","labels"],details:["details","notes","description","scope"]}; FIELDS.forEach(([f])=>{ for(const h of importHeaders){ if((guesses[f]||[]).includes(norm(h))){colMap[f]=h;break;} } }); }
-function renderMap(){ $("mapGrid").innerHTML=FIELDS.map(([f,label])=>{ const opts=`<option value="">— ignore —</option>`+importHeaders.map(h=>`<option value="${esc(h)}" ${colMap[f]===h?"selected":""}>${esc(h)}</option>`).join(""); return `<div class="lab">${label}</div><select onchange="colMap['${f}']=this.value;renderPreview()" class="filter" style="max-width:none">${opts}</select>`; }).join(""); renderPreview(); }
-function renderPreview(){ const show=importRows.slice(0,6); const cols=FIELDS.filter(([f])=>colMap[f]); if(!cols.length){$("preview").innerHTML="";return;} const head=cols.map(([f,l])=>`<th>${l.replace(" *","")}</th>`).join(""); const rows=show.map(r=>`<tr>${cols.map(([f])=>`<td>${esc(r[colMap[f]]||"")}</td>`).join("")}</tr>`).join(""); $("preview").innerHTML=`<table><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table>`; }
-function findOrCreatePerson(name){ if(!name)return ""; const found=state.people.find(p=>p.name.toLowerCase()===name.toLowerCase()); if(found)return found.id; const np={id:uid(),name,rate:0}; state.people.push(np); return np.id; }
-function findOrCreateClient(name){ if(!name)return null; const found=state.clients.find(c=>c.name.toLowerCase()===name.toLowerCase()); if(found)return found.id; const nc={id:uid(),name,contactName:"",email:"",phone:"",address:"",notes:""}; state.clients.push(nc); return nc.id; }
-function findStatus(name){ if(!name)return sortedStatuses()[0].id; const found=state.statuses.find(s=>s.name.toLowerCase()===name.toLowerCase()); if(found)return found.id; const max=Math.max(-1,...state.statuses.map(s=>s.order)); const ns={id:uid(),name,color:"#64748b",order:max+1}; state.statuses.push(ns); return ns.id; }
-function normPriority(v){ if(!v)return "Medium"; const l=v.toLowerCase(); if(l.startsWith("h"))return "High"; if(l.startsWith("l"))return "Low"; return "Medium"; }
-function normDate(v){ if(!v)return ""; const d=new Date(v); if(isNaN(d))return ""; return d.toISOString().slice(0,10); }
+let importMode="csv",importEntity="jobs",importRows=[],importHeaders=[],colMap={};
+const JOB_FIELDS=[["clientName","Client name *"],["projectName","Project"],["entityType","Service / form"],["taxYear","Tax year"],["statusName","Status"],["ownerName","Account owner"],["preparerName","Preparer"],["workerName","Working on"],["dueDate","Due date"],["priority","Priority"],["tags","Tags (comma/;)"],["details","Details"]];
+const CLIENT_FIELDS=[["name","Client name *"],["contactName","Primary contact"],["email","Email"],["phone","Phone"],["address","Address"],["notes","Notes"]];
+function curFields(){return importEntity==="clients"?CLIENT_FIELDS:JOB_FIELDS;}
+function openImport(entity){importEntity=entity||"jobs";$("importEntity").value=importEntity;$("importTitle").textContent=importEntity==="clients"?"Import clients":"Import work items";importRows=[];importHeaders=[];colMap={};$("mapArea").style.display="none";$("impBtn").disabled=true;$("impSummary").textContent="";$("pasteBox").value="";setImportMode("csv");$("importOverlay").classList.add("open");setupCsvDrop();}
+function setImportEntity(v){importEntity=v;$("importTitle").textContent=v==="clients"?"Import clients":"Import work items";importRows=[];importHeaders=[];colMap={};$("mapArea").style.display="none";$("impBtn").disabled=true;$("impSummary").textContent="";$("pasteBox").value="";}
+function closeImport(){$("importOverlay").classList.remove("open");}
+function setImportMode(m){importMode=m;$("impCsv").classList.toggle("active",m==="csv");$("impPaste").classList.toggle("active",m==="paste");$("impCsvPane").style.display=m==="csv"?"block":"none";$("impPastePane").style.display=m==="paste"?"block":"none";}
+function setupCsvDrop(){const dz=$("csvDrop");["dragover","dragenter"].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add("over");}));["dragleave","drop"].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove("over");}));dz.addEventListener("drop",e=>{e.preventDefault();if(e.dataTransfer.files[0])readCsv(e.dataTransfer.files[0]);});}
+function csvChosen(e){if(e.target.files[0])readCsv(e.target.files[0]);e.target.value="";}
+function readCsv(file){const rd=new FileReader();rd.onload=()=>parseTable(parseCSV(rd.result));rd.readAsText(file);}
+function parseCSV(text){const rows=[];let row=[],cur="",q=false;for(let i=0;i<text.length;i++){const c=text[i];if(q){if(c==='"'){if(text[i+1]==='"'){cur+='"';i++;}else q=false;}else cur+=c;}else{if(c==='"')q=true;else if(c===','){row.push(cur);cur="";}else if(c==='\n'){row.push(cur);rows.push(row);row=[];cur="";}else if(c==='\r'){}else cur+=c;}}if(cur!==""||row.length){row.push(cur);rows.push(row);}return rows.filter(r=>r.some(c=>c.trim()!==""));}
+function parsePaste(){const text=$("pasteBox").value;if(!text.trim()){toast("Paste some rows first");return;}parseTable(text.split(/\r?\n/).filter(l=>l.trim()!=="").map(l=>l.split("\t")));}
+function parseTable(rows){if(rows.length<2){toast("Need a header row plus at least one data row");return;}importHeaders=rows[0].map(h=>h.trim());importRows=rows.slice(1).map(r=>{const o={};importHeaders.forEach((h,i)=>o[h]=(r[i]||"").trim());return o;});autoMap();renderMap();$("mapArea").style.display="block";$("impBtn").disabled=false;$("impSummary").textContent=`${importRows.length} row(s) ready`;}
+function autoMap(){colMap={};const norm=s=>s.toLowerCase().replace(/[^a-z]/g,"");const guesses={clientName:["client","clientname","name","taxpayer"],name:["client","clientname","name","company","taxpayer"],projectName:["project","engagement"],contactName:["contact","primarycontact","contactname"],email:["email","emailaddress"],phone:["phone","telephone","tel","mobile"],address:["address","mailingaddress"],notes:["notes","note","comments"],entityType:["form","entity","entitytype","returntype","type","service"],taxYear:["taxyear","year","ty"],statusName:["status","stage"],ownerName:["owner","accountowner","partner"],preparerName:["preparer","prep"],workerName:["workingon","assignedto","staff","worker","assignee"],dueDate:["due","duedate","deadline"],priority:["priority","urgency"],tags:["tags","tag","labels"],details:["details","description","scope"]};curFields().forEach(([f])=>{for(const h of importHeaders){if((guesses[f]||[]).includes(norm(h))){colMap[f]=h;break;}}});}
+function renderMap(){$("mapGrid").innerHTML=curFields().map(([f,label])=>{const opts=`<option value="">— ignore —</option>`+importHeaders.map(h=>`<option value="${esc(h)}" ${colMap[f]===h?"selected":""}>${esc(h)}</option>`).join("");return `<div class="lab">${label}</div><select onchange="colMap['${f}']=this.value;renderPreview()" class="filter" style="max-width:none">${opts}</select>`;}).join("");renderPreview();}
+function renderPreview(){const show=importRows.slice(0,6);const cols=curFields().filter(([f])=>colMap[f]);if(!cols.length){$("preview").innerHTML="";return;}const head=cols.map(([f,l])=>`<th>${l.replace(" *","")}</th>`).join("");const rows=show.map(r=>`<tr>${cols.map(([f])=>`<td>${esc(r[colMap[f]]||"")}</td>`).join("")}</tr>`).join("");$("preview").innerHTML=`<table><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table>`;}
+function findOrCreatePerson(name){if(!name)return "";const found=state.people.find(p=>p.name.toLowerCase()===name.toLowerCase());if(found)return found.id;const np={id:uid(),name,rate:0};state.people.push(np);return np.id;}
+function findOrCreateClient(name){if(!name)return null;const found=state.clients.find(c=>c.name.toLowerCase()===name.toLowerCase());if(found)return found.id;const nc={id:uid(),name,contactName:"",email:"",phone:"",address:"",notes:""};state.clients.push(nc);return nc.id;}
+function findOrCreateProject(clientId,name){if(!name||!clientId)return "";const found=state.projects.find(p=>p.clientId===clientId&&p.name.toLowerCase()===name.toLowerCase());if(found)return found.id;const np={id:uid(),clientId,name,description:""};state.projects.push(np);return np.id;}
+function findStatus(name){if(!name)return sortedStatuses()[0].id;const found=state.statuses.find(s=>s.name.toLowerCase()===name.toLowerCase());if(found)return found.id;const max=Math.max(-1,...state.statuses.map(s=>s.order));const ns={id:uid(),name,color:"#64748b",order:max+1};state.statuses.push(ns);return ns.id;}
+function normPriority(v){if(!v)return "Medium";const l=v.toLowerCase();if(l.startsWith("h"))return "High";if(l.startsWith("l"))return "Low";return "Medium";}
+function normDate(v){if(!v)return "";const d=new Date(v);if(isNaN(d))return "";return d.toISOString().slice(0,10);}
 function runImport(){
-  if(!colMap.clientName){ toast("Map the Client name column"); return; }
-  let n=0;
-  importRows.forEach(r=>{ const cname=(r[colMap.clientName]||"").trim(); if(!cname)return;
-    state.jobs.push({ id:uid(), clientId:findOrCreateClient(cname),
-      entityType:colMap.entityType?r[colMap.entityType]:"", taxYear:colMap.taxYear?r[colMap.taxYear]:"2025",
-      statusId:findStatus(colMap.statusName?r[colMap.statusName]:""),
-      ownerId:findOrCreatePerson(colMap.ownerName?r[colMap.ownerName]:""),
-      preparerId:findOrCreatePerson(colMap.preparerName?r[colMap.preparerName]:""),
-      workerId:findOrCreatePerson(colMap.workerName?r[colMap.workerName]:""),
-      dueDate:colMap.dueDate?normDate(r[colMap.dueDate]):"", priority:normPriority(colMap.priority?r[colMap.priority]:""),
-      tags:colMap.tags?(r[colMap.tags]||"").split(/[,;]/).map(t=>t.trim()).filter(Boolean):[],
-      details:colMap.details?r[colMap.details]:"", notes:"", checklist:[], attachments:[], timeEntries:[], createdAt:nowISO(), updatedAt:nowISO() });
-    n++; });
-  persist(); renderAll(); closeImport(); toast(`Imported ${n} job(s)`);
+  if(importEntity==="clients"){
+    if(!colMap.name){toast("Map the Client name column");return;}
+    let n=0;importRows.forEach(r=>{const name=(r[colMap.name]||"").trim();if(!name)return;
+      state.clients.push({id:uid(),name,contactName:colMap.contactName?r[colMap.contactName]:"",email:colMap.email?r[colMap.email]:"",phone:colMap.phone?r[colMap.phone]:"",address:colMap.address?r[colMap.address]:"",notes:colMap.notes?r[colMap.notes]:""});n++;});
+    persist();renderAll();closeImport();toast(`Imported ${n} client(s)`);return;
+  }
+  if(!colMap.clientName){toast("Map the Client name column");return;}
+  let n=0;importRows.forEach(r=>{const cname=(r[colMap.clientName]||"").trim();if(!cname)return;const cid=findOrCreateClient(cname);
+    const pname=colMap.projectName?(r[colMap.projectName]||"").trim():"";const pid=pname?findOrCreateProject(cid,pname):"";
+    state.jobs.push({id:uid(),clientId:cid,projectId:pid,entityType:colMap.entityType?r[colMap.entityType]:"",taxYear:colMap.taxYear?r[colMap.taxYear]:"2025",statusId:findStatus(colMap.statusName?r[colMap.statusName]:""),ownerId:findOrCreatePerson(colMap.ownerName?r[colMap.ownerName]:""),preparerId:findOrCreatePerson(colMap.preparerName?r[colMap.preparerName]:""),workerId:findOrCreatePerson(colMap.workerName?r[colMap.workerName]:""),dueDate:colMap.dueDate?normDate(r[colMap.dueDate]):"",priority:normPriority(colMap.priority?r[colMap.priority]:""),tags:colMap.tags?(r[colMap.tags]||"").split(/[,;]/).map(t=>t.trim()).filter(Boolean):[],details:colMap.details?r[colMap.details]:"",notes:"",checklist:[],attachments:[],timeEntries:[],createdAt:nowISO(),updatedAt:nowISO()});n++;});
+  persist();renderAll();closeImport();toast(`Imported ${n} work item(s)`);
 }
-function downloadTemplate(){ const csv="Client Name,Form,Tax Year,Status,Account Owner,Preparer,Working On,Due Date,Priority,Tags,Details\n"+"Acme Holdings LLC,1065,2025,In Preparation,Dana Whitfield,Marcus Lee,Marcus Lee,2026-09-15,High,\"Partnership,Extension\",Multi-member LLC\n"+"Jane Q Public,1040,2025,To Do,Tom Rivera,Sarah Cohen,Sarah Cohen,2026-04-15,Medium,Individual,Schedule C\n"; const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"})); a.download="taxflow-import-template.csv"; a.click(); }
+function downloadTemplate(){
+  const csv=importEntity==="clients"
+    ? "Client Name,Primary Contact,Email,Phone,Address,Notes\nAcme Holdings LLC,Jordan Reyes,ap@acme.com,(216) 555-0101,\"100 Main St, Cleveland OH 44113\",Multi-member LLC\nJane Q Public,Jane Public,jane@email.com,(330) 555-0102,\"42 Oak Ave, Akron OH 44301\",Individual\n"
+    : "Client Name,Project,Form,Tax Year,Status,Account Owner,Preparer,Working On,Due Date,Priority,Tags,Details\nAcme Holdings LLC,2025 Partnership Return,1065,2025,In Preparation,Dana Whitfield,Marcus Lee,Marcus Lee,2026-09-15,High,\"Partnership,Extension\",Multi-member LLC\nJane Q Public,2025 Individual Return,1040,2025,To Do,Tom Rivera,Sarah Cohen,Sarah Cohen,2026-04-15,Medium,Individual,Schedule C\n";
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download=importEntity==="clients"?"taxflow-clients-template.csv":"taxflow-work-template.csv";a.click();
+}
 
-/* ============================ MISC ============================ */
+/* ============================ MISC / BOOT ============================ */
 let toastT=null;
-function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove("show"),2200); }
-document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ closeBill();closeClient();closeDetail();closeSettings();closeImport(); } });
-
-/* ============================ BOOT ============================ */
-(function boot(){ initPrefs(); state=loadLocal()||sampleState(); saveLocal(); renderAll(); })();
+function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),2200);}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeAllMs();closeBill();closeClient();closeProject();closeDetail();closeImport();}});
+document.addEventListener("click",closeAllMs);
+window.addEventListener("hashchange",handleHash);
+(function boot(){initPrefs();state=loadLocal()||sampleState();saveLocal();setView("work");renderAll();handleHash();})();
 </script>
 </body>
 </html>
