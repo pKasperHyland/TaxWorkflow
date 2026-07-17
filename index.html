@@ -11,7 +11,6 @@
     --accent:#2563eb; --accent-soft:#e8effd; --accent-ink:#1d4ed8;
     --shadow:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.08);
     --shadow-lg:0 12px 32px rgba(16,24,40,.16);
-    --radius:10px;
   }
   [data-theme="dark"]{
     --bg:#0e131a; --surface:#19212b; --surface-2:#131a22; --border:#2a333f;
@@ -30,13 +29,11 @@
   *{box-sizing:border-box}
   html,body{margin:0;height:100%}
   body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    background:var(--bg);color:var(--text);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased;
-    transition:background .2s,color .2s}
+    background:var(--bg);color:var(--text);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased;transition:background .2s,color .2s}
   button{font-family:inherit;font-size:inherit;cursor:pointer}
   input,select,textarea{font-family:inherit;font-size:14px}
   a{color:var(--accent);text-decoration:none}
 
-  /* Top bar */
   .topbar{min-height:56px;background:var(--surface);border-bottom:1px solid var(--border);
     display:flex;align-items:center;gap:10px;padding:8px 16px;position:sticky;top:0;z-index:30}
   .brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;letter-spacing:-.2px}
@@ -52,30 +49,25 @@
   .btn.primary:hover{filter:brightness(1.05)}
   .btn.sm{padding:6px 10px;font-size:12.5px}
   .btn.icon{padding:7px;justify-content:center}
-  .btn.ghost{border-color:transparent;background:transparent}
-  .btn.ghost:hover{background:var(--surface-2)}
   .btn.danger{color:#c02626;border-color:#e9bcbc;background:var(--surface)}
   .btn.danger:hover{background:#fdeaea}
   [data-theme="dark"] .btn.danger{color:#f4a9a9;border-color:#5a2b2b}
   [data-theme="dark"] .btn.danger:hover{background:#2a1717}
 
-  /* Toolbar */
   .toolbar{background:var(--surface);border-bottom:1px solid var(--border);padding:9px 16px;
     display:flex;align-items:center;gap:9px;flex-wrap:wrap;position:sticky;top:56px;z-index:20}
   .viewtabs{display:inline-flex;background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:3px}
-  .viewtabs button{border:none;background:transparent;padding:6px 14px;border-radius:6px;font-weight:600;color:var(--muted)}
+  .viewtabs button{border:none;background:transparent;padding:6px 13px;border-radius:6px;font-weight:600;color:var(--muted)}
   .viewtabs button.active{background:var(--surface);color:var(--text);box-shadow:var(--shadow)}
-  .search{position:relative;flex:1 1 200px;max-width:280px}
-  .search input{border:1px solid var(--border);border-radius:8px;padding:8px 10px 8px 30px;width:100%;background:var(--surface-2)}
+  .search{position:relative;flex:1 1 190px;max-width:280px}
+  .search input{border:1px solid var(--border);border-radius:8px;padding:8px 10px 8px 30px;width:100%;background:var(--surface-2);color:var(--text)}
   .search svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--faint)}
-  .filter{border:1px solid var(--border);border-radius:8px;padding:8px 10px;background:var(--surface-2);color:var(--text);max-width:160px}
+  .filter{border:1px solid var(--border);border-radius:8px;padding:8px 10px;background:var(--surface-2);color:var(--text);max-width:150px}
   .chip-clear{font-size:12.5px;color:var(--accent);border:none;background:none;padding:6px}
   .count{font-size:12.5px;color:var(--muted)}
 
-  /* Layout */
   .main{padding:18px}
 
-  /* Board */
   .board{display:flex;gap:14px;align-items:flex-start;overflow-x:auto;padding-bottom:12px}
   .col{flex:0 0 300px;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;
     display:flex;flex-direction:column;max-height:calc(100vh - 170px)}
@@ -97,6 +89,8 @@
   .card .meta{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
   .tag{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;background:var(--accent-soft);color:var(--accent-ink)}
   .tag.gray{background:#eef1f4;color:#4b5563}
+  .tag.billed{background:#e9f6ee;color:#218a4e}
+  [data-theme="dark"] .tag.billed{background:#153020;color:#93d7ab}
   .prio{font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:6px;text-transform:uppercase;letter-spacing:.3px}
   .prio.High{background:#fde8e8;color:#c02626}
   .prio.Medium{background:#fff2dd;color:#b45309}
@@ -112,12 +106,11 @@
   .card-icons{display:flex;gap:9px;color:var(--faint);font-size:11.5px;align-items:center}
   .card-icons span{display:inline-flex;align-items:center;gap:3px}
 
-  /* List */
   .listwrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:auto}
   table{width:100%;border-collapse:collapse}
   th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
   th{font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);background:var(--surface-2);
-    font-weight:700;cursor:pointer;user-select:none;white-space:nowrap;position:sticky;top:0}
+    font-weight:700;cursor:pointer;user-select:none;white-space:nowrap}
   th .arr{opacity:.5;font-size:10px}
   tbody tr{cursor:pointer}
   tbody tr:hover{background:var(--surface-2)}
@@ -128,12 +121,18 @@
   .empty{padding:60px 20px;text-align:center;color:var(--muted)}
   .empty h3{color:var(--text);margin:0 0 6px}
 
-  /* Modal */
+  /* Clients grid */
+  .clients-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+  .client-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;box-shadow:var(--shadow);cursor:pointer;transition:box-shadow .12s}
+  .client-card:hover{box-shadow:0 4px 12px rgba(16,24,40,.12)}
+  .client-nm{font-weight:700;font-size:15px}
+  .cc-stats{display:flex;gap:12px;margin-top:12px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+  .cc-stats b{color:var(--text)}
+
   .overlay{position:fixed;inset:0;background:rgba(16,24,40,.45);display:none;align-items:flex-start;
     justify-content:center;padding:40px 16px;z-index:50;overflow-y:auto}
   .overlay.open{display:flex}
-  .modal{background:var(--surface);border-radius:14px;box-shadow:var(--shadow-lg);width:100%;max-width:720px;
-    animation:pop .14s ease-out}
+  .modal{background:var(--surface);border-radius:14px;box-shadow:var(--shadow-lg);width:100%;max-width:720px;animation:pop .14s ease-out}
   .modal.narrow{max-width:520px}.modal.wide{max-width:860px}
   @keyframes pop{from{transform:translateY(8px);opacity:.6}to{transform:none;opacity:1}}
   .modal-head{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--border)}
@@ -144,9 +143,9 @@
 
   .field{margin-bottom:14px}
   .field label{display:block;font-weight:600;font-size:12.5px;margin-bottom:5px;color:var(--text)}
-  .field input[type=text],.field input[type=date],.field select,.field textarea{
-    width:100%;border:1px solid var(--border);border-radius:8px;padding:9px 10px;background:var(--surface)}
-  .field textarea{min-height:70px;resize:vertical}
+  .field input[type=text],.field input[type=date],.field input[type=email],.field input[type=number],.field select,.field textarea{
+    width:100%;border:1px solid var(--border);border-radius:8px;padding:9px 10px;background:var(--surface);color:var(--text)}
+  .field textarea{min-height:66px;resize:vertical}
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
   .hint{font-size:12px;color:var(--muted);margin-top:4px}
@@ -164,31 +163,32 @@
   .check-item.done input[type=text]{text-decoration:line-through;color:var(--faint)}
   .check-item .del{border:none;background:none;color:var(--faint);cursor:pointer}
 
-  .attach{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--border);
-    border-radius:8px;margin-bottom:7px;background:var(--surface-2)}
-  .attach .fi{width:30px;height:30px;border-radius:6px;background:var(--accent-soft);display:grid;place-items:center;
-    color:var(--accent-ink);font-weight:700;font-size:10px;flex:none}
+  .tl-row{display:flex;gap:8px;align-items:center;margin-bottom:7px;flex-wrap:wrap}
+  .tl-row select,.tl-row input{border:1px solid var(--border);border-radius:7px;padding:6px 8px;background:var(--surface);color:var(--text)}
+  .tl-row .hrs{width:74px}.tl-row .note{flex:1;min-width:130px}
+  .tl-row .del{border:none;background:none;color:var(--faint);cursor:pointer;font-size:16px}
+  .totbox{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:9px 12px;margin-top:8px;font-size:13px}
+
+  .attach{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;margin-bottom:7px;background:var(--surface-2)}
+  .attach .fi{width:30px;height:30px;border-radius:6px;background:var(--accent-soft);display:grid;place-items:center;color:var(--accent-ink);font-weight:700;font-size:10px;flex:none}
   .attach .nm{font-weight:600;font-size:13px;word-break:break-all}
   .attach .sz{color:var(--muted);font-size:11.5px}
   .attach .acts{margin-left:auto;display:flex;gap:6px;flex:none}
-  .dropzone{border:1.5px dashed var(--border);border-radius:10px;padding:16px;text-align:center;color:var(--muted);
-    background:var(--surface-2);cursor:pointer}
+  .dropzone{border:1.5px dashed var(--border);border-radius:10px;padding:16px;text-align:center;color:var(--muted);background:var(--surface-2);cursor:pointer}
   .dropzone.over{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink)}
 
-  /* Settings rows */
-  .status-row{display:flex;align-items:center;gap:10px;padding:9px;border:1px solid var(--border);border-radius:9px;
-    margin-bottom:8px;background:var(--surface)}
+  .status-row{display:flex;align-items:center;gap:10px;padding:9px;border:1px solid var(--border);border-radius:9px;margin-bottom:8px;background:var(--surface)}
   .status-row .handle{cursor:grab;color:var(--faint)}
   .status-row input[type=text]{flex:1;border:1px solid var(--border);border-radius:7px;padding:7px 9px;background:var(--surface);color:var(--text)}
   .status-row input[type=color]{width:34px;height:34px;border:1px solid var(--border);border-radius:7px;padding:2px;background:none;cursor:pointer}
   .person-row{display:flex;align-items:center;gap:10px;padding:8px;border:1px solid var(--border);border-radius:9px;margin-bottom:8px;flex-wrap:wrap}
-  .person-row input[type=text]{flex:1;min-width:120px;border:1px solid var(--border);border-radius:7px;padding:7px 9px;background:var(--surface);color:var(--text)}
+  .person-row .nm{flex:1;min-width:120px;border:1px solid var(--border);border-radius:7px;padding:7px 9px;background:var(--surface);color:var(--text)}
+  .person-row .rate{width:74px;border:1px solid var(--border);border-radius:7px;padding:7px 8px;background:var(--surface);color:var(--text)}
   .person-av{width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:13px;
     display:grid;place-items:center;background-size:cover;background-position:center;overflow:hidden;flex:none;cursor:pointer;position:relative}
   .person-av .edit{position:absolute;inset:0;background:rgba(0,0,0,.45);color:#fff;font-size:10px;display:none;place-items:center}
   .person-av:hover .edit{display:grid}
 
-  /* Preferences */
   .pref-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--surface-2)}
   .pref-row .t{font-weight:600}
   .switch{position:relative;width:46px;height:26px;flex:none}
@@ -198,7 +198,6 @@
   .switch input:checked+.slider{background:var(--accent)}
   .switch input:checked+.slider:before{transform:translateX(20px)}
 
-  /* Import */
   .import-tabs{display:inline-flex;gap:6px;margin-bottom:12px}
   .import-tabs button{border:1px solid var(--border);background:var(--surface-2);padding:6px 12px;border-radius:8px;font-weight:600;color:var(--muted)}
   .import-tabs button.active{background:var(--accent-soft);color:var(--accent-ink);border-color:var(--accent)}
@@ -209,15 +208,21 @@
   .prev-table th,.prev-table td{padding:6px 9px}
   textarea.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px}
 
+  .bill-table input{border:1px solid var(--border);border-radius:6px;padding:6px 7px;background:var(--surface);color:var(--text)}
+  .bill-table td,.bill-table th{padding:6px 8px}
+  .job-mini{display:flex;align-items:center;gap:10px;padding:9px 10px;border:1px solid var(--border);border-radius:8px;margin-bottom:7px;cursor:pointer;background:var(--surface)}
+  .job-mini:hover{background:var(--surface-2)}
+  .job-mini .d{width:9px;height:9px;border-radius:50%;flex:none}
+  .job-mini .jt{font-weight:600}
+  .job-mini .mm{margin-left:auto;color:var(--muted);font-size:12px;white-space:nowrap}
+
   .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);
     background:#1c2530;color:#fff;padding:11px 18px;border-radius:9px;font-weight:600;font-size:13px;
     opacity:0;pointer-events:none;transition:.2s;z-index:100;box-shadow:var(--shadow-lg)}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
   .muted{color:var(--muted)}
   .row-between{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 
-  /* Responsive */
   @media(max-width:760px){
     .brand small{display:none}
     .toolbar{padding:8px 12px}
@@ -225,15 +230,10 @@
     .btn .lbl{display:none}
     .filter{flex:1 1 44%;max-width:none}
     .col{flex:0 0 82vw;max-width:340px;max-height:calc(100vh - 200px)}
-    .map-grid{grid-template-columns:1fr}
-    .grid2,.grid3{grid-template-columns:1fr}
+    .map-grid,.grid2,.grid3{grid-template-columns:1fr}
     .modal-body{max-height:76vh}
-    .viewtabs button{padding:6px 12px}
   }
-  @media(max-width:420px){
-    .search{flex-basis:100%;max-width:none;order:5}
-    .brand{font-size:15px}
-  }
+  @media(max-width:420px){ .search{flex-basis:100%;max-width:none} }
 </style>
 </head>
 <body>
@@ -243,18 +243,20 @@
     <button id="themeBtn" class="btn icon sm" title="Toggle dark mode" onclick="toggleTheme()">🌙</button>
     <button class="btn sm" onclick="openImport()"><span>⬆</span><span class="lbl">Import</span></button>
     <button class="btn sm" onclick="openSettings()"><span>⚙</span><span class="lbl">Settings</span></button>
-    <button class="btn primary sm" onclick="openDetail(null)"><span>+</span><span class="lbl">New Return</span></button>
+    <button class="btn primary sm" onclick="openDetail(null)"><span>+</span><span class="lbl">New Job</span></button>
   </div>
 
   <div class="toolbar">
     <div class="viewtabs">
       <button id="tabBoard" class="active" onclick="setView('board')">▦ Board</button>
       <button id="tabList" onclick="setView('list')">☰ List</button>
+      <button id="tabClients" onclick="setView('clients')">👥 Clients</button>
     </div>
     <div class="search">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
-      <input id="search" type="text" placeholder="Search client, form, notes…" oninput="applyFilters()" />
+      <input id="search" type="text" placeholder="Search…" oninput="applyFilters()" />
     </div>
+    <select id="fClient" class="filter" onchange="applyFilters()"></select>
     <select id="fOwner" class="filter" onchange="applyFilters()"></select>
     <select id="fPreparer" class="filter" onchange="applyFilters()"></select>
     <select id="fStatus" class="filter" onchange="applyFilters()"></select>
@@ -267,21 +269,45 @@
   <div class="main">
     <div id="boardView" class="board"></div>
     <div id="listView" style="display:none"></div>
+    <div id="clientsView" style="display:none"></div>
   </div>
 
-  <!-- Detail modal -->
+  <!-- Job detail modal -->
   <div id="detailOverlay" class="overlay" onclick="if(event.target===this)closeDetail()">
     <div class="modal">
-      <div class="modal-head">
-        <h2 id="detailTitle">Tax Return</h2>
-        <button class="x" onclick="closeDetail()">×</button>
-      </div>
+      <div class="modal-head"><h2 id="detailTitle">Job</h2><button class="x" onclick="closeDetail()">×</button></div>
       <div class="modal-body" id="detailBody"></div>
       <div class="modal-foot">
         <button id="detailDelete" class="btn danger" onclick="deleteCurrent()">Delete</button>
         <div class="spacer" style="flex:1"></div>
         <button class="btn" onclick="closeDetail()">Cancel</button>
         <button class="btn primary" onclick="saveDetail()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Client modal -->
+  <div id="clientOverlay" class="overlay" onclick="if(event.target===this)closeClient()">
+    <div class="modal">
+      <div class="modal-head"><h2 id="clientTitle">Client</h2><button class="x" onclick="closeClient()">×</button></div>
+      <div class="modal-body" id="clientBody"></div>
+      <div class="modal-foot">
+        <button id="clientDelete" class="btn danger" onclick="deleteClient()">Delete</button>
+        <div class="spacer" style="flex:1"></div>
+        <button class="btn" onclick="closeClient()">Cancel</button>
+        <button class="btn primary" onclick="saveClient()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bill modal -->
+  <div id="billOverlay" class="overlay" onclick="if(event.target===this)closeBill()">
+    <div class="modal wide">
+      <div class="modal-head"><h2>Create bill</h2><button class="x" onclick="closeBill()">×</button></div>
+      <div class="modal-body" id="billBody"></div>
+      <div class="modal-foot">
+        <button class="btn" onclick="closeBill()">Cancel</button>
+        <button class="btn primary" onclick="saveBillPDF()">💾 Save PDF</button>
       </div>
     </div>
   </div>
@@ -293,11 +319,11 @@
       <div class="modal-body">
         <div class="section-label" style="border:none;margin:0 0 10px;padding:0">Preferences</div>
         <div class="pref-row">
-          <div><div class="t">Dark mode</div><div class="hint">Switch between light and dark appearance. Remembered on this device.</div></div>
+          <div><div class="t">Dark mode</div><div class="hint">Remembered on this device.</div></div>
           <label class="switch"><input id="prefDark" type="checkbox" onchange="setTheme(this.checked?'dark':'light')"><span class="slider"></span></label>
         </div>
         <div class="pref-row" style="border:none">
-          <div><div class="t">Accent color</div><div class="hint">Used for buttons, highlights and links.</div></div>
+          <div><div class="t">Accent color</div></div>
           <input id="prefAccent" type="color" value="#2563eb" onchange="setAccent(this.value)" style="width:40px;height:32px;border:1px solid var(--border);border-radius:7px;background:none;cursor:pointer">
         </div>
 
@@ -306,13 +332,16 @@
         <div class="hint" style="margin-bottom:10px">Drag to reorder. These become your board columns.</div>
         <div id="statusList"></div>
 
-        <div class="row-between" style="margin-top:22px"><div class="section-label" style="border:none;margin:0;padding:0">People</div>
+        <div class="row-between" style="margin-top:22px"><div class="section-label" style="border:none;margin:0;padding:0">People &amp; rates</div>
           <button class="btn sm" onclick="addPerson()">+ Add person</button></div>
-        <div class="hint" style="margin-bottom:10px">Click a photo to upload a profile picture. Assignable as Account Owner, Preparer, or Working On.</div>
+        <div class="hint" style="margin-bottom:10px">Click a photo to upload. The $/hr rate is used to bill tracked time.</div>
         <div id="personList"></div>
 
+        <div class="section-label">Firm &amp; billing</div>
+        <div id="firmSettings"></div>
+
         <div class="section-label">Data</div>
-        <div class="hint" style="margin-bottom:10px">Your data is stored locally in this browser. Use export to back it up or move it to another device.</div>
+        <div class="hint" style="margin-bottom:10px">Stored locally in this browser. Export to back up or move devices.</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <button class="btn sm" onclick="exportJSON()">⬇ Export JSON</button>
           <button class="btn sm" onclick="document.getElementById('jsonImp').click()">⬆ Import JSON</button>
@@ -327,7 +356,7 @@
   <!-- Import modal -->
   <div id="importOverlay" class="overlay" onclick="if(event.target===this)closeImport()">
     <div class="modal wide">
-      <div class="modal-head"><h2>Import returns</h2><button class="x" onclick="closeImport()">×</button></div>
+      <div class="modal-head"><h2>Import jobs</h2><button class="x" onclick="closeImport()">×</button></div>
       <div class="modal-body">
         <div class="import-tabs">
           <button id="impCsv" class="active" onclick="setImportMode('csv')">CSV file</button>
@@ -341,13 +370,13 @@
           <input id="csvFile" type="file" accept=".csv,text/csv" style="display:none" onchange="csvChosen(event)">
         </div>
         <div id="impPastePane" style="display:none">
-          <div class="hint" style="margin-bottom:6px">Copy rows from Excel/Google Sheets (including the header row) and paste below.</div>
-          <textarea id="pasteBox" class="mono" placeholder="Client Name  Entity  Preparer  Owner  Due Date …" style="width:100%;min-height:130px;border:1px solid var(--border);border-radius:8px;padding:9px;background:var(--surface);color:var(--text)"></textarea>
+          <div class="hint" style="margin-bottom:6px">Copy rows from Excel/Google Sheets (with the header row) and paste below.</div>
+          <textarea id="pasteBox" class="mono" placeholder="Client  Form  Preparer  Owner  Due Date …" style="width:100%;min-height:130px;border:1px solid var(--border);border-radius:8px;padding:9px;background:var(--surface);color:var(--text)"></textarea>
           <button class="btn sm" style="margin-top:8px" onclick="parsePaste()">Parse pasted data</button>
         </div>
         <div id="mapArea" style="display:none">
           <div class="section-label">Map columns</div>
-          <div class="hint" style="margin-bottom:10px">Match your columns to TaxFlow fields. Unmapped columns are ignored.</div>
+          <div class="hint" style="margin-bottom:10px">Match your columns to TaxFlow fields. New clients/people/statuses are created automatically.</div>
           <div id="mapGrid" class="map-grid"></div>
           <div id="preview" class="prev-table"></div>
         </div>
@@ -362,521 +391,617 @@
 
   <div id="toast" class="toast"></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 /* ============================ STATE & STORAGE ============================ */
-const LS_KEY = "taxflow_v1";
-const LS_THEME = "taxflow_theme";
-const LS_ACCENT = "taxflow_accent";
-let state = null;         // {statuses, people, returns}
-let view = "board";
-let currentId = null;     // editing return id
-let draftAttachments = [];
-let draftChecklist = [];
-let draftTags = [];
+const LS_KEY="taxflow_v1", LS_THEME="taxflow_theme", LS_ACCENT="taxflow_accent";
+let state=null, view="board", currentId=null;
+let draftAttachments=[], draftChecklist=[], draftTags=[], draftTime=[];
+let currentClientId=null, currentBillJob=null, billInvoice=null;
 
-const uid = () => Math.random().toString(36).slice(2,9);
-const nowISO = () => new Date().toISOString();
-const $ = id => document.getElementById(id);
+const uid=()=>Math.random().toString(36).slice(2,9);
+const nowISO=()=>new Date().toISOString();
+const todayISO=()=>new Date().toISOString().slice(0,10);
+const $=id=>document.getElementById(id);
 function initials(name){return (name||"?").split(/\s+/).map(w=>w[0]).slice(0,2).join("").toUpperCase();}
 
 /* ---------- Sample seed ---------- */
 function sampleState(){
-  const statuses = [
-    {id:"st_todo", name:"To Do", color:"#94a3b8", order:0},
-    {id:"st_docs", name:"Awaiting Docs", color:"#d97706", order:1},
-    {id:"st_prep", name:"In Preparation", color:"#2563eb", order:2},
-    {id:"st_rev",  name:"In Review", color:"#7c3aed", order:3},
-    {id:"st_sign", name:"Ready to File", color:"#0e9488", order:4},
-    {id:"st_done", name:"Complete", color:"#16a34a", order:5},
+  const statuses=[
+    {id:"st_todo",name:"To Do",color:"#94a3b8",order:0},
+    {id:"st_docs",name:"Awaiting Docs",color:"#d97706",order:1},
+    {id:"st_prep",name:"In Preparation",color:"#2563eb",order:2},
+    {id:"st_rev",name:"In Review",color:"#7c3aed",order:3},
+    {id:"st_sign",name:"Ready to File",color:"#0e9488",order:4},
+    {id:"st_done",name:"Complete",color:"#16a34a",order:5},
   ];
-  const people = [
-    {id:"p1", name:"Dana Whitfield"},
-    {id:"p2", name:"Marcus Lee"},
-    {id:"p3", name:"Priya Anand"},
-    {id:"p4", name:"Tom Rivera"},
-    {id:"p5", name:"Sarah Cohen"},
+  const people=[
+    {id:"p1",name:"Dana Whitfield",rate:250},
+    {id:"p2",name:"Marcus Lee",rate:150},
+    {id:"p3",name:"Priya Anand",rate:140},
+    {id:"p4",name:"Tom Rivera",rate:200},
+    {id:"p5",name:"Sarah Cohen",rate:120},
   ];
-  const mk = (o)=>({id:uid(), tags:[], details:"", notes:"", checklist:[], attachments:[],
-    priority:"Medium", createdAt:nowISO(), updatedAt:nowISO(), ...o});
-  const returns = [
-    mk({clientName:"Beacon Dental Group", entityType:"1120-S", taxYear:"2025", statusId:"st_prep",
-      ownerId:"p1", preparerId:"p2", workerId:"p2", dueDate:"2026-09-15", priority:"High",
-      tags:["S-Corp","Extension"], details:"K-1s to 4 shareholders. Prior year on file.",
-      checklist:[{text:"Trial balance received",done:true},{text:"Depreciation schedule",done:true},{text:"Reconcile shareholder distributions",done:false}]}),
-    mk({clientName:"Hollis & Fern LLC", entityType:"1065", taxYear:"2025", statusId:"st_docs",
-      ownerId:"p1", preparerId:"p3", workerId:"p3", dueDate:"2026-09-15", priority:"Medium",
-      tags:["Partnership"], details:"Waiting on Q4 bank statements."}),
-    mk({clientName:"Robert & Anne Castillo", entityType:"1040", taxYear:"2025", statusId:"st_todo",
-      ownerId:"p4", preparerId:"p5", workerId:"p5", dueDate:"2026-10-15", priority:"Low",
-      tags:["Individual","Extension"], details:"Schedule C + rental property."}),
-    mk({clientName:"Northgate Logistics Inc", entityType:"1120", taxYear:"2025", statusId:"st_rev",
-      ownerId:"p2", preparerId:"p4", workerId:"p4", dueDate:"2026-04-15", priority:"High",
-      tags:["C-Corp"], details:"Multi-state apportionment (OH, PA, IN).",
-      checklist:[{text:"Federal return drafted",done:true},{text:"State returns",done:true},{text:"Partner review",done:false}]}),
-    mk({clientName:"Willow Creek Foundation", entityType:"990", taxYear:"2025", statusId:"st_prep",
-      ownerId:"p3", preparerId:"p2", workerId:"p2", dueDate:"2026-11-15", priority:"Medium",
-      tags:["Non-Profit"], details:"Public charity, Schedule A support test."}),
-    mk({clientName:"Jian Wu", entityType:"1040", taxYear:"2025", statusId:"st_sign",
-      ownerId:"p5", preparerId:"p3", workerId:"p3", dueDate:"2026-04-15", priority:"Medium",
-      tags:["Individual"], details:"RSU income, needs e-file authorization."}),
-    mk({clientName:"Cedar Point Rentals LLC", entityType:"1065", taxYear:"2025", statusId:"st_done",
-      ownerId:"p1", preparerId:"p4", workerId:"p4", dueDate:"2026-03-15", priority:"Low",
-      tags:["Partnership","Real Estate"], details:"Filed 3/10. Confirmation on file."}),
-    mk({clientName:"Meridian Health Partners", entityType:"1120-S", taxYear:"2025", statusId:"st_todo",
-      ownerId:"p2", preparerId:"p5", workerId:"p5", dueDate:"2026-09-15", priority:"High",
-      tags:["S-Corp","New Client"], details:"First year with firm. Onboarding docs needed."}),
+  const clients=[
+    {id:"c1",name:"Beacon Dental Group",contactName:"Dr. Ellen Beacon",email:"ellen@beacondental.com",phone:"(216) 555-0142",address:"88 Prospect Ave\nCleveland, OH 44115",notes:"S-corp, 4 shareholders"},
+    {id:"c2",name:"Hollis & Fern LLC",contactName:"Greg Hollis",email:"greg@hollisfern.com",phone:"(330) 555-0110",address:"12 Market St\nAkron, OH 44308",notes:""},
+    {id:"c3",name:"Robert & Anne Castillo",contactName:"Robert Castillo",email:"rcastillo@gmail.com",phone:"(330) 555-0175",address:"440 Oak Lane\nKent, OH 44240",notes:"Individual + rental"},
+    {id:"c4",name:"Northgate Logistics Inc",contactName:"Marie Poole",email:"ap@northgate.com",phone:"(614) 555-0190",address:"900 Freight Rd\nColumbus, OH 43004",notes:"Multi-state"},
+    {id:"c5",name:"Willow Creek Foundation",contactName:"Sam Ortiz",email:"sam@willowcreek.org",phone:"(216) 555-0133",address:"5 Charity Way\nLakewood, OH 44107",notes:"501(c)(3)"},
+    {id:"c6",name:"Jian Wu",contactName:"Jian Wu",email:"jian.wu@outlook.com",phone:"(440) 555-0166",address:"210 Birch St\nSolon, OH 44139",notes:""},
+    {id:"c7",name:"Cedar Point Rentals LLC",contactName:"Dana Whitfield",email:"info@cedarpointrentals.com",phone:"(419) 555-0188",address:"7 Lakeshore Blvd\nSandusky, OH 44870",notes:"Real estate"},
+    {id:"c8",name:"Meridian Health Partners",contactName:"Dr. Alan Meridian",email:"billing@meridianhp.com",phone:"(216) 555-0121",address:"33 Wellness Dr\nBeachwood, OH 44122",notes:"New client"},
   ];
-  return {statuses, people, returns};
+  const mk=(o)=>({id:uid(),tags:[],details:"",notes:"",checklist:[],attachments:[],timeEntries:[],priority:"Medium",createdAt:nowISO(),updatedAt:nowISO(),...o});
+  const jobs=[
+    mk({clientId:"c1",entityType:"1120-S",taxYear:"2025",statusId:"st_prep",ownerId:"p1",preparerId:"p2",workerId:"p2",dueDate:"2026-09-15",priority:"High",
+      tags:["S-Corp","Extension"],details:"K-1s to 4 shareholders. Prior year on file.",
+      checklist:[{text:"Trial balance received",done:true},{text:"Depreciation schedule",done:true},{text:"Reconcile shareholder distributions",done:false}],
+      timeEntries:[{id:uid(),personId:"p2",date:"2026-07-08",hours:3.5,note:"Trial balance review"},{id:uid(),personId:"p2",date:"2026-07-13",hours:2,note:"Depreciation schedule"}]}),
+    mk({clientId:"c2",entityType:"1065",taxYear:"2025",statusId:"st_docs",ownerId:"p1",preparerId:"p3",workerId:"p3",dueDate:"2026-09-15",priority:"Medium",
+      tags:["Partnership"],details:"Waiting on Q4 bank statements."}),
+    mk({clientId:"c3",entityType:"1040",taxYear:"2025",statusId:"st_todo",ownerId:"p4",preparerId:"p5",workerId:"p5",dueDate:"2026-10-15",priority:"Low",
+      tags:["Individual","Extension"],details:"Schedule C + rental property."}),
+    mk({clientId:"c4",entityType:"1120",taxYear:"2025",statusId:"st_rev",ownerId:"p2",preparerId:"p4",workerId:"p4",dueDate:"2026-04-15",priority:"High",
+      tags:["C-Corp"],details:"Multi-state apportionment (OH, PA, IN).",
+      checklist:[{text:"Federal return drafted",done:true},{text:"State returns",done:true},{text:"Partner review",done:false}],
+      timeEntries:[{id:uid(),personId:"p4",date:"2026-07-01",hours:5,note:"Federal + state prep"},{id:uid(),personId:"p2",date:"2026-07-11",hours:1.5,note:"Partner review"}]}),
+    mk({clientId:"c5",entityType:"990",taxYear:"2025",statusId:"st_prep",ownerId:"p3",preparerId:"p2",workerId:"p2",dueDate:"2026-11-15",priority:"Medium",
+      tags:["Non-Profit"],details:"Public charity, Schedule A support test."}),
+    mk({clientId:"c6",entityType:"1040",taxYear:"2025",statusId:"st_sign",ownerId:"p5",preparerId:"p3",workerId:"p3",dueDate:"2026-04-15",priority:"Medium",
+      tags:["Individual"],details:"RSU income, needs e-file authorization.",
+      timeEntries:[{id:uid(),personId:"p3",date:"2026-06-20",hours:2.5,note:"Return prep"}]}),
+    mk({clientId:"c7",entityType:"1065",taxYear:"2025",statusId:"st_done",ownerId:"p1",preparerId:"p4",workerId:"p4",dueDate:"2026-03-15",priority:"Low",
+      tags:["Partnership","Real Estate"],details:"Filed 3/10. Confirmation on file.",
+      timeEntries:[{id:uid(),personId:"p4",date:"2026-03-05",hours:4,note:"Return prep and filing"}]}),
+    mk({clientId:"c8",entityType:"1120-S",taxYear:"2025",statusId:"st_todo",ownerId:"p2",preparerId:"p5",workerId:"p5",dueDate:"2026-09-15",priority:"High",
+      tags:["S-Corp","New Client"],details:"First year with firm. Onboarding docs needed."}),
+  ];
+  const firm={name:"Riverside Tax & Advisory, CPA",address:"400 Superior Ave, Suite 210\nCleveland, OH 44114",email:"billing@riversidetax.com",phone:"(216) 555-0100",invoicePrefix:"INV-",nextNo:1001,taxRate:0};
+  return {statuses,people,clients,jobs,firm};
 }
 
-/* ---------- Load / Save ---------- */
-function loadLocal(){
-  try{ const raw = localStorage.getItem(LS_KEY); if(raw) return JSON.parse(raw); }catch(e){}
-  return null;
+/* ---------- Migration / load / save ---------- */
+function migrate(s){
+  if(!s.people) s.people=[]; s.people.forEach(p=>{ if(p.rate==null) p.rate=0; });
+  if(!s.clients) s.clients=[];
+  const jobs = s.jobs || s.returns || [];
+  jobs.forEach(j=>{
+    if(!j.clientId){
+      const nm=(j.clientName||"Unknown").trim();
+      let c=s.clients.find(x=>x.name.toLowerCase()===nm.toLowerCase());
+      if(!c){ c={id:uid(),name:nm,contactName:"",email:"",phone:"",address:"",notes:""}; s.clients.push(c); }
+      j.clientId=c.id;
+    }
+    if(!j.timeEntries) j.timeEntries=[];
+    if(!j.tags) j.tags=[]; if(!j.checklist) j.checklist=[]; if(!j.attachments) j.attachments=[];
+    delete j.clientName;
+  });
+  s.jobs=jobs; delete s.returns;
+  if(!s.firm) s.firm={name:"Your Firm, CPA",address:"123 Main St\nCity, ST 00000",email:"",phone:"",invoicePrefix:"INV-",nextNo:1001,taxRate:0};
+  if(s.firm.nextNo==null) s.firm.nextNo=1001;
+  if(s.firm.invoicePrefix==null) s.firm.invoicePrefix="INV-";
+  if(s.firm.taxRate==null) s.firm.taxRate=0;
+  return s;
 }
-function saveLocal(){
-  try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }catch(e){ console.warn(e); toast("Storage full — remove large attachments"); }
-}
-function persist(){ state.__updated = nowISO(); saveLocal(); }
+function loadLocal(){ try{ const raw=localStorage.getItem(LS_KEY); if(raw) return migrate(JSON.parse(raw)); }catch(e){} return null; }
+function saveLocal(){ try{ localStorage.setItem(LS_KEY,JSON.stringify(state)); }catch(e){ console.warn(e); toast("Storage full — remove large attachments"); } }
+function persist(){ state.__updated=nowISO(); saveLocal(); }
 
 /* ============================ THEME & PREFS ============================ */
-function setTheme(t){
-  document.documentElement.setAttribute("data-theme", t);
-  localStorage.setItem(LS_THEME, t);
-  const b=$("themeBtn"); if(b) b.textContent = t==="dark" ? "☀️" : "🌙";
-  const s=$("prefDark"); if(s) s.checked = (t==="dark");
-}
-function toggleTheme(){
-  const cur = document.documentElement.getAttribute("data-theme")==="dark" ? "light" : "dark";
-  setTheme(cur);
-}
-function setAccent(hex){
-  document.documentElement.style.setProperty("--accent", hex);
-  document.documentElement.style.setProperty("--accent-ink", hex);
-  localStorage.setItem(LS_ACCENT, hex);
-  const p=$("prefAccent"); if(p) p.value=hex;
-}
-function initPrefs(){
-  setTheme(localStorage.getItem(LS_THEME) || "light");
-  const a=localStorage.getItem(LS_ACCENT); if(a) setAccent(a);
-}
+function setTheme(t){ document.documentElement.setAttribute("data-theme",t); localStorage.setItem(LS_THEME,t);
+  const b=$("themeBtn"); if(b) b.textContent=t==="dark"?"☀️":"🌙"; const s=$("prefDark"); if(s) s.checked=(t==="dark"); }
+function toggleTheme(){ setTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark"); }
+function setAccent(hex){ document.documentElement.style.setProperty("--accent",hex); document.documentElement.style.setProperty("--accent-ink",hex);
+  localStorage.setItem(LS_ACCENT,hex); const p=$("prefAccent"); if(p) p.value=hex; }
+function initPrefs(){ setTheme(localStorage.getItem(LS_THEME)||"light"); const a=localStorage.getItem(LS_ACCENT); if(a) setAccent(a); }
 
 /* ============================ HELPERS ============================ */
 function statusById(id){return state.statuses.find(s=>s.id===id);}
 function personById(id){return state.people.find(p=>p.id===id);}
 function personName(id){const p=personById(id);return p?p.name:"—";}
+function personRate(id){const p=personById(id);return p?(Number(p.rate)||0):0;}
+function clientById(id){return state.clients.find(c=>c.id===id);}
+function clientName(id){const c=clientById(id);return c?c.name:"—";}
 function sortedStatuses(){return [...state.statuses].sort((a,b)=>a.order-b.order);}
-function allTags(){const t=new Set();state.returns.forEach(r=>(r.tags||[]).forEach(x=>t.add(x)));return [...t].sort();}
+function allTags(){const t=new Set();state.jobs.forEach(r=>(r.tags||[]).forEach(x=>t.add(x)));return [...t].sort();}
 function daysUntil(d){if(!d)return null;const ms=new Date(d)-new Date(new Date().toDateString());return Math.round(ms/86400000);}
-function fmtDate(d){if(!d)return "";const dt=new Date(d+"T00:00:00");return dt.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});}
-function avatarMarkup(p,cls){
-  if(!p) return "";
-  const st = p.avatar ? `background-image:url('${p.avatar}')` : "";
-  return `<div class="avatar ${cls||''}" style="${st}" title="${esc(p.name)}">${p.avatar?"":initials(p.name)}</div>`;
-}
+function fmtDate(d){if(!d)return "";const dt=new Date(d+"T00:00:00");return isNaN(dt)?d:dt.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});}
+function jobHours(j){return (j.timeEntries||[]).reduce((s,t)=>s+(Number(t.hours)||0),0);}
+function jobCost(j){return (j.timeEntries||[]).reduce((s,t)=>s+(Number(t.hours)||0)*personRate(t.personId),0);}
+function avatarMarkup(p,cls){ if(!p) return ""; const st=p.avatar?`background-image:url('${p.avatar}')`:""; return `<div class="avatar ${cls||''}" style="${st}" title="${esc(p.name)}">${p.avatar?"":initials(p.name)}</div>`; }
+function esc(s){return (s==null?"":String(s)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function money(n){return "$"+(Number(n)||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});}
 
 /* ============================ FILTERS ============================ */
-function getFilters(){
-  return { q:$("search").value.trim().toLowerCase(), owner:$("fOwner").value, preparer:$("fPreparer").value,
-    status:$("fStatus").value, tag:$("fTag").value };
-}
+function getFilters(){ return {q:$("search").value.trim().toLowerCase(),client:$("fClient").value,owner:$("fOwner").value,preparer:$("fPreparer").value,status:$("fStatus").value,tag:$("fTag").value}; }
 function filtered(){
-  const f = getFilters();
-  return state.returns.filter(r=>{
+  const f=getFilters();
+  return state.jobs.filter(r=>{
+    if(f.client && r.clientId!==f.client) return false;
     if(f.owner && r.ownerId!==f.owner) return false;
     if(f.preparer && r.preparerId!==f.preparer) return false;
     if(f.status && r.statusId!==f.status) return false;
     if(f.tag && !(r.tags||[]).includes(f.tag)) return false;
-    if(f.q){
-      const hay=[r.clientName,r.entityType,r.taxYear,r.details,r.notes,(r.tags||[]).join(" "),
-        personName(r.ownerId),personName(r.preparerId),personName(r.workerId)].join(" ").toLowerCase();
-      if(!hay.includes(f.q)) return false;
-    }
+    if(f.q){ const hay=[clientName(r.clientId),r.entityType,r.taxYear,r.details,r.notes,(r.tags||[]).join(" "),
+      personName(r.ownerId),personName(r.preparerId),personName(r.workerId)].join(" ").toLowerCase(); if(!hay.includes(f.q)) return false; }
     return true;
   });
 }
-function clearFilters(){["fOwner","fPreparer","fStatus","fTag"].forEach(id=>$(id).value="");$("search").value="";applyFilters();}
+function clearFilters(){["fClient","fOwner","fPreparer","fStatus","fTag"].forEach(id=>$(id).value="");$("search").value="";applyFilters();}
 function applyFilters(){ renderView(); }
 function buildFilterOptions(){
-  const peo = state.people.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("");
-  $("fOwner").innerHTML = `<option value="">All owners</option>`+peo;
-  $("fPreparer").innerHTML = `<option value="">All preparers</option>`+peo;
-  $("fStatus").innerHTML = `<option value="">All statuses</option>`+sortedStatuses().map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join("");
-  $("fTag").innerHTML = `<option value="">All tags</option>`+allTags().map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join("");
+  const peo=state.people.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("");
+  const cli=[...state.clients].sort((a,b)=>a.name.localeCompare(b.name)).map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("");
+  $("fClient").innerHTML=`<option value="">All clients</option>`+cli;
+  $("fOwner").innerHTML=`<option value="">All owners</option>`+peo;
+  $("fPreparer").innerHTML=`<option value="">All preparers</option>`+peo;
+  $("fStatus").innerHTML=`<option value="">All statuses</option>`+sortedStatuses().map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join("");
+  $("fTag").innerHTML=`<option value="">All tags</option>`+allTags().map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join("");
 }
 
 /* ============================ RENDER ============================ */
 function renderAll(){ buildFilterOptions(); renderView(); }
-function setView(v){ view=v; $("tabBoard").classList.toggle("active",v==="board"); $("tabList").classList.toggle("active",v==="list");
-  $("boardView").style.display = v==="board"?"flex":"none"; $("listView").style.display = v==="list"?"block":"none"; renderView(); }
+function setView(v){ view=v;
+  $("tabBoard").classList.toggle("active",v==="board");
+  $("tabList").classList.toggle("active",v==="list");
+  $("tabClients").classList.toggle("active",v==="clients");
+  $("boardView").style.display=v==="board"?"flex":"none";
+  $("listView").style.display=v==="list"?"block":"none";
+  $("clientsView").style.display=v==="clients"?"block":"none";
+  renderView();
+}
 function renderView(){
-  const items = filtered();
-  $("count").textContent = `${items.length} of ${state.returns.length} returns`;
+  if(view==="clients"){ renderClients(); return; }
+  const items=filtered();
+  $("count").textContent=`${items.length} of ${state.jobs.length} jobs`;
   if(view==="board") renderBoard(items); else renderList(items);
 }
-function avatarSet(r){
-  const mk=(id,cls)=>{const p=personById(id);if(!p)return "";return avatarMarkup(p,cls);};
-  return `<div class="avatars">${mk(r.ownerId,"owner")}${mk(r.preparerId,"prep")}${mk(r.workerId,"work")}</div>`;
-}
+function avatarSet(r){ const mk=(id,cls)=>{const p=personById(id);return p?avatarMarkup(p,cls):"";}; return `<div class="avatars">${mk(r.ownerId,"owner")}${mk(r.preparerId,"prep")}${mk(r.workerId,"work")}</div>`; }
 function renderBoard(items){
-  const cols = sortedStatuses();
-  $("boardView").innerHTML = cols.map(st=>{
-    const cards = items.filter(r=>r.statusId===st.id);
+  $("boardView").innerHTML=sortedStatuses().map(st=>{
+    const cards=items.filter(r=>r.statusId===st.id);
     return `<div class="col" data-status="${st.id}" ondragover="colDragOver(event)" ondragleave="colDragLeave(event)" ondrop="colDrop(event,'${st.id}')">
       <div class="col-head"><span class="col-dot" style="background:${st.color}"></span>
         <span class="col-title">${esc(st.name)}</span><span class="col-count">${cards.length}</span></div>
-      <div class="col-body">
-        ${cards.map(cardHTML).join("") || `<div style="color:var(--faint);font-size:12px;padding:6px 2px">No returns</div>`}
-      </div></div>`;
+      <div class="col-body">${cards.map(cardHTML).join("")||`<div style="color:var(--faint);font-size:12px;padding:6px 2px">No jobs</div>`}</div></div>`;
   }).join("");
 }
 function cardHTML(r){
-  const du = daysUntil(r.dueDate), overdue = du!==null && du<0;
-  const dueTxt = r.dueDate ? `<span class="due ${overdue?'overdue':''}">📅 ${fmtDate(r.dueDate)}</span>` : "";
-  const tags = (r.tags||[]).slice(0,3).map(t=>`<span class="tag gray">${esc(t)}</span>`).join("");
-  const nAtt=(r.attachments||[]).length, nChk=(r.checklist||[]).length, done=(r.checklist||[]).filter(c=>c.done).length;
-  const icons=[]; if(nAtt) icons.push(`<span title="Attachments">📎 ${nAtt}</span>`); if(nChk) icons.push(`<span title="Checklist">✔ ${done}/${nChk}</span>`);
+  const du=daysUntil(r.dueDate),overdue=du!==null&&du<0;
+  const dueTxt=r.dueDate?`<span class="due ${overdue?'overdue':''}">📅 ${fmtDate(r.dueDate)}</span>`:"";
+  const tags=(r.tags||[]).slice(0,3).map(t=>`<span class="tag gray">${esc(t)}</span>`).join("")+(r.invoice?`<span class="tag billed">💵 Billed</span>`:"");
+  const nAtt=(r.attachments||[]).length,nChk=(r.checklist||[]).length,done=(r.checklist||[]).filter(c=>c.done).length,hrs=jobHours(r);
+  const icons=[]; if(hrs) icons.push(`<span title="Tracked time">⏱ ${hrs.toFixed(1)}h</span>`); if(nAtt) icons.push(`<span title="Attachments">📎 ${nAtt}</span>`); if(nChk) icons.push(`<span title="Checklist">✔ ${done}/${nChk}</span>`);
   return `<div class="card" draggable="true" ondragstart="cardDrag(event,'${r.id}')" onclick="openDetail('${r.id}')">
-    <div class="top"><div><div class="client">${esc(r.clientName)}</div>
+    <div class="top"><div><div class="client">${esc(clientName(r.clientId))}</div>
       <div class="sub">${esc(r.entityType)} · TY ${esc(r.taxYear||"")}</div></div>
       <span class="prio ${r.priority}">${r.priority}</span></div>
     <div class="meta">${tags}</div>
-    <div class="meta">${dueTxt}<div class="card-icons">${icons.join("")}</div>${avatarSet(r)}</div>
-  </div>`;
+    <div class="meta">${dueTxt}<div class="card-icons">${icons.join("")}</div>${avatarSet(r)}</div></div>`;
 }
-let sortKey="dueDate", sortDir=1;
+let sortKey="dueDate",sortDir=1;
 function renderList(items){
-  const cols=[["clientName","Client"],["entityType","Form"],["statusId","Status"],
-    ["ownerId","Owner"],["preparerId","Preparer"],["workerId","Working On"],
-    ["dueDate","Due"],["priority","Priority"],["tags","Tags"]];
+  const cols=[["clientId","Client"],["entityType","Form"],["statusId","Status"],["ownerId","Owner"],["preparerId","Preparer"],["workerId","Working On"],["hours","Hours"],["dueDate","Due"],["priority","Priority"]];
   const sorted=[...items].sort((a,b)=>{let x=sortVal(a,sortKey),y=sortVal(b,sortKey);return (x<y?-1:x>y?1:0)*sortDir;});
   const head=cols.map(([k,l])=>`<th onclick="sortBy('${k}')">${l}${sortKey===k?`<span class="arr">${sortDir>0?'▲':'▼'}</span>`:''}</th>`).join("");
   const rows=sorted.map(r=>{
-    const st=statusById(r.statusId);
-    const du=daysUntil(r.dueDate),overdue=du!==null&&du<0;
+    const st=statusById(r.statusId),du=daysUntil(r.dueDate),overdue=du!==null&&du<0;
     return `<tr onclick="openDetail('${r.id}')">
-      <td><div class="client">${esc(r.clientName)}</div><div class="sub">TY ${esc(r.taxYear||"")}</div></td>
+      <td><div class="client">${esc(clientName(r.clientId))}${r.invoice?' <span class="tag billed">Billed</span>':''}</div><div class="sub">TY ${esc(r.taxYear||"")}</div></td>
       <td>${esc(r.entityType)}</td>
       <td><span class="status-badge"><span class="d" style="background:${st?st.color:'#ccc'}"></span>${st?esc(st.name):'—'}</span></td>
-      <td>${esc(personName(r.ownerId))}</td>
-      <td>${esc(personName(r.preparerId))}</td>
-      <td>${esc(personName(r.workerId))}</td>
+      <td>${esc(personName(r.ownerId))}</td><td>${esc(personName(r.preparerId))}</td><td>${esc(personName(r.workerId))}</td>
+      <td>${jobHours(r).toFixed(1)}</td>
       <td class="${overdue?'due overdue':''}">${r.dueDate?fmtDate(r.dueDate):'—'}</td>
-      <td><span class="prio ${r.priority}">${r.priority}</span></td>
-      <td>${(r.tags||[]).map(t=>`<span class="tag gray">${esc(t)}</span>`).join(" ")}</td>
-    </tr>`;
+      <td><span class="prio ${r.priority}">${r.priority}</span></td></tr>`;
   }).join("");
-  $("listView").innerHTML = items.length ? `<div class="listwrap"><table><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div>`
-    : `<div class="listwrap"><div class="empty"><h3>No returns match</h3><div>Try clearing filters or adding a return.</div></div></div>`;
+  $("count").textContent=`${items.length} of ${state.jobs.length} jobs`;
+  $("listView").innerHTML=items.length?`<div class="listwrap"><table><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div>`
+    :`<div class="listwrap"><div class="empty"><h3>No jobs match</h3><div>Try clearing filters or adding a job.</div></div></div>`;
 }
 function sortVal(r,k){
+  if(k==="clientId")return clientName(r.clientId).toLowerCase();
   if(k==="statusId"){const s=statusById(r.statusId);return s?s.order:99;}
   if(k==="ownerId"||k==="preparerId"||k==="workerId")return personName(r[k]).toLowerCase();
   if(k==="priority")return {High:0,Medium:1,Low:2}[r.priority]??3;
-  if(k==="tags")return (r.tags||[]).join(",").toLowerCase();
+  if(k==="hours")return jobHours(r);
   if(k==="dueDate")return r.dueDate||"9999";
   return (r[k]||"").toString().toLowerCase();
 }
 function sortBy(k){ if(sortKey===k)sortDir*=-1; else{sortKey=k;sortDir=1;} renderList(filtered()); }
-function esc(s){return (s==null?"":String(s)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
 
-/* ============================ DRAG & DROP (board) ============================ */
+let cliSortKey="name",cliSortDir=1;
+function renderClients(){
+  const q=$("search").value.trim().toLowerCase();
+  let cs=state.clients
+    .filter(c=>!q||(c.name+" "+(c.contactName||"")+" "+(c.email||"")).toLowerCase().includes(q))
+    .map(c=>{const jobs=state.jobs.filter(j=>j.clientId===c.id);
+      return {c,jobs:jobs.length,hrs:jobs.reduce((s,j)=>s+jobHours(j),0),cost:jobs.reduce((s,j)=>s+jobCost(j),0)};});
+  const cv=(o)=>({name:o.c.name.toLowerCase(),contactName:(o.c.contactName||"").toLowerCase(),jobs:o.jobs,hrs:o.hrs,cost:o.cost}[cliSortKey]);
+  cs.sort((a,b)=>{let x=cv(a),y=cv(b);return (x<y?-1:x>y?1:0)*cliSortDir;});
+  $("count").textContent=`${cs.length} of ${state.clients.length} clients`;
+  const cols=[["name","Client"],["contactName","Contact"],["jobs","Jobs"],["hrs","Hours"],["cost","Billable value"]];
+  const head=cols.map(([k,l])=>`<th onclick="cliSortBy('${k}')">${l}${cliSortKey===k?`<span class="arr">${cliSortDir>0?'▲':'▼'}</span>`:''}</th>`).join("");
+  const rows=cs.map(o=>{const c=o.c;
+    return `<tr onclick="openClient('${c.id}')">
+      <td><div class="client">${esc(c.name)}</div><div class="sub">${c.email?esc(c.email):""}${c.phone?(c.email?" · ":"")+esc(c.phone):""}</div></td>
+      <td>${esc(c.contactName||"—")}</td>
+      <td>${o.jobs}</td>
+      <td>${o.hrs.toFixed(1)}</td>
+      <td>${money(o.cost)}</td></tr>`;}).join("");
+  $("clientsView").innerHTML=`<div style="margin-bottom:12px"><button class="btn primary sm" onclick="openClient(null)">+ New client</button></div>`+
+    (cs.length?`<div class="listwrap"><table><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div>`
+      :`<div class="listwrap"><div class="empty"><h3>No clients</h3><div>Add a client to get started.</div></div></div>`);
+}
+function cliSortBy(k){ if(cliSortKey===k)cliSortDir*=-1; else{cliSortKey=k;cliSortDir=1;} renderClients(); }
+
+/* ============================ DRAG & DROP ============================ */
 let dragId=null;
 function cardDrag(e,id){dragId=id;e.dataTransfer.effectAllowed="move";}
 function colDragOver(e){e.preventDefault();e.currentTarget.querySelector(".col-body").classList.add("drag-over");}
 function colDragLeave(e){e.currentTarget.querySelector(".col-body").classList.remove("drag-over");}
-function colDrop(e,statusId){
-  e.preventDefault(); e.currentTarget.querySelector(".col-body").classList.remove("drag-over");
-  const r=state.returns.find(x=>x.id===dragId);
-  if(r && r.statusId!==statusId){ r.statusId=statusId; r.updatedAt=nowISO(); persist(); renderView(); }
-  dragId=null;
-}
+function colDrop(e,statusId){ e.preventDefault(); e.currentTarget.querySelector(".col-body").classList.remove("drag-over");
+  const r=state.jobs.find(x=>x.id===dragId); if(r&&r.statusId!==statusId){r.statusId=statusId;r.updatedAt=nowISO();persist();renderView();} dragId=null; }
 
-/* ============================ DETAIL EDITOR ============================ */
-function openDetail(id){
+/* ============================ JOB DETAIL ============================ */
+function clientOpts(sel){ return [...state.clients].sort((a,b)=>a.name.localeCompare(b.name)).map(c=>`<option value="${c.id}" ${sel===c.id?"selected":""}>${esc(c.name)}</option>`).join(""); }
+function openDetail(id,presetClientId){
   currentId=id;
-  const r = id ? state.returns.find(x=>x.id===id) : null;
-  draftAttachments = r ? JSON.parse(JSON.stringify(r.attachments||[])) : [];
-  draftChecklist   = r ? JSON.parse(JSON.stringify(r.checklist||[])) : [];
-  draftTags        = r ? [...(r.tags||[])] : [];
-  $("detailTitle").textContent = r ? r.clientName : "New Tax Return";
-  $("detailDelete").style.display = r ? "inline-flex" : "none";
+  const r=id?state.jobs.find(x=>x.id===id):null;
+  draftAttachments=r?JSON.parse(JSON.stringify(r.attachments||[])):[];
+  draftChecklist=r?JSON.parse(JSON.stringify(r.checklist||[])):[];
+  draftTags=r?[...(r.tags||[])]:[];
+  draftTime=r?JSON.parse(JSON.stringify(r.timeEntries||[])):[];
+  $("detailTitle").textContent=r?clientName(r.clientId):"New Job";
+  $("detailDelete").style.display=r?"inline-flex":"none";
   const peopleOpts=(sel)=>state.people.map(p=>`<option value="${p.id}" ${sel===p.id?"selected":""}>${esc(p.name)}</option>`).join("");
   const statusOpts=(sel)=>sortedStatuses().map(s=>`<option value="${s.id}" ${sel===s.id?"selected":""}>${esc(s.name)}</option>`).join("");
   const prioOpts=(sel)=>["High","Medium","Low"].map(p=>`<option ${sel===p?"selected":""}>${p}</option>`).join("");
-  const g=r||{};
-  $("detailBody").innerHTML = `
+  const g=r||{}; const cliSel=g.clientId||presetClientId||"";
+  $("detailBody").innerHTML=`
+    <div class="field"><label>Client</label>
+      <div style="display:flex;gap:8px"><select id="d_client" style="flex:1">${clientOpts(cliSel)}</select>
+      <button class="btn sm" type="button" onclick="quickAddClient()">+ New</button></div></div>
     <div class="grid2">
-      <div class="field"><label>Client name</label><input id="d_client" type="text" value="${esc(g.clientName||"")}" placeholder="e.g. Beacon Dental Group"></div>
-      <div class="field"><label>Form / entity type</label><input id="d_entity" type="text" value="${esc(g.entityType||"")}" placeholder="1040, 1120-S, 1065…"></div>
+      <div class="field"><label>Service / form</label><input id="d_entity" type="text" value="${esc(g.entityType||"")}" placeholder="1040, 1120-S, 1065…"></div>
+      <div class="field"><label>Tax year</label><input id="d_year" type="text" value="${esc(g.taxYear||"2025")}"></div>
     </div>
     <div class="grid3">
-      <div class="field"><label>Tax year</label><input id="d_year" type="text" value="${esc(g.taxYear||"2025")}"></div>
       <div class="field"><label>Status</label><select id="d_status">${statusOpts(g.statusId)}</select></div>
       <div class="field"><label>Priority</label><select id="d_prio">${prioOpts(g.priority||"Medium")}</select></div>
+      <div class="field"><label>Due date</label><input id="d_due" type="date" value="${esc(g.dueDate||"")}"></div>
     </div>
     <div class="grid3">
       <div class="field"><label>Account owner</label><select id="d_owner"><option value="">—</option>${peopleOpts(g.ownerId)}</select></div>
       <div class="field"><label>Preparer</label><select id="d_prep"><option value="">—</option>${peopleOpts(g.preparerId)}</select></div>
       <div class="field"><label>Working on it</label><select id="d_work"><option value="">—</option>${peopleOpts(g.workerId)}</select></div>
     </div>
-    <div class="field"><label>Due date</label><input id="d_due" type="date" value="${esc(g.dueDate||"")}"></div>
-    <div class="section-label">Tags</div>
-    <div id="tagRow" class="tagrow"></div>
+    <div class="section-label">Tags</div><div id="tagRow" class="tagrow"></div>
     <div class="section-label">Details</div>
-    <div class="field"><textarea id="d_details" placeholder="Scope, engagement notes, special considerations…">${esc(g.details||"")}</textarea></div>
-    <div class="section-label">Checklist / preparation steps</div>
-    <div id="chkList"></div>
+    <div class="field"><textarea id="d_details" placeholder="Scope, engagement notes…">${esc(g.details||"")}</textarea></div>
+    <div class="section-label">Checklist / preparation steps</div><div id="chkList"></div>
     <button class="btn sm" style="margin-top:8px" onclick="addCheck()">+ Add step</button>
-    <div class="section-label">Attachments</div>
-    <div id="attList"></div>
-    <div id="attDrop" class="dropzone" onclick="document.getElementById('attFile').click()">
-      <b>Drop files here or click to attach</b><div class="hint">Stored with the return. Keep demo files small.</div></div>
+    <div class="section-label">Time entries</div>
+    <div class="hint" style="margin-bottom:8px">Record hours worked toward this job. Billed at each person's rate.</div>
+    <div id="timeList"></div>
+    <button class="btn sm" style="margin-top:4px" onclick="addTime()">+ Add time</button>
+    <div class="totbox" id="timeTotal"></div>
+    <div class="section-label">Billing</div><div id="billInfo"></div>
+    <div class="section-label">Attachments</div><div id="attList"></div>
+    <div id="attDrop" class="dropzone" onclick="document.getElementById('attFile').click()"><b>Drop files here or click to attach</b><div class="hint">Stored with the job. Keep demo files small.</div></div>
     <input id="attFile" type="file" multiple style="display:none" onchange="attChosen(event)">
     <div class="section-label">Internal notes</div>
-    <div class="field"><textarea id="d_notes" placeholder="Anything the team should know…">${esc(g.notes||"")}</textarea></div>
-  `;
-  renderTags(); renderChecklist(); renderAttachments(); setupAttDrop();
+    <div class="field"><textarea id="d_notes" placeholder="Anything the team should know…">${esc(g.notes||"")}</textarea></div>`;
+  renderTags(); renderChecklist(); renderTime(); renderAttachments(); renderBillInfo(); setupAttDrop();
   $("detailOverlay").classList.add("open");
 }
 function closeDetail(){ $("detailOverlay").classList.remove("open"); currentId=null; }
-function renderTags(){
-  $("tagRow").innerHTML = draftTags.map((t,i)=>`<span class="tag-pill">${esc(t)}<button onclick="rmTag(${i})">×</button></span>`).join("")
-    + `<input class="tag-input" id="tagInput" placeholder="+ tag, Enter" onkeydown="tagKey(event)">`;
+function quickAddClient(){
+  const n=prompt("New client name:"); if(!n||!n.trim())return;
+  const c={id:uid(),name:n.trim(),contactName:"",email:"",phone:"",address:"",notes:""};
+  state.clients.push(c); persist(); buildFilterOptions();
+  const sel=$("d_client"); sel.innerHTML=clientOpts(c.id); toast("Client added");
 }
+function renderTags(){ $("tagRow").innerHTML=draftTags.map((t,i)=>`<span class="tag-pill">${esc(t)}<button onclick="rmTag(${i})">×</button></span>`).join("")+`<input class="tag-input" id="tagInput" placeholder="+ tag, Enter" onkeydown="tagKey(event)">`; }
 function tagKey(e){ if(e.key==="Enter"){e.preventDefault();const v=e.target.value.trim();if(v&&!draftTags.includes(v)){draftTags.push(v);renderTags();$("tagInput").focus();}} }
 function rmTag(i){ draftTags.splice(i,1); renderTags(); }
-function renderChecklist(){
-  $("chkList").innerHTML = draftChecklist.map((c,i)=>`
-    <div class="check-item ${c.done?'done':''}">
-      <input type="checkbox" ${c.done?"checked":""} onchange="toggleCheck(${i})">
-      <input type="text" value="${esc(c.text)}" oninput="editCheck(${i},this.value)" placeholder="Step…">
-      <button class="del" onclick="rmCheck(${i})">×</button></div>`).join("");
-}
+function renderChecklist(){ $("chkList").innerHTML=draftChecklist.map((c,i)=>`<div class="check-item ${c.done?'done':''}"><input type="checkbox" ${c.done?"checked":""} onchange="toggleCheck(${i})"><input type="text" value="${esc(c.text)}" oninput="editCheck(${i},this.value)" placeholder="Step…"><button class="del" onclick="rmCheck(${i})">×</button></div>`).join(""); }
 function addCheck(){ draftChecklist.push({text:"",done:false}); renderChecklist(); }
 function toggleCheck(i){ draftChecklist[i].done=!draftChecklist[i].done; renderChecklist(); }
 function editCheck(i,v){ draftChecklist[i].text=v; }
 function rmCheck(i){ draftChecklist.splice(i,1); renderChecklist(); }
-function renderAttachments(){
-  $("attList").innerHTML = draftAttachments.map((a,i)=>`
-    <div class="attach"><div class="fi">${esc((a.name.split(".").pop()||"?").slice(0,4).toUpperCase())}</div>
-      <div><div class="nm">${esc(a.name)}</div><div class="sz">${fmtSize(a.size)}</div></div>
-      <div class="acts"><a class="btn sm" href="${a.dataUrl}" download="${esc(a.name)}">Download</a>
-        <button class="btn sm danger" onclick="rmAtt(${i})">Remove</button></div></div>`).join("");
+
+function peopleTimeOpts(sel){ return `<option value="">— who —</option>`+state.people.map(p=>`<option value="${p.id}" ${sel===p.id?"selected":""}>${esc(p.name)} ($${p.rate||0})</option>`).join(""); }
+function renderTime(){
+  $("timeList").innerHTML=draftTime.map((t,i)=>`<div class="tl-row">
+    <select onchange="draftTime[${i}].personId=this.value;renderTimeTotal()">${peopleTimeOpts(t.personId)}</select>
+    <input type="date" value="${esc(t.date||'')}" onchange="draftTime[${i}].date=this.value">
+    <input class="hrs" type="number" step="0.25" min="0" value="${t.hours||''}" placeholder="hrs" oninput="draftTime[${i}].hours=parseFloat(this.value)||0;renderTimeTotal()">
+    <input class="note" type="text" value="${esc(t.note||'')}" placeholder="What was done" oninput="draftTime[${i}].note=this.value">
+    <button class="del" onclick="rmTime(${i})">×</button></div>`).join("");
+  renderTimeTotal();
 }
+function renderTimeTotal(){ let h=0,c=0; draftTime.forEach(t=>{const hh=Number(t.hours)||0;h+=hh;c+=hh*personRate(t.personId);}); $("timeTotal").innerHTML=`Total tracked: <b>${h.toFixed(2)} hrs</b> · <b>${money(c)}</b>`; }
+function addTime(){ draftTime.push({id:uid(),personId:state.people[0]?.id||"",date:todayISO(),hours:0,note:""}); renderTime(); }
+function rmTime(i){ draftTime.splice(i,1); renderTime(); }
+
+function renderBillInfo(){
+  const el=$("billInfo");
+  if(!currentId){ el.innerHTML=`<div class="hint">Save the job first, then you can create a bill from tracked time.</div>`; return; }
+  const job=state.jobs.find(j=>j.id===currentId);
+  if(job&&job.invoice){
+    el.innerHTML=`<div class="totbox">Invoiced: <b>${esc(job.invoice.number)}</b> · ${fmtDate(job.invoice.date)} · <b>${money(job.invoice.total)}</b>
+      <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" onclick="openBill()">Re-create / edit bill</button></div></div>`;
+  } else {
+    el.innerHTML=`<div class="totbox">Not billed yet.<div style="margin-top:8px"><button class="btn sm primary" onclick="openBill()">💵 Create bill (PDF)</button></div></div>`;
+  }
+}
+
+function renderAttachments(){ $("attList").innerHTML=draftAttachments.map((a,i)=>`<div class="attach"><div class="fi">${esc((a.name.split(".").pop()||"?").slice(0,4).toUpperCase())}</div><div><div class="nm">${esc(a.name)}</div><div class="sz">${fmtSize(a.size)}</div></div><div class="acts"><a class="btn sm" href="${a.dataUrl}" download="${esc(a.name)}">Download</a><button class="btn sm danger" onclick="rmAtt(${i})">Remove</button></div></div>`).join(""); }
 function fmtSize(b){if(!b)return"";const u=["B","KB","MB"];let i=0,n=b;while(n>=1024&&i<2){n/=1024;i++;}return n.toFixed(n<10&&i>0?1:0)+" "+u[i];}
 function attChosen(e){ handleFiles(e.target.files); e.target.value=""; }
-function handleFiles(files){
-  [...files].forEach(f=>{
-    if(f.size>3*1024*1024){ toast(`${f.name} is large (>3MB) — skipped for demo`); return; }
-    const rd=new FileReader();
-    rd.onload=()=>{ draftAttachments.push({name:f.name,size:f.size,type:f.type,dataUrl:rd.result}); renderAttachments(); };
-    rd.readAsDataURL(f);
-  });
-}
+function handleFiles(files){ [...files].forEach(f=>{ if(f.size>3*1024*1024){toast(`${f.name} is large (>3MB) — skipped`);return;} const rd=new FileReader(); rd.onload=()=>{draftAttachments.push({name:f.name,size:f.size,type:f.type,dataUrl:rd.result});renderAttachments();}; rd.readAsDataURL(f); }); }
 function rmAtt(i){ draftAttachments.splice(i,1); renderAttachments(); }
-function setupAttDrop(){
-  const dz=$("attDrop");
-  ["dragover","dragenter"].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add("over");}));
-  ["dragleave","drop"].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove("over");}));
-  dz.addEventListener("drop",e=>handleFiles(e.dataTransfer.files));
-}
-function saveDetail(){
-  const client=$("d_client").value.trim();
-  if(!client){ toast("Client name is required"); return; }
-  const data={ clientName:client, entityType:$("d_entity").value.trim(), taxYear:$("d_year").value.trim(),
-    statusId:$("d_status").value, priority:$("d_prio").value,
-    ownerId:$("d_owner").value, preparerId:$("d_prep").value, workerId:$("d_work").value,
+function setupAttDrop(){ const dz=$("attDrop"); ["dragover","dragenter"].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add("over");})); ["dragleave","drop"].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove("over");})); dz.addEventListener("drop",e=>handleFiles(e.dataTransfer.files)); }
+
+function commitDetail(){
+  const clientId=$("d_client").value;
+  if(!clientId){ toast("Pick a client"); return null; }
+  const data={ clientId, entityType:$("d_entity").value.trim(), taxYear:$("d_year").value.trim(),
+    statusId:$("d_status").value, priority:$("d_prio").value, ownerId:$("d_owner").value, preparerId:$("d_prep").value, workerId:$("d_work").value,
     dueDate:$("d_due").value, details:$("d_details").value, notes:$("d_notes").value,
-    tags:draftTags, checklist:draftChecklist.filter(c=>c.text.trim()), attachments:draftAttachments, updatedAt:nowISO() };
-  if(currentId){ const r=state.returns.find(x=>x.id===currentId); Object.assign(r,data); }
-  else { state.returns.push({id:uid(), createdAt:nowISO(), ...data}); }
-  persist(); buildFilterOptions(); renderView(); closeDetail(); toast("Saved");
+    tags:draftTags, checklist:draftChecklist.filter(c=>c.text.trim()), timeEntries:draftTime.filter(t=>t.personId||Number(t.hours)), attachments:draftAttachments, updatedAt:nowISO() };
+  let job;
+  if(currentId){ job=state.jobs.find(x=>x.id===currentId); Object.assign(job,data); }
+  else { job={id:uid(),createdAt:nowISO(),...data}; state.jobs.push(job); currentId=job.id; }
+  persist(); return job;
 }
-function deleteCurrent(){
-  if(!currentId)return;
-  if(!confirm("Delete this return?"))return;
-  state.returns=state.returns.filter(x=>x.id!==currentId);
-  persist(); buildFilterOptions(); renderView(); closeDetail(); toast("Deleted");
+function saveDetail(){ const j=commitDetail(); if(!j)return; buildFilterOptions(); renderView(); closeDetail(); toast("Saved"); }
+function deleteCurrent(){ if(!currentId)return; if(!confirm("Delete this job?"))return; state.jobs=state.jobs.filter(x=>x.id!==currentId); persist(); buildFilterOptions(); renderView(); closeDetail(); toast("Deleted"); }
+
+/* ============================ CLIENT MODAL ============================ */
+function openClient(id){
+  currentClientId=id;
+  const c=id?clientById(id):null;
+  $("clientTitle").textContent=c?c.name:"New Client";
+  $("clientDelete").style.display=c?"inline-flex":"none";
+  const g=c||{};
+  const jobs=c?state.jobs.filter(j=>j.clientId===c.id):[];
+  const jobList=jobs.length?jobs.map(j=>{const st=statusById(j.statusId);return `<div class="job-mini" onclick="openJobFromClient('${j.id}')"><span class="d" style="background:${st?st.color:'#ccc'}"></span><div><div class="jt">${esc(j.entityType||"Job")} · TY ${esc(j.taxYear||"")}</div><div class="sub">${st?esc(st.name):""}${j.invoice?" · Billed":""}</div></div><div class="mm">${jobHours(j).toFixed(1)}h · ${money(jobCost(j))}</div></div>`;}).join(""):`<div class="hint">No jobs yet.</div>`;
+  $("clientBody").innerHTML=`
+    <div class="grid2">
+      <div class="field"><label>Client name</label><input id="cl_name" type="text" value="${esc(g.name||"")}" placeholder="Company or individual"></div>
+      <div class="field"><label>Primary contact</label><input id="cl_contact" type="text" value="${esc(g.contactName||"")}"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Email</label><input id="cl_email" type="email" value="${esc(g.email||"")}"></div>
+      <div class="field"><label>Phone</label><input id="cl_phone" type="text" value="${esc(g.phone||"")}"></div>
+    </div>
+    <div class="field"><label>Address</label><textarea id="cl_addr" placeholder="Street&#10;City, ST ZIP">${esc(g.address||"")}</textarea></div>
+    <div class="field"><label>Notes</label><textarea id="cl_notes">${esc(g.notes||"")}</textarea></div>
+    <div class="section-label">Jobs for this client ${c?`<button class="btn sm" style="float:right;margin-top:-4px" onclick="newJobForClient('${c.id}')">+ New job</button>`:""}</div>
+    ${jobList}`;
+  $("clientOverlay").classList.add("open");
+}
+function closeClient(){ $("clientOverlay").classList.remove("open"); currentClientId=null; }
+function saveClient(){
+  const name=$("cl_name").value.trim(); if(!name){ toast("Client name is required"); return; }
+  const data={name,contactName:$("cl_contact").value.trim(),email:$("cl_email").value.trim(),phone:$("cl_phone").value.trim(),address:$("cl_addr").value,notes:$("cl_notes").value};
+  if(currentClientId){ Object.assign(clientById(currentClientId),data); }
+  else { state.clients.push({id:uid(),...data}); }
+  persist(); buildFilterOptions(); renderView(); closeClient(); toast("Client saved");
+}
+function deleteClient(){
+  if(!currentClientId)return;
+  const n=state.jobs.filter(j=>j.clientId===currentClientId).length;
+  if(n){ toast(`Move or delete this client's ${n} job(s) first`); return; }
+  if(!confirm("Delete this client?"))return;
+  state.clients=state.clients.filter(c=>c.id!==currentClientId);
+  persist(); buildFilterOptions(); renderView(); closeClient(); toast("Client deleted");
+}
+function newJobForClient(cid){ closeClient(); openDetail(null,cid); }
+function openJobFromClient(jid){ closeClient(); openDetail(jid); }
+
+/* ============================ BILLING / PDF ============================ */
+function buildInvoice(job){
+  const groups={};
+  (job.timeEntries||[]).forEach(t=>{ const hh=Number(t.hours)||0; if(!hh)return; const k=t.personId||"_"; (groups[k]=groups[k]||{hours:0}).hours+=hh; });
+  let items=Object.entries(groups).map(([pid,g])=>({desc:`${personName(pid)} — ${job.entityType||"Professional services"} (TY ${job.taxYear||""})`,hours:g.hours,rate:personRate(pid),amount:+(g.hours*personRate(pid)).toFixed(2)}));
+  if(!items.length) items=[{desc:`${job.entityType||"Professional services"} (TY ${job.taxYear||""})`,hours:0,rate:0,amount:0}];
+  const num=(state.firm.invoicePrefix||"INV-")+(state.firm.nextNo||1001);
+  return {number:num,date:todayISO(),lineItems:items,taxRate:Number(state.firm.taxRate)||0,notes:"Thank you for your business. Payment due within 30 days."};
+}
+function openBill(){
+  const job=commitDetail(); if(!job){ return; }
+  currentBillJob=job; billInvoice=buildInvoice(job); renderBill(); $("billOverlay").classList.add("open");
+}
+function closeBill(){ $("billOverlay").classList.remove("open"); }
+function renderBill(){
+  const c=clientById(currentBillJob.clientId)||{};
+  $("billBody").innerHTML=`
+    <div class="hint" style="margin-bottom:12px">Line items are prefilled from tracked time. Edit as needed, then Save PDF. Firm details come from Settings → Firm &amp; billing.</div>
+    <div class="grid2">
+      <div class="field"><label>Invoice #</label><input id="bi_num" type="text" value="${esc(billInvoice.number)}"></div>
+      <div class="field"><label>Date</label><input id="bi_date" type="date" value="${esc(billInvoice.date)}"></div>
+    </div>
+    <div style="margin-bottom:10px"><b>Bill To:</b> ${esc(c.name||"")}${c.contactName?" — "+esc(c.contactName):""}</div>
+    <table class="bill-table" style="width:100%"><thead><tr><th>Description</th><th style="width:80px">Hours</th><th style="width:90px">Rate</th><th style="text-align:right">Amount</th><th></th></tr></thead><tbody id="biBody"></tbody></table>
+    <button class="btn sm" style="margin-top:8px" onclick="addBillLine()">+ Add line</button>
+    <div class="grid2" style="margin-top:14px"><div class="field"><label>Tax rate %</label><input id="bi_tax" type="number" step="0.1" value="${billInvoice.taxRate||0}" oninput="recalcBill()"></div></div>
+    <div id="biTotals" style="text-align:right;margin:6px 0 12px"></div>
+    <div class="field"><label>Notes on invoice</label><textarea id="bi_notes">${esc(billInvoice.notes||"")}</textarea></div>`;
+  renderBillRows();
+}
+function renderBillRows(){
+  $("biBody").innerHTML=billInvoice.lineItems.map((li,i)=>`<tr>
+    <td><input type="text" value="${esc(li.desc||'')}" style="width:100%" oninput="billInvoice.lineItems[${i}].desc=this.value"></td>
+    <td><input type="number" step="0.25" value="${li.hours||0}" style="width:70px" oninput="billInvoice.lineItems[${i}].hours=parseFloat(this.value)||0;recalcBill()"></td>
+    <td><input type="number" step="5" value="${li.rate||0}" style="width:80px" oninput="billInvoice.lineItems[${i}].rate=parseFloat(this.value)||0;recalcBill()"></td>
+    <td class="amt" style="text-align:right">${money((li.hours||0)*(li.rate||0))}</td>
+    <td><button class="del" style="border:none;background:none;color:var(--faint);cursor:pointer;font-size:16px" onclick="rmBillLine(${i})">×</button></td></tr>`).join("");
+  recalcBill();
+}
+function addBillLine(){ billInvoice.lineItems.push({desc:"",hours:0,rate:0}); renderBillRows(); }
+function rmBillLine(i){ billInvoice.lineItems.splice(i,1); renderBillRows(); }
+function recalcBill(){
+  let sub=0; billInvoice.lineItems.forEach(li=>sub+=(Number(li.hours)||0)*(Number(li.rate)||0));
+  const tr=parseFloat(($("bi_tax")||{}).value)||0; const tax=sub*tr/100, total=sub+tax;
+  document.querySelectorAll("#biBody tr").forEach((row,i)=>{const li=billInvoice.lineItems[i];const cell=row.querySelector(".amt");if(cell)cell.textContent=money((li.hours||0)*(li.rate||0));});
+  $("biTotals").innerHTML=`<div>Subtotal: <b>${money(sub)}</b></div>${tr?`<div>Tax (${tr}%): <b>${money(tax)}</b></div>`:""}<div style="font-size:16px;margin-top:4px">Total Due: <b>${money(total)}</b></div>`;
+}
+function makePDF(job,inv){
+  if(!window.jspdf||!window.jspdf.jsPDF){ toast("PDF library still loading — try again in a moment"); return null; }
+  const {jsPDF}=window.jspdf; const doc=new jsPDF({unit:"pt",format:"letter"});
+  const M=54, W=doc.internal.pageSize.getWidth(); let y=58;
+  const f=state.firm, client=clientById(job.clientId)||{name:""};
+  doc.setFont("helvetica","bold").setFontSize(18).setTextColor(20); doc.text(f.name||"Your Firm",M,y);
+  doc.setFont("helvetica","normal").setFontSize(10).setTextColor(90); let ay=y+16;
+  (f.address||"").split("\n").forEach(l=>{if(l){doc.text(l,M,ay);ay+=13;}});
+  if(f.email){doc.text(f.email,M,ay);ay+=13;} if(f.phone){doc.text(f.phone,M,ay);ay+=13;}
+  doc.setFont("helvetica","bold").setFontSize(22).setTextColor(20); doc.text("INVOICE",W-M,y,{align:"right"});
+  doc.setFont("helvetica","normal").setFontSize(10).setTextColor(90);
+  doc.text("Invoice #: "+inv.number,W-M,y+18,{align:"right"});
+  doc.text("Date: "+fmtDate(inv.date),W-M,y+32,{align:"right"});
+  y=Math.max(ay,y+50)+16;
+  doc.setFont("helvetica","bold").setFontSize(11).setTextColor(20); doc.text("Bill To",M,y); y+=15;
+  doc.setFont("helvetica","normal").setFontSize(10).setTextColor(60);
+  if(client.name){doc.text(client.name,M,y);y+=13;}
+  if(client.contactName){doc.text(client.contactName,M,y);y+=13;}
+  (client.address||"").split("\n").forEach(l=>{if(l){doc.text(l,M,y);y+=13;}});
+  if(client.email){doc.text(client.email,M,y);y+=13;}
+  y+=16;
+  const xHrs=W-M-190, xRate=W-M-100, xAmt=W-M;
+  doc.setFillColor(37,99,235); doc.rect(M,y-13,W-2*M,20,"F");
+  doc.setTextColor(255).setFont("helvetica","bold").setFontSize(10);
+  doc.text("Description",M+6,y); doc.text("Hours",xHrs,y,{align:"right"}); doc.text("Rate",xRate,y,{align:"right"}); doc.text("Amount",xAmt-6,y,{align:"right"});
+  y+=22; doc.setTextColor(30).setFont("helvetica","normal");
+  let sub=0;
+  inv.lineItems.forEach(li=>{ const amt=(Number(li.hours)||0)*(Number(li.rate)||0); sub+=amt;
+    const lines=doc.splitTextToSize(String(li.desc||""), xHrs-M-30);
+    doc.text(lines,M+6,y);
+    doc.text((Number(li.hours)||0).toFixed(2),xHrs,y,{align:"right"});
+    doc.text("$"+(Number(li.rate)||0).toFixed(2),xRate,y,{align:"right"});
+    doc.text("$"+amt.toFixed(2),xAmt-6,y,{align:"right"});
+    y+=Math.max(16,lines.length*13); if(y>720){doc.addPage();y=60;} });
+  y+=6; doc.setDrawColor(210); doc.line(xRate-40,y,xAmt,y); y+=16;
+  const tax=sub*(Number(inv.taxRate)||0)/100, total=sub+tax;
+  doc.text("Subtotal",xRate,y,{align:"right"}); doc.text("$"+sub.toFixed(2),xAmt-6,y,{align:"right"}); y+=15;
+  if(Number(inv.taxRate)){ doc.text("Tax ("+inv.taxRate+"%)",xRate,y,{align:"right"}); doc.text("$"+tax.toFixed(2),xAmt-6,y,{align:"right"}); y+=15; }
+  doc.setFont("helvetica","bold").setFontSize(12); doc.text("Total Due",xRate,y,{align:"right"}); doc.text("$"+total.toFixed(2),xAmt-6,y,{align:"right"});
+  if(inv.notes){ y+=32; doc.setFont("helvetica","normal").setFontSize(9).setTextColor(90); doc.text(doc.splitTextToSize("Notes: "+inv.notes,W-2*M),M,y); }
+  doc.setFontSize(8).setTextColor(150); doc.text("Generated by TaxFlow",M,762);
+  doc.save(inv.number.replace(/[^\w\-]/g,"_")+".pdf");
+  return +total.toFixed(2);
+}
+function saveBillPDF(){
+  billInvoice.number=($("bi_num").value||"").trim()||billInvoice.number;
+  billInvoice.date=$("bi_date").value||billInvoice.date;
+  billInvoice.taxRate=parseFloat($("bi_tax").value)||0;
+  billInvoice.notes=$("bi_notes").value;
+  const total=makePDF(currentBillJob,billInvoice);
+  if(total===null) return;
+  const job=currentBillJob;
+  job.invoice={number:billInvoice.number,date:billInvoice.date,total:total,createdAt:nowISO()};
+  job.billedAt=nowISO();
+  const usedNo=parseInt(((billInvoice.number||"").match(/(\d+)\s*$/)||[])[1]);
+  if(usedNo && usedNo>=(state.firm.nextNo||0)) state.firm.nextNo=usedNo+1;
+  persist(); renderView(); closeBill(); toast("Invoice saved as PDF");
+  if(currentId===job.id) openDetail(job.id);
 }
 
 /* ============================ SETTINGS ============================ */
-function openSettings(){ renderStatusSettings(); renderPersonSettings(); $("settingsOverlay").classList.add("open"); }
+function openSettings(){ renderStatusSettings(); renderPersonSettings(); renderFirmSettings(); $("settingsOverlay").classList.add("open"); }
 function closeSettings(){ $("settingsOverlay").classList.remove("open"); buildFilterOptions(); renderView(); }
 function renderStatusSettings(){
-  $("statusList").innerHTML = sortedStatuses().map((s,idx)=>`
-    <div class="status-row" draggable="true" data-idx="${idx}"
-      ondragstart="stDragStart(event,${idx})" ondragover="event.preventDefault()" ondrop="stDrop(event,${idx})">
-      <span class="handle">⋮⋮</span>
-      <input type="color" value="${s.color}" onchange="setStatus('${s.id}','color',this.value)">
-      <input type="text" value="${esc(s.name)}" onchange="setStatus('${s.id}','name',this.value)">
-      <button class="btn sm danger" onclick="delStatus('${s.id}')">Delete</button></div>`).join("");
+  $("statusList").innerHTML=sortedStatuses().map((s,idx)=>`<div class="status-row" draggable="true" data-idx="${idx}" ondragstart="stDragStart(event,${idx})" ondragover="event.preventDefault()" ondrop="stDrop(event,${idx})">
+    <span class="handle">⋮⋮</span><input type="color" value="${s.color}" onchange="setStatus('${s.id}','color',this.value)"><input type="text" value="${esc(s.name)}" onchange="setStatus('${s.id}','name',this.value)"><button class="btn sm danger" onclick="delStatus('${s.id}')">Delete</button></div>`).join("");
 }
-function setStatus(id,k,v){ const s=statusById(id); s[k]=v; persist(); renderStatusSettings(); }
+function setStatus(id,k,v){ statusById(id)[k]=v; persist(); renderStatusSettings(); }
 function addStatus(){ const max=Math.max(-1,...state.statuses.map(s=>s.order)); state.statuses.push({id:uid(),name:"New Status",color:"#64748b",order:max+1}); persist(); renderStatusSettings(); }
-function delStatus(id){
-  if(state.statuses.length<=1){ toast("Keep at least one status"); return; }
-  const used=state.returns.filter(r=>r.statusId===id).length;
-  if(used && !confirm(`${used} return(s) use this status. They'll move to the first status. Continue?`)) return;
-  state.statuses=state.statuses.filter(s=>s.id!==id);
-  const first=sortedStatuses()[0].id;
-  state.returns.forEach(r=>{ if(r.statusId===id) r.statusId=first; });
-  persist(); renderStatusSettings();
-}
+function delStatus(id){ if(state.statuses.length<=1){toast("Keep at least one status");return;} const used=state.jobs.filter(r=>r.statusId===id).length; if(used&&!confirm(`${used} job(s) use this status. They'll move to the first status. Continue?`))return; state.statuses=state.statuses.filter(s=>s.id!==id); const first=sortedStatuses()[0].id; state.jobs.forEach(r=>{if(r.statusId===id)r.statusId=first;}); persist(); renderStatusSettings(); }
 let stDragIdx=null;
 function stDragStart(e,i){stDragIdx=i;}
 function stDrop(e,i){ e.preventDefault(); const arr=sortedStatuses(); const [m]=arr.splice(stDragIdx,1); arr.splice(i,0,m); arr.forEach((s,idx)=>s.order=idx); persist(); renderStatusSettings(); }
-
 function renderPersonSettings(){
-  $("personList").innerHTML = state.people.map(p=>{
-    const st = p.avatar ? `background-image:url('${p.avatar}')` : "";
+  $("personList").innerHTML=state.people.map(p=>{ const st=p.avatar?`background-image:url('${p.avatar}')`:"";
     return `<div class="person-row">
-      <div class="person-av" style="${st}" onclick="document.getElementById('ph_${p.id}').click()" title="Upload photo">
-        ${p.avatar?"":initials(p.name)}<span class="edit">Edit</span></div>
+      <div class="person-av" style="${st}" onclick="document.getElementById('ph_${p.id}').click()" title="Upload photo">${p.avatar?"":initials(p.name)}<span class="edit">Edit</span></div>
       <input id="ph_${p.id}" type="file" accept="image/*" style="display:none" onchange="personPhoto('${p.id}',this)">
-      <input type="text" value="${esc(p.name)}" onchange="setPerson('${p.id}',this.value)">
+      <input class="nm" type="text" value="${esc(p.name)}" onchange="setPerson('${p.id}',this.value)">
+      <div style="display:flex;align-items:center;gap:4px"><span class="muted">$</span><input class="rate" type="number" min="0" step="5" value="${p.rate||0}" onchange="setPersonRate('${p.id}',this.value)"><span class="muted">/hr</span></div>
       ${p.avatar?`<button class="btn sm" onclick="removePhoto('${p.id}')">Remove photo</button>`:""}
       <button class="btn sm danger" onclick="delPerson('${p.id}')">Delete</button></div>`;
   }).join("");
 }
 function setPerson(id,v){ personById(id).name=v; persist(); renderView(); }
-function addPerson(){ state.people.push({id:uid(),name:"New Person"}); persist(); renderPersonSettings(); }
-function delPerson(id){
-  const used=state.returns.filter(r=>[r.ownerId,r.preparerId,r.workerId].includes(id)).length;
-  if(used && !confirm(`${used} return(s) reference this person. Their assignment will be cleared. Continue?`)) return;
-  state.people=state.people.filter(p=>p.id!==id);
-  state.returns.forEach(r=>{["ownerId","preparerId","workerId"].forEach(k=>{if(r[k]===id)r[k]="";});});
-  persist(); renderPersonSettings(); renderView();
-}
-function personPhoto(id,input){
-  const f=input.files[0]; if(!f)return;
-  if(f.size>1.5*1024*1024){ toast("Image too large (>1.5MB) — pick a smaller one"); input.value=""; return; }
-  const rd=new FileReader();
-  rd.onload=()=>{ personById(id).avatar=rd.result; persist(); renderPersonSettings(); renderView(); };
-  rd.readAsDataURL(f); input.value="";
-}
+function setPersonRate(id,v){ personById(id).rate=parseFloat(v)||0; persist(); renderView(); }
+function addPerson(){ state.people.push({id:uid(),name:"New Person",rate:0}); persist(); renderPersonSettings(); }
+function delPerson(id){ const used=state.jobs.filter(r=>[r.ownerId,r.preparerId,r.workerId].includes(id)||(r.timeEntries||[]).some(t=>t.personId===id)).length; if(used&&!confirm(`${used} job(s) reference this person. Their assignment/time will be cleared. Continue?`))return; state.people=state.people.filter(p=>p.id!==id); state.jobs.forEach(r=>{["ownerId","preparerId","workerId"].forEach(k=>{if(r[k]===id)r[k]="";}); (r.timeEntries||[]).forEach(t=>{if(t.personId===id)t.personId="";});}); persist(); renderPersonSettings(); renderView(); }
+function personPhoto(id,input){ const f=input.files[0]; if(!f)return; if(f.size>1.5*1024*1024){toast("Image too large (>1.5MB)");input.value="";return;} const rd=new FileReader(); rd.onload=()=>{personById(id).avatar=rd.result;persist();renderPersonSettings();renderView();}; rd.readAsDataURL(f); input.value=""; }
 function removePhoto(id){ delete personById(id).avatar; persist(); renderPersonSettings(); renderView(); }
-
-function exportJSON(){
-  const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
-  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="taxflow-workspace.json"; a.click(); toast("Exported");
+function renderFirmSettings(){
+  const f=state.firm;
+  $("firmSettings").innerHTML=`
+    <div class="field"><label>Firm name (shown on invoices)</label><input id="fm_name" type="text" value="${esc(f.name||"")}" onchange="setFirm('name',this.value)"></div>
+    <div class="grid2"><div class="field"><label>Email</label><input id="fm_email" type="text" value="${esc(f.email||"")}" onchange="setFirm('email',this.value)"></div>
+      <div class="field"><label>Phone</label><input id="fm_phone" type="text" value="${esc(f.phone||"")}" onchange="setFirm('phone',this.value)"></div></div>
+    <div class="field"><label>Address</label><textarea id="fm_addr" onchange="setFirm('address',this.value)">${esc(f.address||"")}</textarea></div>
+    <div class="grid3"><div class="field"><label>Invoice prefix</label><input id="fm_pref" type="text" value="${esc(f.invoicePrefix||"INV-")}" onchange="setFirm('invoicePrefix',this.value)"></div>
+      <div class="field"><label>Next invoice #</label><input id="fm_next" type="number" value="${f.nextNo||1001}" onchange="setFirm('nextNo',parseInt(this.value)||1001)"></div>
+      <div class="field"><label>Default tax %</label><input id="fm_tax" type="number" step="0.1" value="${f.taxRate||0}" onchange="setFirm('taxRate',parseFloat(this.value)||0)"></div></div>`;
 }
-function importJSON(e){
-  const f=e.target.files[0]; if(!f)return;
-  const rd=new FileReader();
-  rd.onload=()=>{ try{ const d=JSON.parse(rd.result); if(!d.statuses||!d.returns) throw 0;
-    state=d; persist(); renderAll(); renderStatusSettings(); renderPersonSettings(); toast("Workspace imported");
-  }catch(err){ toast("That file isn't a valid TaxFlow export"); } };
-  rd.readAsText(f); e.target.value="";
-}
-function resetSample(){ if(!confirm("Replace everything with sample data?"))return; state=sampleState(); persist(); renderAll(); renderStatusSettings(); renderPersonSettings(); toast("Reset to sample"); }
+function setFirm(k,v){ state.firm[k]=v; persist(); }
 
-/* ============================ IMPORT (CSV / paste) ============================ */
-let importMode="csv", importRows=[], importHeaders=[], colMap={};
-const FIELDS=[["clientName","Client name *"],["entityType","Form / entity type"],["taxYear","Tax year"],
-  ["statusName","Status"],["ownerName","Account owner"],["preparerName","Preparer"],["workerName","Working on"],
-  ["dueDate","Due date"],["priority","Priority"],["tags","Tags (comma/;)"],["details","Details"]];
+function exportJSON(){ const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"}); const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="taxflow-workspace.json"; a.click(); toast("Exported"); }
+function importJSON(e){ const f=e.target.files[0]; if(!f)return; const rd=new FileReader(); rd.onload=()=>{ try{ const d=JSON.parse(rd.result); if(!d.statuses||!(d.jobs||d.returns))throw 0; state=migrate(d); persist(); renderAll(); renderStatusSettings(); renderPersonSettings(); renderFirmSettings(); toast("Workspace imported"); }catch(err){ toast("That file isn't a valid TaxFlow export"); } }; rd.readAsText(f); e.target.value=""; }
+function resetSample(){ if(!confirm("Replace everything with sample data?"))return; state=sampleState(); persist(); renderAll(); renderStatusSettings(); renderPersonSettings(); renderFirmSettings(); toast("Reset to sample"); }
+
+/* ============================ IMPORT ============================ */
+let importMode="csv",importRows=[],importHeaders=[],colMap={};
+const FIELDS=[["clientName","Client name *"],["entityType","Service / form"],["taxYear","Tax year"],["statusName","Status"],["ownerName","Account owner"],["preparerName","Preparer"],["workerName","Working on"],["dueDate","Due date"],["priority","Priority"],["tags","Tags (comma/;)"],["details","Details"]];
 function openImport(){ importRows=[];importHeaders=[];colMap={}; $("mapArea").style.display="none"; $("impBtn").disabled=true; $("impSummary").textContent=""; $("pasteBox").value=""; setImportMode("csv"); $("importOverlay").classList.add("open"); setupCsvDrop(); }
 function closeImport(){ $("importOverlay").classList.remove("open"); }
-function setImportMode(m){ importMode=m; $("impCsv").classList.toggle("active",m==="csv"); $("impPaste").classList.toggle("active",m==="paste");
-  $("impCsvPane").style.display=m==="csv"?"block":"none"; $("impPastePane").style.display=m==="paste"?"block":"none"; }
-function setupCsvDrop(){
-  const dz=$("csvDrop");
-  ["dragover","dragenter"].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add("over");}));
-  ["dragleave","drop"].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove("over");}));
-  dz.addEventListener("drop",e=>{e.preventDefault();if(e.dataTransfer.files[0])readCsv(e.dataTransfer.files[0]);});
-}
-function csvChosen(e){ if(e.target.files[0]) readCsv(e.target.files[0]); e.target.value=""; }
-function readCsv(file){ const rd=new FileReader(); rd.onload=()=>{ parseTable(parseCSV(rd.result)); }; rd.readAsText(file); }
-function parseCSV(text){
-  const rows=[];let row=[],cur="",q=false;
-  for(let i=0;i<text.length;i++){const c=text[i];
-    if(q){ if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else q=false; } else cur+=c; }
-    else { if(c==='"')q=true; else if(c===','){row.push(cur);cur="";} else if(c==='\n'){row.push(cur);rows.push(row);row=[];cur="";} else if(c==='\r'){} else cur+=c; } }
-  if(cur!==""||row.length){row.push(cur);rows.push(row);}
-  return rows.filter(r=>r.some(c=>c.trim()!==""));
-}
-function parsePaste(){ const text=$("pasteBox").value; if(!text.trim()){toast("Paste some rows first");return;}
-  parseTable(text.split(/\r?\n/).filter(l=>l.trim()!=="").map(l=>l.split("\t"))); }
-function parseTable(rows){
-  if(rows.length<2){ toast("Need a header row plus at least one data row"); return; }
-  importHeaders=rows[0].map(h=>h.trim());
-  importRows=rows.slice(1).map(r=>{const o={};importHeaders.forEach((h,i)=>o[h]=(r[i]||"").trim());return o;});
-  autoMap(); renderMap(); $("mapArea").style.display="block"; $("impBtn").disabled=false;
-  $("impSummary").textContent=`${importRows.length} row(s) ready`;
-}
-function autoMap(){
-  colMap={}; const norm=s=>s.toLowerCase().replace(/[^a-z]/g,"");
-  const guesses={clientName:["client","clientname","name","taxpayer"],entityType:["form","entity","entitytype","returntype","type"],
-    taxYear:["taxyear","year","ty"],statusName:["status","stage"],ownerName:["owner","accountowner","partner"],
-    preparerName:["preparer","prep"],workerName:["workingon","assignedto","staff","worker","assignee"],
-    dueDate:["due","duedate","deadline"],priority:["priority","urgency"],tags:["tags","tag","labels"],details:["details","notes","description","scope"]};
-  FIELDS.forEach(([f])=>{ for(const h of importHeaders){ if((guesses[f]||[]).includes(norm(h))){ colMap[f]=h; break; } } });
-}
-function renderMap(){
-  $("mapGrid").innerHTML = FIELDS.map(([f,label])=>{
-    const opts=`<option value="">— ignore —</option>`+importHeaders.map(h=>`<option value="${esc(h)}" ${colMap[f]===h?"selected":""}>${esc(h)}</option>`).join("");
-    return `<div class="lab">${label}</div><select onchange="colMap['${f}']=this.value;renderPreview()" class="filter" style="max-width:none">${opts}</select>`;
-  }).join("");
-  renderPreview();
-}
-function renderPreview(){
-  const show=importRows.slice(0,6); const cols=FIELDS.filter(([f])=>colMap[f]);
-  if(!cols.length){ $("preview").innerHTML=""; return; }
-  const head=cols.map(([f,l])=>`<th>${l.replace(" *","")}</th>`).join("");
-  const rows=show.map(r=>`<tr>${cols.map(([f])=>`<td>${esc(r[colMap[f]]||"")}</td>`).join("")}</tr>`).join("");
-  $("preview").innerHTML=`<table><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table>`;
-}
-function findOrCreatePerson(name){
-  if(!name)return ""; const found=state.people.find(p=>p.name.toLowerCase()===name.toLowerCase());
-  if(found)return found.id; const np={id:uid(),name}; state.people.push(np); return np.id;
-}
-function findStatus(name){
-  if(!name)return sortedStatuses()[0].id; const found=state.statuses.find(s=>s.name.toLowerCase()===name.toLowerCase());
-  if(found)return found.id; const max=Math.max(-1,...state.statuses.map(s=>s.order));
-  const ns={id:uid(),name,color:"#64748b",order:max+1}; state.statuses.push(ns); return ns.id;
-}
+function setImportMode(m){ importMode=m; $("impCsv").classList.toggle("active",m==="csv"); $("impPaste").classList.toggle("active",m==="paste"); $("impCsvPane").style.display=m==="csv"?"block":"none"; $("impPastePane").style.display=m==="paste"?"block":"none"; }
+function setupCsvDrop(){ const dz=$("csvDrop"); ["dragover","dragenter"].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add("over");})); ["dragleave","drop"].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove("over");})); dz.addEventListener("drop",e=>{e.preventDefault();if(e.dataTransfer.files[0])readCsv(e.dataTransfer.files[0]);}); }
+function csvChosen(e){ if(e.target.files[0])readCsv(e.target.files[0]); e.target.value=""; }
+function readCsv(file){ const rd=new FileReader(); rd.onload=()=>parseTable(parseCSV(rd.result)); rd.readAsText(file); }
+function parseCSV(text){ const rows=[];let row=[],cur="",q=false; for(let i=0;i<text.length;i++){const c=text[i]; if(q){ if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else q=false; } else cur+=c; } else { if(c==='"')q=true; else if(c===','){row.push(cur);cur="";} else if(c==='\n'){row.push(cur);rows.push(row);row=[];cur="";} else if(c==='\r'){} else cur+=c; } } if(cur!==""||row.length){row.push(cur);rows.push(row);} return rows.filter(r=>r.some(c=>c.trim()!=="")); }
+function parsePaste(){ const text=$("pasteBox").value; if(!text.trim()){toast("Paste some rows first");return;} parseTable(text.split(/\r?\n/).filter(l=>l.trim()!=="").map(l=>l.split("\t"))); }
+function parseTable(rows){ if(rows.length<2){toast("Need a header row plus at least one data row");return;} importHeaders=rows[0].map(h=>h.trim()); importRows=rows.slice(1).map(r=>{const o={};importHeaders.forEach((h,i)=>o[h]=(r[i]||"").trim());return o;}); autoMap(); renderMap(); $("mapArea").style.display="block"; $("impBtn").disabled=false; $("impSummary").textContent=`${importRows.length} row(s) ready`; }
+function autoMap(){ colMap={}; const norm=s=>s.toLowerCase().replace(/[^a-z]/g,""); const guesses={clientName:["client","clientname","name","taxpayer"],entityType:["form","entity","entitytype","returntype","type","service"],taxYear:["taxyear","year","ty"],statusName:["status","stage"],ownerName:["owner","accountowner","partner"],preparerName:["preparer","prep"],workerName:["workingon","assignedto","staff","worker","assignee"],dueDate:["due","duedate","deadline"],priority:["priority","urgency"],tags:["tags","tag","labels"],details:["details","notes","description","scope"]}; FIELDS.forEach(([f])=>{ for(const h of importHeaders){ if((guesses[f]||[]).includes(norm(h))){colMap[f]=h;break;} } }); }
+function renderMap(){ $("mapGrid").innerHTML=FIELDS.map(([f,label])=>{ const opts=`<option value="">— ignore —</option>`+importHeaders.map(h=>`<option value="${esc(h)}" ${colMap[f]===h?"selected":""}>${esc(h)}</option>`).join(""); return `<div class="lab">${label}</div><select onchange="colMap['${f}']=this.value;renderPreview()" class="filter" style="max-width:none">${opts}</select>`; }).join(""); renderPreview(); }
+function renderPreview(){ const show=importRows.slice(0,6); const cols=FIELDS.filter(([f])=>colMap[f]); if(!cols.length){$("preview").innerHTML="";return;} const head=cols.map(([f,l])=>`<th>${l.replace(" *","")}</th>`).join(""); const rows=show.map(r=>`<tr>${cols.map(([f])=>`<td>${esc(r[colMap[f]]||"")}</td>`).join("")}</tr>`).join(""); $("preview").innerHTML=`<table><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table>`; }
+function findOrCreatePerson(name){ if(!name)return ""; const found=state.people.find(p=>p.name.toLowerCase()===name.toLowerCase()); if(found)return found.id; const np={id:uid(),name,rate:0}; state.people.push(np); return np.id; }
+function findOrCreateClient(name){ if(!name)return null; const found=state.clients.find(c=>c.name.toLowerCase()===name.toLowerCase()); if(found)return found.id; const nc={id:uid(),name,contactName:"",email:"",phone:"",address:"",notes:""}; state.clients.push(nc); return nc.id; }
+function findStatus(name){ if(!name)return sortedStatuses()[0].id; const found=state.statuses.find(s=>s.name.toLowerCase()===name.toLowerCase()); if(found)return found.id; const max=Math.max(-1,...state.statuses.map(s=>s.order)); const ns={id:uid(),name,color:"#64748b",order:max+1}; state.statuses.push(ns); return ns.id; }
 function normPriority(v){ if(!v)return "Medium"; const l=v.toLowerCase(); if(l.startsWith("h"))return "High"; if(l.startsWith("l"))return "Low"; return "Medium"; }
 function normDate(v){ if(!v)return ""; const d=new Date(v); if(isNaN(d))return ""; return d.toISOString().slice(0,10); }
 function runImport(){
   if(!colMap.clientName){ toast("Map the Client name column"); return; }
   let n=0;
-  importRows.forEach(r=>{
-    const client=(r[colMap.clientName]||"").trim(); if(!client)return;
-    state.returns.push({ id:uid(), clientName:client,
-      entityType:colMap.entityType?r[colMap.entityType]:"",
-      taxYear:colMap.taxYear?r[colMap.taxYear]:"2025",
+  importRows.forEach(r=>{ const cname=(r[colMap.clientName]||"").trim(); if(!cname)return;
+    state.jobs.push({ id:uid(), clientId:findOrCreateClient(cname),
+      entityType:colMap.entityType?r[colMap.entityType]:"", taxYear:colMap.taxYear?r[colMap.taxYear]:"2025",
       statusId:findStatus(colMap.statusName?r[colMap.statusName]:""),
       ownerId:findOrCreatePerson(colMap.ownerName?r[colMap.ownerName]:""),
       preparerId:findOrCreatePerson(colMap.preparerName?r[colMap.preparerName]:""),
       workerId:findOrCreatePerson(colMap.workerName?r[colMap.workerName]:""),
-      dueDate:colMap.dueDate?normDate(r[colMap.dueDate]):"",
-      priority:normPriority(colMap.priority?r[colMap.priority]:""),
+      dueDate:colMap.dueDate?normDate(r[colMap.dueDate]):"", priority:normPriority(colMap.priority?r[colMap.priority]:""),
       tags:colMap.tags?(r[colMap.tags]||"").split(/[,;]/).map(t=>t.trim()).filter(Boolean):[],
-      details:colMap.details?r[colMap.details]:"", notes:"", checklist:[], attachments:[], createdAt:nowISO(), updatedAt:nowISO() });
-    n++;
-  });
-  persist(); renderAll(); closeImport(); toast(`Imported ${n} return(s)`);
+      details:colMap.details?r[colMap.details]:"", notes:"", checklist:[], attachments:[], timeEntries:[], createdAt:nowISO(), updatedAt:nowISO() });
+    n++; });
+  persist(); renderAll(); closeImport(); toast(`Imported ${n} job(s)`);
 }
-function downloadTemplate(){
-  const csv="Client Name,Form,Tax Year,Status,Account Owner,Preparer,Working On,Due Date,Priority,Tags,Details\n"+
-    "Acme Holdings LLC,1065,2025,In Preparation,Dana Whitfield,Marcus Lee,Marcus Lee,2026-09-15,High,\"Partnership,Extension\",Multi-member LLC\n"+
-    "Jane Q Public,1040,2025,To Do,Tom Rivera,Sarah Cohen,Sarah Cohen,2026-04-15,Medium,Individual,Schedule C\n";
-  const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"})); a.download="taxflow-import-template.csv"; a.click();
-}
+function downloadTemplate(){ const csv="Client Name,Form,Tax Year,Status,Account Owner,Preparer,Working On,Due Date,Priority,Tags,Details\n"+"Acme Holdings LLC,1065,2025,In Preparation,Dana Whitfield,Marcus Lee,Marcus Lee,2026-09-15,High,\"Partnership,Extension\",Multi-member LLC\n"+"Jane Q Public,1040,2025,To Do,Tom Rivera,Sarah Cohen,Sarah Cohen,2026-04-15,Medium,Individual,Schedule C\n"; const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"})); a.download="taxflow-import-template.csv"; a.click(); }
 
 /* ============================ MISC ============================ */
 let toastT=null;
 function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove("show"),2200); }
-document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ closeDetail();closeSettings();closeImport(); } });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ closeBill();closeClient();closeDetail();closeSettings();closeImport(); } });
 
 /* ============================ BOOT ============================ */
-(function boot(){
-  initPrefs();
-  state = loadLocal() || sampleState();
-  saveLocal();
-  renderAll();
-})();
+(function boot(){ initPrefs(); state=loadLocal()||sampleState(); saveLocal(); renderAll(); })();
 </script>
 </body>
 </html>
